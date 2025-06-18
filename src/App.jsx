@@ -1,35 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import Motions from "./components/Motions"
 
 function App() {
-  const [count, setCount] = useState(0)
+const motionNumber = 1; // Example motion number, can be dynamic
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>MMUN Home</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Motions motion={{
+        title: "Sample Motion",
+        description: "This is a sample motion description.",
+        url: "https://via.placeholder.com/150"
+      }} /> 
+
     </>
-  )
+  );
 }
 
-export default App
+
+
+export default App;
