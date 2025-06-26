@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -12,11 +13,19 @@ const Navbar = () => {
   return (
     <div className="top-bar">
       <nav className="nav-links">
-        <a href="#" className="nav-btn">Home</a>
-        <a href="#" className="nav-btn">Team</a>
-        
-        <div className="dropdown-wrapper">
-          <button className="nav-btn" onClick={handleContactClick}>Contact</button>
+      <ul>
+        <li className="nav-btn">
+          <Link to="/" style={{color: 'white', textDecoration: 'none' }}>Home</Link>
+        </li>
+        <li className="nav-btn">
+          <Link to="/login" style={{color: 'white', textDecoration: 'none' }}>Login</Link>
+        </li>
+        <li className="nav-btn">
+          <Link to="/FAQ" style={{color: 'white', textDecoration: 'none' }}>FAQ</Link>
+        </li>
+      </ul>
+      <div className="dropdown-wrapper">
+        <button className="nav-btn" onClick={handleContactClick}>Contact</button>
           {showDropdown && (
             <div className="dropdown-dialog">
               <p><strong>Contact Us:</strong></p>
@@ -26,12 +35,16 @@ const Navbar = () => {
             </div>
           )}
         </div>
+        {/* <a href="#" className="nav-btn">Home</a>
+        <a href="#" className="nav-btn">Team</a>
+      
         
         <a href="#" className="nav-btn">Login</a>
-        <a href="#" className="nav-btn">FAQ</a>
+        <a href="#" className="nav-btn">Registration</a>
+        <a href="#" className="nav-btn">FAQ</a> */}
       </nav>
     </div>
   );
-};
+}
 
 export default Navbar;
