@@ -4,6 +4,7 @@ import Nav from "./Navbar.jsx"
 import Login from "./Login.jsx"
 import FAQ from './FAQ.jsx';
 import Home from './Home.jsx';
+import Dashboard from './Dashboard.jsx';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/FAQ" element={<FAQ />} />
+          <Route path = "/Dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </Router>
