@@ -9,7 +9,10 @@ import Home from './Home.jsx';
 import Registration from './Registration.jsx';
 import Secretariat from "./Secretariat.jsx";
 import PageWrapper from './PageWrapper.jsx';
-import Dashboard from './Delagates/Dashboard.jsx';
+import Dashboard from './Delegates/Dashboard.jsx';
+import Missing from './Missing.jsx'
+import Resolutions from './Delegates/Resolutions.jsx';
+import Overview from './Delegates/Overview.jsx';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -22,7 +25,11 @@ function AnimatedRoutes() {
         <Route path="/FAQ" element={<PageWrapper><FAQ /></PageWrapper>} />
         <Route path="/Registration" element={<PageWrapper><Registration /></PageWrapper>} />
         <Route path="/Secretariat" element={<PageWrapper><Secretariat /></PageWrapper>} />
-        <Route path="/Delagates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>} />
+        <Route path="/Delegates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>}>
+          <Route path="resolutions" element={<PageWrapper><Resolutions /></PageWrapper>} />
+          <Route path="overview" element={<PageWrapper><Overview /></PageWrapper>} />
+        </Route>
+        <Route path = "*" element ={<PageWrapper><Missing/></PageWrapper>} />
       </Routes>
     </AnimatePresence>
   );

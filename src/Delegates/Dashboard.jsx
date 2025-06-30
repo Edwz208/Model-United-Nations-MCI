@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css'
 
 function Dashboard() {
+  console.log("Dashboard mounted");
     return (
     <div style={{ backgroundImage: "url('/UN_General_Assembly_hall.jpg')" }} className="background">
       <div className="white-box">
@@ -14,6 +15,7 @@ function Dashboard() {
           <h2 style={{ alignSelf: "center", justifySelf: "center" }}>Welcome, (country)</h2>
           <p>To get started, navigate to Country Overview to submit an amendment.</p>
         </div>
+        <Outlet />
       </div>
     </div>
     );

@@ -27,7 +27,7 @@ function Login() {
   }
   const navigate = useNavigate();
   const to_dashboard = () => {
-    navigate('/Delagates/Dashboard');
+    navigate('/Delegates/Dashboard');
   };
 
   return (
