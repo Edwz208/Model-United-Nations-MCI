@@ -12,6 +12,10 @@ const Navbar = () => {
 
   return (
     <div className="top-bar">
+      <div className="logo-wrapper">
+        <img src='/un_logo.svg' alt='un logo' className="un-logo" />
+        <p className="logo">MMUN</p>
+      </div>
       <nav className="nav-links">
       <ul>
         <li className="nav-btn">
@@ -21,7 +25,13 @@ const Navbar = () => {
           <Link to="/login" style={{color: 'white', textDecoration: 'none' }}>Login</Link>
         </li>
         <li className="nav-btn">
-          <Link to="/FAQ" style={{color: 'white', textDecoration: 'none' }}>FAQ</Link>
+          <Link to="/FAQ" style={{color: 'white', textDecoration: 'none' }}>FAQ/Rules of Conduct</Link>
+        </li>
+        <li className="nav-btn">
+          <Link to="/Registration" style={{color: 'white', textDecoration: 'none' }}>Registration</Link>
+        </li>
+        <li className="nav-btn">
+          <Link to="/Secretariat" style={{color: 'white', textDecoration: 'none' }}>Secretariat</Link>
         </li>
       </ul>
       <div className="dropdown-wrapper">
@@ -35,13 +45,6 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        {/* <a href="#" className="nav-btn">Home</a>
-        <a href="#" className="nav-btn">Team</a>
-      
-        
-        <a href="#" className="nav-btn">Login</a>
-        <a href="#" className="nav-btn">Registration</a>
-        <a href="#" className="nav-btn">FAQ</a> */}
       </nav>
     </div>
   );

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./Login.css";
 
 function Login() {
   const [input, setInput] = useState("");
+  const [click, setClick] = useState(false);
 
   async function sendUser() {
     try {
@@ -15,50 +17,39 @@ function Login() {
       });
       if (!response.ok) {
         console.log(`HTTP error! status: ${response.status}`);
-        setInput("");
       }
-      console.log(response.status);
+
       const data = await response.json();
-      if (response.status === 202) {
-        console.log("Logged in", data);
-      }
+      console.log("New post created:", data);
     } catch (error) {
-      console.log("Error logging in, ", error);
+      console.log("Error posting, ", error);
     }
   }
+  const navigate = useNavigate();
+  const to_dashboard = () => {
+    navigate('/Delagates/Dashboard');
+  };
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        console.log(JSON.stringify({ code: input }));
-        sendUser();
-      }}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "80vh",
-      }}
-    >
-      <input
-        className="login-button"
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center",  height: "100vh", width: "100%", backgroundSize: "cover", backgroundImage: "url('/login_background.jpg')" }}>
+      <form 
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendUser();
+        }}
+      >
+      <input className="login-button"
         type="text"
         name="code"
         value={input}
         aria-label="Enter code here"
         onChange={(e) => setInput(e.target.value)}
-        style={{
-          fontSize: "40px",
-          fontWeight: "bold",
-          marginBottom: "20px",
-          width: "20%",
-        }}
+        style={{ cursor: "pointer", fontSize: "44px", fontWeight: "bold", marginBottom: "20px", textAlign: "center", backdropFilter: "blur(10px)" }}
       />
       <br />
-      <button className="login-button">Login</button>
+      <button style={{ textAlign: "center", cursor: "pointer"}} onClick={to_dashboard} className="login-button">Login</button>
     </form>
+    </div>
   );
 }
 
