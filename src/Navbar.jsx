@@ -25,7 +25,7 @@ const Navbar = () => {
           <Link to="/login" style={{color: 'white', textDecoration: 'none' }}>Login</Link>
         </li>
         <li className="nav-btn">
-          <Link to="/FAQ" style={{color: 'white', textDecoration: 'none' }}>FAQ/Rules of Conduct</Link>
+          <Link to="/COC(K)" style={{color: 'white', textDecoration: 'none' }}>Code of Conduct</Link>
         </li>
         <li className="nav-btn">
           <Link to="/Registration" style={{color: 'white', textDecoration: 'none' }}>Registration</Link>
@@ -35,7 +35,7 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="dropdown-wrapper">
-        <button className="nav-btn" onClick={handleContactClick}>Contact</button>
+        <button className="nav-btn" style={{ fontFamily: "Be Vietnam Pro"}}onClick={handleContactClick}>Contact</button>
           {showDropdown && (
             <div className="dropdown-dialog">
               <p><strong>Contact Us:</strong></p>
