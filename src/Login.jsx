@@ -1,54 +1,94 @@
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import axios from "./api/axios.js";
+import AuthContext from "./context/AuthProvider.jsx";
 
 function Login() {
+  const { setAuth } = useContext(AuthContext);
   const [input, setInput] = useState("");
-  const [click, setClick] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  async function sendUser() {
-    try {
-      const response = await fetch("http://localhost:8000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code: input }),
-      });
-      if (!response.ok) {
-        console.log(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("New post created:", data);
-    } catch (error) {
-      console.log("Error posting, ", error);
-    }
-  }
   const navigate = useNavigate();
-  const to_dashboard = () => {
-    navigate('/Delegates/Dashboard');
+  const to_dashboard = async () => {
+    await navigate("/Delegates/Dashboard");
   };
+  const sendUser = async () => {
+    try {
+      console.log("sent");
+      const response = await axios.post(
+        "/login",
+        JSON.stringify({ code: input }),
+        {
+          headers: { "Content-type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log(response?.data);
+      console.log("sent2");
+      setInput("");
+      // const accessToken = response?.data?.accessToken;
+      const role = response?.data?.role;
+      const country = response?.data?.country;
+      setAuth({ country, role });
+      to_dashboard();
+    } catch (err) {
+    console.log("Login error:", err);
 
+    if (!err?.response) {
+      setErrMsg("No Server Response");
+    } else if (err.response?.status === 404) {
+      setErrMsg("Invalid credentials");
+    } else {
+      setErrMsg("Login Failed");
+    }
+    setSuccess(false); 
+  }
+  };
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center",  height: "100vh", width: "100%", backgroundSize: "cover", backgroundImage: "url('/login_background.jpg')" }}>
-      <form 
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        width: "100%",
+        backgroundSize: "cover",
+        backgroundImage: "url('/login_background.jpg')",
+      }}
+    >
+      <form
         onSubmit={(e) => {
           e.preventDefault();
           sendUser();
         }}
       >
-      <input className="login-button"
-        type="text"
-        name="code"
-        value={input}
-        aria-label="Enter code here"
-        onChange={(e) => setInput(e.target.value)}
-        style={{ cursor: "pointer", fontSize: "44px", fontWeight: "bold", marginBottom: "20px", textAlign: "center", backdropFilter: "blur(10px)" }}
-      />
-      <br />
-      <button style={{ textAlign: "center", cursor: "pointer"}} onClick={to_dashboard} className="login-button">Login</button>
-    </form>
+        <input
+          className="login-button"
+          type="text"
+          name="code"
+          value={input}
+          aria-label="Enter code here"
+          onChange={(e) => setInput(e.target.value)}
+          style={{
+            cursor: "pointer",
+            fontSize: "44px",
+            fontWeight: "bold",
+            marginBottom: "20px",
+            textAlign: "center",
+            backdropFilter: "blur(10px)",
+          }}
+        />
+        <br />
+        <button
+          style={{ textAlign: "center", cursor: "pointer" }}
+          className="login-button"
+        >
+          Login
+        </button>
+        {!success ? <p>{errMsg}</p> : <p>Success</p>}
+      </form>
     </div>
   );
 }
