@@ -1,1 +1,37 @@
 
+@keyframes scrolling {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.slider {
+    display: flex;
+    gap: 20px;
+    padding-right: 20px;
+    animation: scrolling 12s linear infinite;
+}
+
+.slider img {
+    width: 20%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.carousel {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 60px;
+    > * {
+      flex: 0 0 100%;
+    }
+  
+}
