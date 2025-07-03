@@ -1,19 +1,21 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Login.css";
-import axios from "./api/axios.js";
-import AuthContext from "./context/AuthProvider.jsx";
+import axios from "../api/axios.js";
+import useAuth from "../hooks/useAuth.jsx";
 
 function Login() {
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth } = useAuth();
   const [input, setInput] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
-
   const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/Delegates/Dashboard";
+
   const to_dashboard = async () => {
-    await navigate("/Delegates/Dashboard");
+    await navigate(from);
   };
+
   const sendUser = async () => {
     try {
       console.log("sent");
@@ -28,23 +30,25 @@ function Login() {
       console.log(response?.data);
       console.log("sent2");
       setInput("");
-      // const accessToken = response?.data?.accessToken;
+      const accessToken = response?.data?.accessToken;
       const role = response?.data?.role;
       const country = response?.data?.country;
-      setAuth({ country, role });
+      setAuth({ country, role, accessToken });
       to_dashboard();
+      setSuccess((prev) => !prev);
+      setErrMsg("");
     } catch (err) {
-    console.log("Login error:", err);
+      console.log("Login error:", err);
 
-    if (!err?.response) {
-      setErrMsg("No Server Response");
-    } else if (err.response?.status === 404) {
-      setErrMsg("Invalid credentials");
-    } else {
-      setErrMsg("Login Failed");
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrMsg("Invalid credentials");
+      } else {
+        setErrMsg("Login Failed");
+      }
+      setSuccess(false);
     }
-    setSuccess(false); 
-  }
   };
   return (
     <div
@@ -81,12 +85,14 @@ function Login() {
           }}
         />
         <br />
-        <button
-          style={{ textAlign: "center", cursor: "pointer" }}
-          className="login-button"
-        >
-          Login
-        </button>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <button
+            style={{ textAlign: "center", cursor: "pointer" }}
+            className="login-button"
+          >
+            Login
+          </button>
+        </div>
         {!success ? <p>{errMsg}</p> : <p>Success</p>}
       </form>
     </div>

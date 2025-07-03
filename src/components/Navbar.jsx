@@ -25,7 +25,7 @@ const Navbar = () => {
           <Link to="/login" style={{color: 'white', textDecoration: 'none' }}>Login</Link>
         </li>
         <li className="nav-btn">
-          <Link to="/COC(K)" style={{color: 'white', textDecoration: 'none' }}>Code of Conduct</Link>
+          <Link to="/COC" style={{color: 'white', textDecoration: 'none' }}>Code of Conduct</Link>
         </li>
         <li className="nav-btn">
           <Link to="/Registration" style={{color: 'white', textDecoration: 'none' }}>Registration</Link>
