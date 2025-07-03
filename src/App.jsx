@@ -5,6 +5,7 @@ import './App.css'
 import Nav from "./Navbar.jsx"
 import Login from "./Login.jsx"
 import FAQ from './FAQ.jsx';
+import COC from './COC.jsx';
 import Home from './Home.jsx';
 import Registration from './Registration.jsx';
 import Secretariat from "./Secretariat.jsx";
@@ -23,6 +24,7 @@ function AnimatedRoutes() {
         <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
         <Route path="/Login" element={<PageWrapper><Login /></PageWrapper>} />
         <Route path="/FAQ" element={<PageWrapper><FAQ /></PageWrapper>} />
+        <Route path="/COC" element={<PageWrapper><COC /></PageWrapper>} />
         <Route path="/Registration" element={<PageWrapper><Registration /></PageWrapper>} />
         <Route path="/Secretariat" element={<PageWrapper><Secretariat /></PageWrapper>} />
         <Route path="/Delegates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>}>
