@@ -81,12 +81,14 @@ function Login() {
           }}
         />
         <br />
-        <button
-          style={{ textAlign: "center", cursor: "pointer" }}
-          className="login-button"
-        >
-          Login
-        </button>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <button
+            style={{ textAlign: "center", cursor: "pointer" }}
+            className="login-button"
+          >
+            Login
+          </button>
+        </div>
         {!success ? <p>{errMsg}</p> : <p>Success</p>}
       </form>
     </div>
