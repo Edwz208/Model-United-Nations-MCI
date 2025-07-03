@@ -1,41 +1,51 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import './Navbar.css';
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleContactClick = () => {
-    const timeClicked = new Date().toLocaleTimeString();
     setShowDropdown(!showDropdown);
   };
 
   return (
     <div className="top-bar">
-      <div className="logo-wrapper">
-        <img src='/un_logo.svg' alt='un logo' className="un-logo" />
+      <div
+          className="logo-wrapper"
+          onClick={() => navigate("/")}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && navigate("/")}
+        >
+        <img src="/un_logo.svg" alt="UN logo" className="un-logo" />
         <p className="logo">MMUN</p>
       </div>
       <nav className="nav-links">
-      <ul>
-        <li className="nav-btn">
-          <Link to="/" style={{color: 'white', textDecoration: 'none' }}>Home</Link>
-        </li>
-        <li className="nav-btn">
-          <Link to="/login" style={{color: 'white', textDecoration: 'none' }}>Login</Link>
-        </li>
-        <li className="nav-btn">
-          <Link to="/COC" style={{color: 'white', textDecoration: 'none' }}>Code of Conduct</Link>
-        </li>
-        <li className="nav-btn">
-          <Link to="/Registration" style={{color: 'white', textDecoration: 'none' }}>Registration</Link>
-        </li>
-        <li className="nav-btn">
-          <Link to="/Secretariat" style={{color: 'white', textDecoration: 'none' }}>Secretariat</Link>
-        </li>
-      </ul>
-      <div className="dropdown-wrapper">
-        <button className="nav-btn" style={{ fontFamily: "Be Vietnam Pro"}}onClick={handleContactClick}>Contact</button>
+        <div className={`navbar-buttons ${menuOpen ? "open" : ""}`}>
+          <button
+            className="nav-btn"
+            onClick={() => navigate("/")}
+          >Home</button>
+          <button
+            className="nav-btn"
+            onClick={() => navigate("/login")}
+          >Login</button>
+          <button
+            className="nav-btn"
+            onClick={() => navigate("/COC")}
+          >Code of Conduct</button>
+          <button
+            className="nav-btn"
+            onClick={() => navigate("/Registration")}
+          >Registration</button>
+          <button
+            className="nav-btn"
+            onClick={() => navigate("/Secretariat")}
+          >Secretariat</button>
+          <button className="nav-btn" style={{ fontFamily: "Be Vietnam Pro"}} onClick={handleContactClick}>Contact</button>
           {showDropdown && (
             <div className="dropdown-dialog">
               <p><strong>Contact Us:</strong></p>
@@ -45,6 +55,13 @@ const Navbar = () => {
             </div>
           )}
         </div>
+        <button
+          className="hamburger"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+        >
+          ☰
+        </button>
       </nav>
     </div>
   );

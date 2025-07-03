@@ -1,8 +1,8 @@
 import "./Login.css";
 function Registration() {
     return (
-        <div style={{ padding: "8rem", fontFamily: "jetbrains mono", width: "20%", display: "flex", margin: "auto", color: "white"}}>
-            <h1>Registration</h1>
+        <div style={{ backgroundImage: 'url(/registration_background.jpg)', backgroundSize: "cover", height: "100vh", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", color: "white"}}>
+            <h1 style={{ backgroundColor: "#414559", borderRadius: "10px", marginTop: "10%", padding: "10px 20px"}}>Registration is not currently open</h1>
         </div>
     )
 }

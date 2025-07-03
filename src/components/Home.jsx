@@ -51,7 +51,7 @@ function Home() {
               fontWeight: "250",
               marginTop: "20px",
               marginBottom: "20px",
-              width: "35%",
+              width: "50%",
               color: "white",
             }}
           >

@@ -1,3 +1,15 @@
+.logo-wrapper {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s;
+}
+
+.logo-wrapper:hover {
+  transform: scale(1.03);
+}
+
 .top-bar {
   position: fixed;
   width: 100%;         
@@ -14,6 +26,7 @@
 
 .nav-btn {
   display: inline-block;
+  font-family: "Be Vietnam Pro";
   padding: 8px 14px;
   background-color: #414559;
   color: #dce0e8;
@@ -25,6 +38,40 @@
   font-size: 1.1rem;
   transition: background-color 0.3s, transform 0.2s;
   vertical-align: top;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 20px;
+}
+
+@media (max-width: 1000px) {
+  .hamburger {
+    display: block;
+  }
+
+  .navbar-buttons {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+    margin-top: 10px;
+  }
+
+  .navbar-buttons.open {
+    margin-top: 95%;
+    display: flex;
+    gap: 5px;
+  }
+
+  .nav-btn {
+    width: 100%;
+  }
 }
 
 .logo {
@@ -40,11 +87,6 @@
   margin-left: 10px;
 }
 
-.logo-wrapper {
-  display: flex;
-  align-items: center;
-}
-
 .nav-links {
   display: flex;
   align-items: center;
@@ -54,10 +96,6 @@
 .nav-btn:hover {
   background-color: #04a5e5;
   transform: scale(1.05);
-}
-
-.dropdown-wrapper {
-  position: relative;
 }
 
 .dropdown-dialog {

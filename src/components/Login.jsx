@@ -9,8 +9,18 @@ function Login() {
   const [input, setInput] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/Delegates/Dashboard";
+
+  useEffect(() => {
+  if (errMsg) {
+    const timer = setTimeout(() => {
+      setErrMsg("");
+    }, 3000); // removes the error message after 3 seconds
+      return () => clearTimeout(timer); 
+    }
+  }, [errMsg]);
 
   const to_dashboard = async () => {
     await navigate(from);
@@ -18,7 +28,7 @@ function Login() {
 
   const sendUser = async () => {
     try {
-      console.log("sent");
+      console.log("Sending request to:", axios.defaults.baseURL + "/login");
       const response = await axios.post(
         "/login",
         JSON.stringify({ code: input }),
@@ -28,7 +38,6 @@ function Login() {
         }
       );
       console.log(response?.data);
-      console.log("sent2");
       setInput("");
       const accessToken = response?.data?.accessToken;
       const role = response?.data?.role;
@@ -47,6 +56,11 @@ function Login() {
       } else {
         setErrMsg("Login Failed");
       }
+
+      setShowError(true);
+      setTimeout(() => setShowError(false), 2500);
+      setTimeout(() => setErrMsg(""), 3000);
+
       setSuccess(false);
     }
   };
@@ -68,6 +82,13 @@ function Login() {
           sendUser();
         }}
       >
+        <div style={{ position: "relative", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+          {errMsg && (
+            <div className={`error-dialog ${showError ? "show" : "fade-out"}`}>
+              {errMsg}
+            </div>
+          )}
+        </div>
         <input
           className="login-button"
           type="text"
@@ -93,7 +114,6 @@ function Login() {
             Login
           </button>
         </div>
-        {!success ? <p>{errMsg}</p> : <p>Success</p>}
       </form>
     </div>
   );

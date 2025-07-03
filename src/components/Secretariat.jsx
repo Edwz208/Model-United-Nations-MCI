@@ -8,7 +8,7 @@ const Secretariat = () => {
         const response = await fetch("http://localhost:8000/get-secretariat", {
             method: "GET",
             headers: {
-            "Content-Type": "bozos/json",
+            "Content-Type": "application/json",
             },
         });
 
@@ -29,9 +29,9 @@ const Secretariat = () => {
         fetchAll();
     }, []);
     return (
-        <div style={{ height: "100vh", width: "100vh", display: "flex", flexDirection: "column", alignItems: "center", padding: "8rem" }}>
-            <div>
-                <h1 style={{color: "white", fontSize: "32px", fontWeight: "200", marginTop: "20px", marginBottom: "0px", textAlign: "center"}}>Secretariat</h1>
+        <div style={{ height: "100vh", width: "100%", display: "flex", flexDirection: "column" }}>
+            <div style={{ paddingTop: "10%"}}>
+                <h1 style={{color: "white", fontSize: "32px", fontWeight: "500", marginBottom: "10px", textAlign: "center"}}>Secretariat</h1>
             </div>
             <div className="grid-container">
                 {data.map((item, index) => (
@@ -44,8 +44,6 @@ const Secretariat = () => {
                 
             </div>
         </div>
-
-
     );
 }
 

@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import useAuth from './useAuth.js'
 
 function useAccessToken(){
+
     const { auth, setAuth} = useAuth();
     const refresh = useRefreshToken();
 
@@ -23,6 +24,7 @@ function useAccessToken(){
             response =>{
                 return response
             },
+
             async error=>{
                 const prevRequest = error?.config;
                 if (error?.response?.status === 401 && !prevRequest?.sent) {
@@ -34,8 +36,6 @@ function useAccessToken(){
                 return Promise.reject(error);
             }
         )
-
-
 
         return () => {
             axiosPrivate.interceptors.request.eject(requestIntercept);
