@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Login.css";
 import axios from "../api/axios.js";
-import useAuth from "../hooks/useAuth.jsx";
+import useAuth from "../hooks/useAuth.js";
 
 function Login() {
   const { setAuth } = useAuth();
