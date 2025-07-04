@@ -6,18 +6,17 @@ import useAuth from "../hooks/useAuth.js";
 
 function Login() {
   const { setAuth } = useAuth();
-  const [input, setInput] = useState("");
+  const [code, setCode] = useState("");
+  const [country, setCountry] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/Delegates/Dashboard";
-
   useEffect(() => {
   if (errMsg) {
     const timer = setTimeout(() => {
       setErrMsg("");
-    }, 3000); // removes the error message after 3 seconds
+    }, 3000); 
       return () => clearTimeout(timer); 
     }
   }, [errMsg]);
@@ -31,28 +30,28 @@ function Login() {
       console.log("Sending request to:", axios.defaults.baseURL + "/login");
       const response = await axios.post(
         "/login",
-        JSON.stringify({ code: input }),
+        JSON.stringify({ code, country }),
         {
           headers: { "Content-type": "application/json" },
           withCredentials: true,
         }
       );
       console.log(response?.data);
-      setInput("");
-      const accessToken = response?.data?.accessToken;
-      const role = response?.data?.role;
-      const country = response?.data?.country;
-      setAuth({ country, role, accessToken });
-      to_dashboard();
-      setSuccess((prev) => !prev);
+      setCode("");
+      setCountry("");
       setErrMsg("");
+      const accessToken = response?.data?.accessToken;
+      const roles = response?.data?.role;
+      setAuth({ country, roles, accessToken });
+      to_dashboard();
     } catch (err) {
       console.log("Login error:", err);
 
       if (!err?.response) {
         setErrMsg("No Server Response");
-      } else if (err.response?.status === 401) {
-        setErrMsg("Invalid credentials");
+      } else if (err.response?.status === 404) {
+        console.log(err.response?.data?.detail)
+        setErrMsg(err.response?.data?.detail);
       } else {
         setErrMsg("Login Failed");
       }
@@ -60,8 +59,6 @@ function Login() {
       setShowError(true);
       setTimeout(() => setShowError(false), 2500);
       setTimeout(() => setErrMsg(""), 3000);
-
-      setSuccess(false);
     }
   };
   return (
@@ -92,10 +89,35 @@ function Login() {
         <input
           className="login-button"
           type="text"
+          name="country"
+          value={country}
+          aria-label="Enter country here"
+          onChange={(e) => setCountry(e.target.value)}
+          style={{
+            cursor: "pointer",
+            fontSize: "44px",
+            fontWeight: "bold",
+            marginBottom: "20px",
+            textAlign: "center",
+            backdropFilter: "blur(10px)",
+          }}
+        />
+        <br />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <button
+            style={{ textAlign: "center", cursor: "pointer" }}
+            className="login-button"
+          >
+            Country
+          </button>
+          </div>
+        <input
+          className="login-button"
+          type="text"
           name="code"
-          value={input}
+          value={code}
           aria-label="Enter code here"
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => setCode(e.target.value)}
           style={{
             cursor: "pointer",
             fontSize: "44px",

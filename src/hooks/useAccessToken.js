@@ -5,22 +5,23 @@ import useAuth from './useAuth.js'
 
 function useAccessToken(){
 
-    const { auth, setAuth} = useAuth();
+    const { auth} = useAuth();
     const refresh = useRefreshToken();
 
     useEffect(()=>{
-        axiosPrivate.interceptors.request.use(
+        const requestIntercept = axiosPrivate.interceptors.request.use(
             config=>{
                 if (!config.headers["Authorization"]){
                     config.headers["Authorization"] = `Bearer ${auth.accessToken}`
                 }
+            return config;
             },
             error =>{
                 return Promise.reject(error)
-            }
+            },
         )
 
-        axiosPrivate.interceptors.response.use(
+        const responseIntercept = axiosPrivate.interceptors.response.use(
             response =>{
                 return response
             },
