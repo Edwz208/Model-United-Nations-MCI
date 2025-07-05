@@ -1,0 +1,38 @@
+.buttons {
+    background-color: #414559;
+    border-radius: 8px;
+    color: white;
+    padding: 10px 20px;
+    font-size: large;
+    border: none;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.box {
+    background-color: #4a90e2;
+    color: white;
+    padding: 20px;
+    cursor: grab;
+    user-select: none;
+    border-radius: 8px;
+}
+
+.logo {
+    width: 30%;
+    align-self: center;
+}
+
+body {
+    font-family: "Be Vietnam Pro", sans-serif;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+}

@@ -1,8 +1,8 @@
 .login-button {
   font-size: 24px;
   font-weight: bold;
+  text-align: start;
   margin-bottom: 20px;
-  text-align: center;
   border-radius: 15px;
   background-color: #4c4f6964;
   color: #dce0e8;
@@ -10,8 +10,6 @@
   outline: none;
   transition: background-color 0.3s, color 0.3s;
   display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 8px 16px;
   backdrop-filter: blur(10px);
   cursor: pointer;
@@ -40,6 +38,10 @@
 .error-dialog.show {
   opacity: 1;
   transform: translateY(0px);
+}
+
+input::placeholder {
+  font-size: 25px; 
 }
 
 .error-dialog.fade-out {

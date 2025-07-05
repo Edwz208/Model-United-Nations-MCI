@@ -91,42 +91,37 @@ function Login() {
           type="text"
           name="country"
           value={country}
+          placeholder="Country: e.g. 'canada'"
           aria-label="Enter country here"
           onChange={(e) => setCountry(e.target.value)}
           style={{
             cursor: "pointer",
-            fontSize: "44px",
+            fontSize: "40px",
             fontWeight: "bold",
             marginBottom: "20px",
-            textAlign: "center",
             backdropFilter: "blur(10px)",
           }}
         />
         <br />
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <button
-            style={{ textAlign: "center", cursor: "pointer" }}
-            className="login-button"
-          >
-            Country
-          </button>
-          </div>
         <input
           className="login-button"
           type="text"
           name="code"
           value={code}
+          placeholder="Access Code: e.g. '123abc'"
           aria-label="Enter code here"
           onChange={(e) => setCode(e.target.value)}
           style={{
             cursor: "pointer",
-            fontSize: "44px",
+            fontSize: "40px",
             fontWeight: "bold",
             marginBottom: "20px",
-            textAlign: "center",
             backdropFilter: "blur(10px)",
           }}
         />
+        <div style={{width: "100%", justifyContent: "center", display: "flex", alignItems: "center"}}>
+          <h3 style={{ textAlign: "center", color: "white", backgroundColor: "#e01b24", padding: "10px", borderRadius: "14px"}}>(See tech desk if you forgot your access code)</h3>
+        </div>
         <br />
         <div style={{ display: "flex", justifyContent: "center" }}>
           <button

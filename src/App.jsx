@@ -22,6 +22,8 @@ import RequireAuth from "./components/RequireAuth.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
 import PersistentLogin from './components/PersistentLogin.jsx';
 import LoginWrapper from './components/LoginWrapper.jsx';
+import Projection_Dashboard from "./components/admin/Projection/Projection_Dashboard.jsx";  
+import Projection from "./components/admin/Projection/Projection.jsx";
 const roleList = {
   member: 2007,
   admin: 4015,
@@ -45,10 +47,8 @@ return (
       <Route path="/Unauthorized" element={<PageWrapper><Unauthorized /></PageWrapper>} />
 
       {/* Private Routes */}
-      <Route element ={<PersistentLogin/>}>
-        <Route element={<RequireAuth allowedRoles={roleList.admin} />}>
-          <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} />
-        </Route>
+      <Route element={<RequireAuth allowedRoles={roleList.admin} />}>
+        <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} />
       </Route>
 
       <Route element ={<PersistentLogin/>}>
