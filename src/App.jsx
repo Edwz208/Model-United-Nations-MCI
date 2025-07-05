@@ -35,7 +35,6 @@ return (
     <Routes location={location} key={location.pathname}>
       {/* Public Routes */}
       <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-      <Route path="/Admin/Projection/Projection" element={<PageWrapper><Projection /></PageWrapper>} />
       <Route path="/Login" element={<PageWrapper><Login /></PageWrapper>} />
       <Route path="/FAQ" element={<PageWrapper><FAQ /></PageWrapper>} />
       <Route path="/COC" element={<PageWrapper><COC /></PageWrapper>} />
