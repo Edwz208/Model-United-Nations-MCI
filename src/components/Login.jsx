@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import "./Login.css";
 import axios from "../api/axios.js";
 import useAuth from "../hooks/useAuth.js";
@@ -22,7 +22,7 @@ function Login() {
   }, [errMsg]);
 
   const to_dashboard = async () => {
-    await navigate(from);
+    await navigate(from, { replace: true });
   };
 
   const sendUser = async () => {
@@ -43,7 +43,12 @@ function Login() {
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.role;
       setAuth({ country, roles, accessToken });
-      to_dashboard();
+      if (roles.includes(4015)){
+      navigate("/Admin/Dashboard", {replace: true });
+      }
+      else if (roles.includes(2007)){
+        to_dashboard();
+      }
     } catch (err) {
       console.log("Login error:", err);
 

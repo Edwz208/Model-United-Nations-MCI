@@ -47,12 +47,14 @@ return (
       <Route path="/Unauthorized" element={<PageWrapper><Unauthorized /></PageWrapper>} />
 
       {/* Private Routes */}
-      <Route element={<RequireAuth allowedRoles={roleList.admin} />}>
-        <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} />
+      <Route element = {<PersistentLogin/>}>
+        <Route element={<RequireAuth allowedRoles={[roleList.admin]} />}>
+          <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} />
+        </Route>
       </Route>
 
       <Route element ={<PersistentLogin/>}>
-        <Route element={<RequireAuth allowedRoles={[roleList.admin, roleList.member]} />}>
+        <Route element={<RequireAuth allowedRoles={[roleList.member]} />}>
           <Route path="/Delegates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>}>
             <Route path="resolutions" element={<PageWrapper><Resolutions /></PageWrapper>} />
             <Route path="overview" element={<PageWrapper><Overview /></PageWrapper>} />
