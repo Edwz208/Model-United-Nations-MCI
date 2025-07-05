@@ -45,6 +45,7 @@ return (
       {/* Private Routes */}
       <Route element={<RequireAuth allowedRoles={roleList.admin} />}>
         <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} />
+        <Route path="/Admin/Projection/Projection" element={<PageWrapper><Projection /></PageWrapper>} />
         <Route path="/Admin/Projection/Projection_Dashboard" element={<PageWrapper><Projection_Dashboard /></PageWrapper>} />
       </Route>
 
