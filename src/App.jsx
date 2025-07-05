@@ -20,6 +20,8 @@ import Overview from "./components/delegates/Overview.jsx";
 import AdminDash from "./components/admin/Admin.jsx";
 import RequireAuth from "./components/RequireAuth.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
+import Projection_Dashboard from "./components/admin/Projection/Projection_Dashboard.jsx";  
+import Projection from "./components/admin/Projection/Projection.jsx";
 const roleList = {
   member: 2007,
   admin: 4015,
@@ -33,6 +35,7 @@ return (
     <Routes location={location} key={location.pathname}>
       {/* Public Routes */}
       <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+      <Route path="/Admin/Projection/Projection" element={<PageWrapper><Projection /></PageWrapper>} />
       <Route path="/Login" element={<PageWrapper><Login /></PageWrapper>} />
       <Route path="/FAQ" element={<PageWrapper><FAQ /></PageWrapper>} />
       <Route path="/COC" element={<PageWrapper><COC /></PageWrapper>} />
@@ -43,6 +46,7 @@ return (
       {/* Private Routes */}
       <Route element={<RequireAuth allowedRoles={roleList.admin} />}>
         <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} />
+        <Route path="/Admin/Projection/Projection_Dashboard" element={<PageWrapper><Projection_Dashboard /></PageWrapper>} />
       </Route>
 
       <Route element={<RequireAuth allowedRoles={[roleList.admin, roleList.member]} />}>

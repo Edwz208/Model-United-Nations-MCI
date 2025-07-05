@@ -30,8 +30,8 @@ const Secretariat = () => {
     }, []);
     return (
         <div style={{ height: "100vh", width: "100%", display: "flex", flexDirection: "column" }}>
-            <div style={{ paddingTop: "10%"}}>
-                <h1 style={{color: "white", fontSize: "32px", fontWeight: "500", marginBottom: "10px", textAlign: "center"}}>Secretariat</h1>
+            <div style={{ paddingTop: "80px" }}>
+                <h1 style={{color: "white", fontSize: "48px", fontWeight: "500", marginBottom: "20px", textAlign: "center"}}>Secretariat</h1>
             </div>
             <div className="grid-container">
                 {data.map((item, index) => (
@@ -41,7 +41,6 @@ const Secretariat = () => {
                     {}
                     </div>
                 ))}
-                
             </div>
         </div>
     );
