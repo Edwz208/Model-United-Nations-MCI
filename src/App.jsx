@@ -20,6 +20,8 @@ import Overview from "./components/delegates/Overview.jsx";
 import AdminDash from "./components/admin/Admin.jsx";
 import RequireAuth from "./components/RequireAuth.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
+import PersistentLogin from './components/PersistentLogin.jsx';
+import LoginWrapper from './components/LoginWrapper.jsx';
 const roleList = {
   member: 2007,
   admin: 4015,
@@ -33,7 +35,9 @@ return (
     <Routes location={location} key={location.pathname}>
       {/* Public Routes */}
       <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-      <Route path="/Login" element={<PageWrapper><Login /></PageWrapper>} />
+      <Route element={<LoginWrapper/>}>
+        <Route path="/Login" element={<PageWrapper><Login /></PageWrapper>} />
+      </Route>
       <Route path="/FAQ" element={<PageWrapper><FAQ /></PageWrapper>} />
       <Route path="/COC" element={<PageWrapper><COC /></PageWrapper>} />
       <Route path="/Registration" element={<PageWrapper><Registration /></PageWrapper>} />
@@ -41,14 +45,18 @@ return (
       <Route path="/Unauthorized" element={<PageWrapper><Unauthorized /></PageWrapper>} />
 
       {/* Private Routes */}
-      <Route element={<RequireAuth allowedRoles={roleList.admin} />}>
-        <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} />
+      <Route element ={<PersistentLogin/>}>
+        <Route element={<RequireAuth allowedRoles={roleList.admin} />}>
+          <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} />
+        </Route>
       </Route>
 
-      <Route element={<RequireAuth allowedRoles={[roleList.admin, roleList.member]} />}>
-        <Route path="/Delegates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>}>
-          <Route path="resolutions" element={<PageWrapper><Resolutions /></PageWrapper>} />
-          <Route path="overview" element={<PageWrapper><Overview /></PageWrapper>} />
+      <Route element ={<PersistentLogin/>}>
+        <Route element={<RequireAuth allowedRoles={[roleList.admin, roleList.member]} />}>
+          <Route path="/Delegates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>}>
+            <Route path="resolutions" element={<PageWrapper><Resolutions /></PageWrapper>} />
+            <Route path="overview" element={<PageWrapper><Overview /></PageWrapper>} />
+          </Route>
         </Route>
       </Route>
 

@@ -5,7 +5,7 @@ import axios from "../api/axios.js";
 import useAuth from "../hooks/useAuth.js";
 
 function Login() {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const [code, setCode] = useState("");
   const [country, setCountry] = useState("");
   const [errMsg, setErrMsg] = useState("");
