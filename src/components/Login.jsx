@@ -125,7 +125,7 @@ function Login() {
           }}
         />
         <div style={{width: "100%", justifyContent: "center", display: "flex", alignItems: "center"}}>
-          <h3 style={{ textAlign: "center", color: "white", backgroundColor: "#e01b24", padding: "10px", borderRadius: "14px"}}>(See tech desk if you forgot your access code)</h3>
+          <h3 style={{ textAlign: "center", color: "white", backgroundColor: "#414559", padding: "10px", borderRadius: "14px"}}>(See tech desk if you forgot your access code)</h3>
         </div>
         <br />
         <div style={{ display: "flex", justifyContent: "center" }}>
