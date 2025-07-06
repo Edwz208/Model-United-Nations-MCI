@@ -31,3 +31,20 @@
 .shortcut-to-login:hover {
     transform: scale(1.02);
 }
+
+footer {
+  background-color: #242424;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+footer a {
+  color: #04a5e5;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
