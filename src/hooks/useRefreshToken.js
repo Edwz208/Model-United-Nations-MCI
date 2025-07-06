@@ -7,10 +7,10 @@ const useRefreshToken = () => {
     
     const response = await axios.get('/refresh')
     setAuth((prev)=>{
-      return {...prev, accessToken: response?.data?.accessToken, country: response?.data?.country, roles: response?.data?.role}
+      return {...prev, accessToken: response?.data?.accessToken}
     })
 
-    return response?.data;
+    return response?.data?.accessToken;
   }
 
   return refresh;

@@ -65,7 +65,7 @@ function Projection_Dashboard() {
     }, [activeScreen, message, paging]);
 
     return (
-        <div style={{ height: "100vh", width: "100%", display: "flex", flexDirection: "row" }}>
+        <div style={{ overflow: "hidden", height: "100vh", width: "100%", display: "flex", flexDirection: "row" }}>
             <div style={{ height: "100%", alignItems: "center", paddingTop: "10%", width: "70%", display: "flex", flexDirection: "column" }}>
                 <div className="container">
                     {boxes.map((label, index) => (
@@ -87,9 +87,15 @@ function Projection_Dashboard() {
                                 }
                             }}
                         >
-                            {label}
+                            <input type="text" className="input" value={label} onChange={(e) => {setBoxes(boxes.map((box, i) => (i === index ? e.target.value : box))); renderProjection(boxes.map((box, i) => (i === index ? e.target.value : box)));} }>
+                            </input>
                         </div>
                     ))}
+                </div>
+                <div>
+                    <button style={{ marginTop: "30px" }} className="buttons" onClick={() => setBoxes([...boxes, "New Speaker"])}>
+                        Add Speaker
+                    </button>
                 </div>
             </div>
             <div style={{ gap: "30px", color: "white", display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "10%" }}>
@@ -135,7 +141,7 @@ function Projection_Dashboard() {
                     <input
                         id="message"
                         className="buttons"
-                        style={{ width: "70%", height: "50px" }}
+                        style={{ height: "50px" }}
                         type="text"
                         placeholder="Enter message here"
                         onChange={(e) => messageData(e.target.value)}

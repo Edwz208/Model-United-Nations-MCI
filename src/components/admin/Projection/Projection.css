@@ -9,12 +9,22 @@
     cursor: pointer;
 }
 
+.buttons::placeholder {
+    font-size: large;
+}
+
 .container {
     display: flex;
     gap: 10px;
     flex-direction: column;
 }
 
+.input {
+    background-color: #4a90e2;
+    border: none;
+    color: white;
+    font-size: large;
+}
 .box {
     background-color: #4a90e2;
     color: white;

@@ -13,6 +13,7 @@ import Home from "./components/Home.jsx";
 import Registration from "./components/Registration.jsx";
 import Secretariat from "./components/Secretariat.jsx";
 import PageWrapper from "./components/PageWrapper.jsx";
+import DashboardHome from "./components/delegates/DashboardHome.jsx";
 import Dashboard from "./components/delegates/Dashboard.jsx";
 import Missing from "./components/Missing.jsx";
 import Resolutions from "./components/delegates/Resolutions.jsx";
@@ -58,8 +59,10 @@ return (
       <Route element ={<PersistentLogin/>}>
         <Route element={<RequireAuth allowedRoles={[roleList.member]} />}>
           <Route path="/Delegates/Dashboard" element={<PageWrapper><ResolutionProvider><Dashboard /></ResolutionProvider></PageWrapper>}>
+            <Route index element={<DashboardHome />} /> 
             <Route path="resolutions" element={<PageWrapper><Resolutions /></PageWrapper>} />
             <Route path="overview" element={<PageWrapper><Overview /></PageWrapper>} />
+            <Route path="home" element={<PageWrapper><DashboardHome /></PageWrapper>} />
           </Route>
         </Route>
       </Route>

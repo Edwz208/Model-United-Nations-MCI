@@ -136,7 +136,17 @@ function Home() {
               textAlign: "center",
             }}
           >
-            Made by Edwin Zeng and Nathan Perlman
+            Made by <strong>Edwin Zeng</strong> and <strong>Nathan Perlman</strong>
+            <br />
+            <br />
+            {/* <div style={{ display: "flex", width: "10%", flexDirection: "row", padding: "10px", backgroundColor: "#242424", justifyContent: "center" }}>
+              <strong>  
+                <a href="https://github.com/Edwz208/Model-United-Nations-MCI" target="_blank" rel="noopener noreferrer">
+                  Code
+                </a>
+              </strong> 
+            </div> */}
+
           </h1>
         </div>
       </div>
