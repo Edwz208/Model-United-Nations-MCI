@@ -121,34 +121,34 @@ function Home() {
         <div>
           <Slideshow />
         </div>
-        <div>
+        <div style={{ marginBottom: "40px"}}>
           <FAQ />
         </div>
-        <div>
-          <h1
-            style={{
-              color: "white",
-              fontSize: "14px",
-              fontWeight: "200",
-              marginTop: "20px",
-              marginBottom: "0px",
-              paddingBottom: "12px",
-              textAlign: "center",
-            }}
-          >
-            Made by <strong>Edwin Zeng</strong> and <strong>Nathan Perlman</strong>
-            <br />
-            <br />
-            {/* <div style={{ display: "flex", width: "10%", flexDirection: "row", padding: "10px", backgroundColor: "#242424", justifyContent: "center" }}>
-              <strong>  
-                <a href="https://github.com/Edwz208/Model-United-Nations-MCI" target="_blank" rel="noopener noreferrer">
-                  Code
-                </a>
-              </strong> 
-            </div> */}
-
-          </h1>
-        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></link>
+        <footer>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ gap: "1rem", display: "flex", flexDirection: "row", alignSelf: "center", justifySelf: "start"}}>
+              <a href="mailto:martingrovemodelun@gmail.com" target="_blank" rel="noopener noreferrer">
+                <i className="fas fa-envelope" style={{ color: "#04a5e5", fontSize: "1.5rem" }}></i>
+              </a>
+              <a href="https://github.com/Edwz208/Model-United-Nations-MCI" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-github" style={{ color: "#04a5e5", fontSize: "1.5rem" }}></i>
+              </a>
+              <a href="https://www.instagram.com/mcimun/" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-instagram" style={{ color: "#04a5e5", fontSize: "1.5rem" }}></i>
+              </a>
+            </div>
+            <div style={{ display: "block", width: "100%", textAlign: "center", alignSelf: "center", justifySelf: "center"}}>
+              <p>
+                Made by &nbsp;
+                <strong><a href="https://github.com/Edwz208" target="_blank" rel="noopener noreferrer">Edwin Zeng</a></strong> 
+                &nbsp; and &nbsp;
+                <strong><a href="https://github.com/SwordPuffin" target="_blank" rel="noopener noreferrer">Nathan Perlman</a></strong>
+              </p>
+              <strong>© 2025 Martingrove Model UN</strong>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
