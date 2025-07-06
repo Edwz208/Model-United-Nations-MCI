@@ -16,7 +16,7 @@ import PageWrapper from "./components/PageWrapper.jsx";
 import DashboardHome from "./components/delegates/DashboardHome.jsx";
 import Dashboard from "./components/delegates/Dashboard.jsx";
 import Missing from "./components/Missing.jsx";
-import Resolutions from "./components/delegates/Resolutions.jsx";
+import Resolutions from "./components/delegates/Amendments.jsx";
 import Overview from "./components/delegates/Overview.jsx";
 import AdminDash from "./components/admin/Admin.jsx";
 import RequireAuth from "./components/RequireAuth.jsx";
@@ -26,6 +26,7 @@ import LoginWrapper from './components/LoginWrapper.jsx';
 import Projection_Dashboard from "./components/admin/Projection/Projection_Dashboard.jsx";  
 import Projection from "./components/admin/Projection/Projection.jsx";
 import {ResolutionProvider} from './context/ResProvider.jsx'
+import ResolutionsAdmin from './components/admin/Resolutions.jsx'
 const roleList = {
   member: 2007,
   admin: 4015,
@@ -52,7 +53,9 @@ return (
       
       <Route element = {<PersistentLogin/>}>
         <Route element={<RequireAuth allowedRoles={[roleList.admin]} />}>
-          <Route path="/Admin/Dashboard" element={<PageWrapper><ResolutionProvider><AdminDash /></ResolutionProvider></PageWrapper>} />
+          <Route path="/Admin/Dashboard" element={<PageWrapper><ResolutionProvider><AdminDash /></ResolutionProvider></PageWrapper>} >
+            <Route path="resolutions" element={<PageWrapper><ResolutionsAdmin /></PageWrapper>} />
+          </Route>
         </Route>
       </Route>
 

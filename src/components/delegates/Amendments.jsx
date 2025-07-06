@@ -1,7 +1,7 @@
 import React from 'react'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate.js'
 import {useState, useRef} from 'react'
-import './Resolutions.css'
+import './Amendments.css'
 
 const Resolutions = () => {
   const axiosPrivate = useAxiosPrivate();
