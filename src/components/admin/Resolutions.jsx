@@ -69,7 +69,7 @@ const ResolutionsAdmin = () => {
         />
         {file ? (
           <>
-            <p style={{ display: "inline", marginLeft: "2Rem" }}>{fileName}</p>{" "}
+            <p style={{ display: "inline", marginLeft: "2Rem" }}>{fileName}</p>
             <button type="button" onClick={handleClear}>
               Clear File
             </button>
@@ -80,6 +80,18 @@ const ResolutionsAdmin = () => {
           </p>
         )}
         <br />
+        <label htmlFor="ResTitle">Resolution Title</label>
+        <input
+          type="text"
+          id="ResTitle"
+          name="Resolution Title"
+          value={resTitle}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+        />
+        <br />
+
         <label className="label" htmlFor="council">
           Council/Assembly
         </label>
@@ -97,10 +109,11 @@ const ResolutionsAdmin = () => {
         </select>
 
         <label className="label" htmlFor="resNum">
-          Affected Resolution #
+          Resolution #
         </label>
         <input
           className="textInput"
+          step="1"
           type="number"
           id="resNum"
           min="1"
@@ -110,22 +123,10 @@ const ResolutionsAdmin = () => {
           onChange={(e) => {
             setNum(e.target.value);
           }}
-          required
         />
-        <label className="label" htmlFor="input">
-          Change
-        </label>
-        {/* <textarea
-          className="textInput"
-          id="input"
-          name="input"
-          rows="6"
-          cols="50"
-          placeholder="Strike clause X because Y"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        ></textarea> */}
-
+        <label htmlFor="clauses" className="label"># of Clauses</label>
+      <input type ="number" className="textInput" id = "clauses" value={clauses} name = "clauses" step="1" min="0" onChange={(e)=>{setClauses(e.target.value)}} required/>
+      <br/>
         <label htmlFor="submitter">Submitter</label>
         <input
           placeholder="canada"
@@ -138,7 +139,7 @@ const ResolutionsAdmin = () => {
             setSubmitter(e.target.value);
           }}
         />
-        <label htmlFor="seconder">Seconder (optional)</label>
+        <label htmlFor="seconder">Seconder</label>
         <input
           placeholder="bangladesh"
           className="textInput"
@@ -150,18 +151,17 @@ const ResolutionsAdmin = () => {
             setSeconder(e.target.value);
           }}
         />
-        <label htmlFor="tertiary">Tertiary (optional)</label>
-        {/* <input
+        <label htmlFor="negator">Negator</label>
+        <input
           placeholder="japan"
           className="textInput"
           type="text"
-          value={tertiary}
-          id="tertiary"
-          name="tertiary"
+          value={negator}
+          id="negator"
+          name="negator"
           onChange={(e) => {
-            setTertiary(e.target.value);
-          }} */}
-        {/* /> */}
+            setNegator(e.target.value);
+          }}/>
         <div
           style={{
             display: "flex",
@@ -173,7 +173,6 @@ const ResolutionsAdmin = () => {
           <button className="submit">Upload Amendment</button>
         </div>
       </form>
-      
     </>
   );
 };
