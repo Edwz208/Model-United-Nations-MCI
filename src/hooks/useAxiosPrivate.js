@@ -1,9 +1,9 @@
 import axiosPrivate from '../api/axios.js'
 import useRefreshToken from './useRefreshToken.js'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import useAuth from './useAuth.js'
 
-function useAccessToken(){
+function useAxiosPrivate(){
 
     const { auth, setAuth } = useAuth();
     const refresh = useRefreshToken();
@@ -55,4 +55,4 @@ function useAccessToken(){
     ,[]);
 }
 
-export default useAccessToken;
+export default useAxiosPrivate;

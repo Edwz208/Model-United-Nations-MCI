@@ -24,6 +24,7 @@ import PersistentLogin from './components/PersistentLogin.jsx';
 import LoginWrapper from './components/LoginWrapper.jsx';
 import Projection_Dashboard from "./components/admin/Projection/Projection_Dashboard.jsx";  
 import Projection from "./components/admin/Projection/Projection.jsx";
+import {ResolutionProvider} from './context/ResProvider.jsx'
 const roleList = {
   member: 2007,
   admin: 4015,
@@ -47,15 +48,16 @@ return (
       <Route path="/Unauthorized" element={<PageWrapper><Unauthorized /></PageWrapper>} />
 
       {/* Private Routes */}
+      
       <Route element = {<PersistentLogin/>}>
         <Route element={<RequireAuth allowedRoles={[roleList.admin]} />}>
-          <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} />
+          <Route path="/Admin/Dashboard" element={<PageWrapper><ResolutionProvider><AdminDash /></ResolutionProvider></PageWrapper>} />
         </Route>
       </Route>
 
       <Route element ={<PersistentLogin/>}>
         <Route element={<RequireAuth allowedRoles={[roleList.member]} />}>
-          <Route path="/Delegates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>}>
+          <Route path="/Delegates/Dashboard" element={<PageWrapper><ResolutionProvider><Dashboard /></ResolutionProvider></PageWrapper>}>
             <Route path="resolutions" element={<PageWrapper><Resolutions /></PageWrapper>} />
             <Route path="overview" element={<PageWrapper><Overview /></PageWrapper>} />
           </Route>
