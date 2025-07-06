@@ -1,5 +1,5 @@
 .buttons {
-    background-color: #414559;
+    background-color: #41455994;
     border-radius: 8px;
     color: white;
     padding: 10px 20px;
@@ -20,15 +20,15 @@
 }
 
 .input {
-    background-color: #4a90e2;
+    background-color: #41455994;
     border: none;
     color: white;
     font-size: large;
 }
 .box {
-    background-color: #4a90e2;
+    background-color: #41455994;
     color: white;
-    padding: 20px;
+    padding: 5px;
     cursor: grab;
     user-select: none;
     border-radius: 8px;

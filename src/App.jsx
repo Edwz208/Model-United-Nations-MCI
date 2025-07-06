@@ -24,7 +24,7 @@ import Unauthorized from "./components/Unauthorized.jsx";
 import PersistentLogin from './components/PersistentLogin.jsx';
 import LoginWrapper from './components/LoginWrapper.jsx';
 import Projection_Dashboard from "./components/admin/Projection/Projection_Dashboard.jsx";  
-import Projection from "./components/admin/Projection/Projection.jsx";
+import AdminHome from "./components/admin/AdminHome.jsx";
 import {ResolutionProvider} from './context/ResProvider.jsx'
 import ResolutionsAdmin from './components/admin/Resolutions.jsx'
 const roleList = {
@@ -54,7 +54,10 @@ return (
       <Route element = {<PersistentLogin/>}>
         <Route element={<RequireAuth allowedRoles={[roleList.admin]} />}>
           <Route path="/Admin/Dashboard" element={<PageWrapper><ResolutionProvider><AdminDash /></ResolutionProvider></PageWrapper>} >
+            <Route path="home" element={<PageWrapper><AdminHome /></PageWrapper>} />
             <Route path="resolutions" element={<PageWrapper><ResolutionsAdmin /></PageWrapper>} />
+            <Route path="projection" element={<PageWrapper><Projection_Dashboard /></PageWrapper>} />
+
           </Route>
         </Route>
       </Route>

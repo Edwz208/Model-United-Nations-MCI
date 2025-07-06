@@ -65,7 +65,7 @@ function Projection_Dashboard() {
     }, [activeScreen, message, paging]);
 
     return (
-        <div style={{ overflow: "hidden", height: "100vh", width: "100%", display: "flex", flexDirection: "row" }}>
+        <div style={{ overflow: "hidden", marginBottom: "10px", display: "flex", flexDirection: "row" }}>
             <div style={{ height: "100%", alignItems: "center", paddingTop: "10%", width: "70%", display: "flex", flexDirection: "column" }}>
                 <div className="container">
                     {boxes.map((label, index) => (
@@ -118,7 +118,7 @@ function Projection_Dashboard() {
                                 color: 'white',
                                 border: '1px solid white',
                                 '&.Mui-selected': {
-                                    backgroundColor: '#4a90e2',
+                                    backgroundColor: '#41455994',
                                     color: 'white',
                                 },
                                 '&:hover': {
