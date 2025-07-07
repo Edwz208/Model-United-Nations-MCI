@@ -5,17 +5,18 @@ import { useNavigate, useLocation} from 'react-router-dom'
 
 function useResData(){
     const axiosPrivate = useAxiosPrivate();
-    const {setResolutions } = useRes();
+    const {setResolutions, setCountries } = useRes();
     const navigate = useNavigate();
     const location = useLocation();
     useEffect(()=>{
         const controller = new AbortController();
         const getResolutions = async () =>{
             try{
-                const response = await axiosPrivate.get('/all-resolutions',{
+                const response = await axiosPrivate.get('/all-information',{
                     signal: controller.signal
             })
             setResolutions(response?.data?.resolutions)
+            setCountries(response?.data?.allCountries) // list
                     }
             
         catch (err){

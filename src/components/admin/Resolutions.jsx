@@ -2,8 +2,43 @@ import React from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
 import { useState, useRef } from "react";
 import "./Resolutions.css";
+import useResData from "../../hooks/useResData.js";
+import Select from "react-select";
 
 const ResolutionsAdmin = () => {
+  // const { countriesData, setCountries} = useResData();
+
+  const createOptions = () => {
+    return countriesData.map((country, i) => {
+      value: country;
+      label: country;
+    });
+  };
+  const options = [
+    { value: "chocolate", label: "white" },
+    { value: "afghanistan", label: "afghanistan" },
+  ];
+
+  const customStyles = () => {
+    control: (provided) => {
+      return {
+        ...provided,
+      };
+    };
+    option: (provided, state) => {
+      return {
+        ...provided,
+        color: state.isSelected ? "black" : "white",
+        backgroundColor: state.isSelected ? "lightgrey" : "lightblue",
+      };
+    };
+  };
+  const councilsList = [
+    "General Asssembly",
+    "Security Council",
+    "Environmental Council",
+    "Economic Council",
+  ];
   const axiosPrivate = useAxiosPrivate();
   const fileInputRef = useRef();
   const [resNum, setNum] = useState(0);
@@ -15,17 +50,7 @@ const ResolutionsAdmin = () => {
   const [negator, setNegator] = useState("");
   const [file, setFile] = useState(null);
   const [fileName, setName] = useState(null);
-
-  // try{
-  //   const response = await axiosPrivate.post('/new-resolution', formData,{
-  //     "headers": {
-  //       "Content-type": undefined
-  //     },
-  //   })
-  // }
-  // catch (err){
-  //   console.log(err)
-  // }
+  const [errorMsgs, setErrors] = useState(["", "", "", "", "", "", "", "", ""]); // Upload File, Title, Council, Resolution #, # Clauses, submiter seconder negator
   const handleUpload = (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
@@ -38,22 +63,66 @@ const ResolutionsAdmin = () => {
     setFile(null);
     fileInputRef.current.value = null;
   };
+
+  const charMin = (string, i) => {
+    setErrors((prev) => {
+        const errorItem = [...prev];
+        if (string.length < 3) {
+        errorItem[i] = "Must be a minimum of 3 characters";
+      }
+        else{
+            errorItem[i] = ""
+        }
+        return errorItem;
+  });
+    }
+
+  const integerCheck = (integer, i) => {
+    console.log(typeof integer)
+      setErrors((prev) => {
+        const errorItem = [...prev];
+        if (integer < 0) {
+            errorItem[i] = "Must be greater than or equal to 0";
+        }
+        else if (!Number.isInteger(integer)) {
+            errorItem[i] = "Must be an integer";
+        }
+        else{
+            errorItem[i] = "";
+        }
+        return errorItem;
+    }
+    )
+      }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     if (!file) {
-      alert("Please upload a file first.");
-      return;
+      setErrors((prev) => [...prev, (prev[0] = "No file selected")]);
     }
+    charMin(resTitle, 1);
+    integerCheck(resNum, 2);
+    integerCheck(clauses, 3);
+
     formData.append("title", resTitle);
     formData.append("number", resNum);
     formData.append("clauses", clauses);
     formData.append("council", council);
-    console.log(council);
     formData.append("submitter", submitter);
     formData.append("seconder", seconder);
     formData.append("negator", negator);
     formData.append("file", file);
+
+    //     try {
+    //       const response = await axiosPrivate.post("/new-resolution", formData, {
+    //         headers: {
+    //           "Content-type": undefined,
+    //         },
+    //       });
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
   };
   return (
     <>
@@ -67,6 +136,7 @@ const ResolutionsAdmin = () => {
           style={{ display: "none" }}
           ref={fileInputRef}
         />
+        <br />
         {file ? (
           <>
             <p style={{ display: "inline", marginLeft: "2Rem" }}>{fileName}</p>
@@ -74,6 +144,10 @@ const ResolutionsAdmin = () => {
               Clear File
             </button>
           </>
+        ) : errorMsgs[0] ? (
+          <p style={{ display: "inline", marginLeft: "2Rem", color: "red" }}>
+            No File Selected
+          </p>
         ) : (
           <p style={{ display: "inline", marginLeft: "2Rem" }}>
             No File Selected
@@ -90,7 +164,9 @@ const ResolutionsAdmin = () => {
             setTitle(e.target.value);
           }}
         />
-        <br />
+        <div style={{ height: errorMsgs[1] ? "auto" : "1.5rem" }}>
+          {errorMsgs[1] ? <p style={{ margin: 0, color: "red" }}>{errorMsgs[1]}</p> : null}
+        </div>
 
         <label className="label" htmlFor="council">
           Council/Assembly
@@ -102,10 +178,13 @@ const ResolutionsAdmin = () => {
           onChange={(e) => setCouncil(Number(e.target.value))}
           className="textInput"
         >
-          <option value={1}>General Assembly</option>
-          <option value={2}>Economic Council</option>
-          <option value={3}>Security Council</option>
-          <option value={4}>Environmental Council</option>
+          {councilsList.map((council, i) => {
+            return (
+              <option value={i + 1} key={i}>
+                {council}
+              </option>
+            );
+          })}
         </select>
 
         <label className="label" htmlFor="resNum">
@@ -116,52 +195,60 @@ const ResolutionsAdmin = () => {
           step="1"
           type="number"
           id="resNum"
-          min="1"
           name="resNum"
           value={resNum}
           placeholder="Res #"
           onChange={(e) => {
-            setNum(e.target.value);
+            setNum(Number(e.target.value));
           }}
         />
-        <label htmlFor="clauses" className="label"># of Clauses</label>
-      <input type ="number" className="textInput" id = "clauses" value={clauses} name = "clauses" step="1" min="0" onChange={(e)=>{setClauses(e.target.value)}} required/>
-      <br/>
+        <div style={{ height: errorMsgs[1] ? "auto" : "1.5rem" }}>
+          {errorMsgs[2] ?<p style={{ margin: 0, color:"red" }}>{errorMsgs[2]}</p> : null}
+        </div>
+        <label htmlFor="clauses" className="label">
+          # of Clauses
+        </label>
+        <input
+          type="number"
+          className="textInput"
+          id="clauses"
+          value={clauses}
+          name="clauses"
+          step="1"
+          onChange={(e) => {
+            setClauses(Number(e.target.value));
+          }}
+        />
+        <div style={{ height: errorMsgs[1] ? "auto" : "1.5rem" }}>
+          {errorMsgs[3] ? <p style={{ margin: 0, color: "red"}}>{errorMsgs[3]}</p> : null}
+        </div>
         <label htmlFor="submitter">Submitter</label>
-        <input
-          placeholder="canada"
-          className="textInput"
-          type="text"
-          value={submitter}
-          id="submitter"
-          name="submitter"
-          onChange={(e) => {
-            setSubmitter(e.target.value);
+        <Select
+          options={options}
+          styles={customStyles}
+          onChange={(option) => {
+            setSubmitter(option);
           }}
         />
+        <br />
         <label htmlFor="seconder">Seconder</label>
-        <input
-          placeholder="bangladesh"
-          className="textInput"
-          type="text"
-          value={seconder}
-          id="seconder"
-          name="seconder"
-          onChange={(e) => {
-            setSeconder(e.target.value);
+        <Select
+          options={options}
+          styles={customStyles}
+          onChange={(option) => {
+            setSeconder(option);
           }}
         />
+        <br />
         <label htmlFor="negator">Negator</label>
-        <input
-          placeholder="japan"
-          className="textInput"
-          type="text"
-          value={negator}
-          id="negator"
-          name="negator"
-          onChange={(e) => {
-            setNegator(e.target.value);
-          }}/>
+        <Select
+          options={options}
+          styles={customStyles}
+          onChange={(option) => {
+            setNegator(option);
+          }}
+        />
+        <br />
         <div
           style={{
             display: "flex",
@@ -170,7 +257,7 @@ const ResolutionsAdmin = () => {
             marginTop: "20px",
           }}
         >
-          <button className="submit">Upload Amendment</button>
+          <button className="submit">Upload Resolution</button>
         </div>
       </form>
     </>

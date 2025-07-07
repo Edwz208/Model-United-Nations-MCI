@@ -3,8 +3,10 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate.js'
 import {useState, useRef} from 'react'
 import './Amendments.css'
 
-const Resolutions = () => {
+const Amendments = () => {
   const axiosPrivate = useAxiosPrivate();
+
+  const councilsList = ["General Asssembly", "Security Council", "Environmental Council", "Economic Council"]
   const [resNum, setNum] = useState(1);
   const [council, setCouncil] = useState(1)
   const [submitter, setSubmitter] = useState("");
@@ -48,10 +50,9 @@ const Resolutions = () => {
         onChange={(e) => setCouncil(Number(e.target.value))}
         className='textInput'
       >
-        <option value={1}>General Assembly</option>
-        <option value={2}>Economic Council</option>
-        <option value={3}>Security Council</option>
-        <option value={4}>Environmental Council</option>
+      {councilsList.map((council, i)=>{
+        return <option value = {i+1}>{council}</option>
+      })}
       </select>
 
       <label className="label" htmlFor="resNum">Affected Resolution #</label>
@@ -82,4 +83,4 @@ const Resolutions = () => {
   )
 }
 
-export default Resolutions
+export default Amendments

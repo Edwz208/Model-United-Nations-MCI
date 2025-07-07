@@ -2,6 +2,7 @@ import { useState} from 'react';
 import GetAllCountries from './GetAllCountries.jsx';
 import './Admin.css';
 import {Outlet}  from 'react-router-dom'
+import useResData from '../../hooks/useResData.js'
 const AdminDash = () => {
   
     const [buttonState, setButton]= useState(false);
