@@ -1,4 +1,4 @@
-import axiosPrivate from '../api/axios.js'
+import axiosPrivate from '../api/axiosPrivate.js'
 import useRefreshToken from './useRefreshToken.js'
 import { useEffect, useRef } from 'react'
 import useAuth from './useAuth.js'
@@ -22,6 +22,7 @@ function useAxiosPrivate(){
             return config;
             },
             error =>{
+                console.log("config error")
                 return Promise.reject(error)
             },
         )
@@ -53,6 +54,7 @@ function useAxiosPrivate(){
         }
     }
     ,[]);
+    return axiosPrivate
 }
 
 export default useAxiosPrivate;

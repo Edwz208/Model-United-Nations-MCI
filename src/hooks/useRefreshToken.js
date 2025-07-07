@@ -9,7 +9,7 @@ const useRefreshToken = () => {
     setAuth((prev)=>{
       return {...prev, accessToken: response?.data?.accessToken, country: response?.data?.country, roles: response?.data?.role}
     })
-
+    console.log(response?.data?.countryNames)
     return response?.data;
   }
 
