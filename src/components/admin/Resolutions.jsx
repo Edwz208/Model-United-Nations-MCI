@@ -190,6 +190,7 @@ if (hasErrors) return;
         <br />
         <label htmlFor="ResTitle">Resolution Title</label>
         <input
+          className="textInput"
           type="text"
           id="ResTitle"
           name="Resolution Title"
@@ -291,6 +292,7 @@ if (hasErrors) return;
         {errorMsgs[6] ? <p style={{ margin: 0, color: "red"}}>{errorMsgs[6]}</p> : null}
         </div>
         <br />
+        <button className="submit">Upload Resolution</button>
         <button className="submit">Upload Resolution</button>
         <div
           style={{
