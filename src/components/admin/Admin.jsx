@@ -1,7 +1,6 @@
 import { useState} from 'react';
 import GetAllCountries from './GetAllCountries.jsx';
 import './Admin.css';
-import {Outlet}  from 'react-router-dom'
 import useResData from '../../hooks/useResData.js'
 import { Link, Outlet } from 'react-router-dom';
 const AdminDash = () => {
