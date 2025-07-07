@@ -19,19 +19,27 @@ const ResolutionsAdmin = () => {
     { value: "afghanistan", label: "afghanistan" },
   ];
 
-  const customStyles = () => {
-    control: (provided) => {
-      return {
-        ...provided,
-      };
-    };
-    option: (provided, state) => {
-      return {
-        ...provided,
-        color: state.isSelected ? "black" : "white",
-        backgroundColor: state.isSelected ? "lightgrey" : "lightblue",
-      };
-    };
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      padding: "12px 20px",
+      backgroundColor: "#ffffff",
+      borderRadius: "8px",
+      border: "none",
+      marginTop: "5px",
+      marginBottom: "20px",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: '#242424',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? '#414559' : '#242424',
+      marginStart: '10px',
+      marginEnd: '10px',
+      color: '#ffffff',
+    }),
   };
   const councilsList = [
     "General Asssembly",
@@ -137,36 +145,38 @@ const ResolutionsAdmin = () => {
   return (
     <>
       <form className="form" onSubmit={handleSubmit}>
-        <button className="submit">Upload Resolution</button>
-        <label htmlFor="pdf">Upload PDF</label>
-        <input
-          type="file"
-          id="pdf"
-          accept="application/pdf"
-          onChange={handleUpload}
-          style={{ display: "none" }}
-          ref={fileInputRef}
-        />
-        <br />
-        {file ? (
-          <>
-            <p style={{ display: "inline", marginLeft: "2Rem" }}>{fileName}</p>
-            <button type="button" onClick={handleClear}>
-              Clear File
-            </button>
-          </>
-        ) : errorMsgs[0] ? (
-          <p style={{ display: "inline", marginLeft: "2Rem", color: "red" }}>
-            No File Selected
-          </p>
-        ) : (
-          <p style={{ display: "inline", marginLeft: "2Rem" }}>
-            No File Selected
-          </p>
-        )}
+        <div style={{backgroundColor: "#414559", color: "white", borderRadius: "8px", display: "flex", gap: "1rem", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+          <label style={{ cursor: "pointer" }} htmlFor="pdf">Upload PDF</label>
+          <input
+            type="file"
+            id="pdf"
+            accept="application/pdf"
+            onChange={handleUpload}
+            style={{ display: "none" }}
+            ref={fileInputRef}
+          />
+          {file ? (
+            <>
+              <p style={{ display: "inline", marginLeft: "2Rem" }}>{fileName}</p>
+              <button type="button" onClick={handleClear}>
+                Clear File
+              </button>
+            </>
+          ) : errorMsgs[0] ? (
+            <p style={{ display: "inline", marginLeft: "2Rem", color: "red" }}>
+              No File Selected
+            </p>
+          ) : (
+            <p style={{ display: "inline", marginLeft: "2Rem" }}>
+              No File Selected
+            </p>
+          )}
+        </div>
+
         <br />
         <label htmlFor="ResTitle">Resolution Title</label>
         <input
+          className="textInput"
           type="text"
           id="ResTitle"
           name="Resolution Title"
@@ -239,7 +249,7 @@ const ResolutionsAdmin = () => {
             <p style={{ margin: 0, color: "red" }}>{errorMsgs[3]}</p>
           ) : null}
         </div>
-        <label htmlFor="submitter">Submitter</label>
+        <label className="label" htmlFor="submitter">Submitter</label>
         <Select
           options={options}
           styles={customStyles}
@@ -252,7 +262,7 @@ const ResolutionsAdmin = () => {
             <p style={{ margin: 0, color: "red" }}>{errorMsgs[4]}</p>
           ) : null}
         </div>
-        <label htmlFor="seconder">Seconder</label>
+        <label className="label" htmlFor="seconder">Seconder</label>
         <Select
           options={options}
           styles={customStyles}
@@ -265,7 +275,7 @@ const ResolutionsAdmin = () => {
             <p style={{ margin: 0, color: "red" }}>{errorMsgs[5]}</p>
           ) : null}
         </div>
-        <label htmlFor="negator">Negator</label>
+        <label className="label" htmlFor="negator">Negator</label>
         <Select
           options={options}
           styles={customStyles}
@@ -279,6 +289,7 @@ const ResolutionsAdmin = () => {
           ) : null}
         </div>
         <br />
+        <button className="submit">Upload Resolution</button>
         <div
           style={{
             display: "flex",
