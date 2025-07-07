@@ -194,7 +194,6 @@ if (hasErrors) return;
           type="text"
           id="ResTitle"
           name="Resolution Title"
-          className="textInput"
           value={resTitle}
           onChange={(e) => {
             setTitle(e.target.value);
