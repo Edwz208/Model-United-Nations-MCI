@@ -13,7 +13,9 @@ function Dashboard() {
           <Link to="/Delegates/Dashboard/resolutions">Resolutions</Link>
           <Link to="/Delegates/Dashboard/overview">Overview</Link>
         </nav>
-        <Outlet />
+        <div style={{overflow: "scroll"}}>
+          <Outlet />
+        </div>
       </div>
     </div>
     );

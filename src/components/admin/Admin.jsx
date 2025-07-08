@@ -1,5 +1,5 @@
 import { useState} from 'react';
-import GetAllCountries from './GetAllCountries.jsx';
+import GetAllCountries from './GetCountries.jsx';
 import './Admin.css';
 import useResData from '../../hooks/useResData.js'
 import { Link, Outlet } from 'react-router-dom';
@@ -18,10 +18,13 @@ const AdminDash = () => {
       <div className="white-box">
         <nav className="navbar">
           <Link to="/Admin/Dashboard/home">Home</Link>
+          <Link to="/Admin/Dashboard/resolutions">Resolutions</Link>
           <Link to="/Admin/Dashboard/projection">Projection Dashboard</Link>
-          <Link to="/Admin/Dashboard/getCountries">Get Countries</Link>
+          <Link to="/Admin/Dashboard/getCountries">Countries</Link>
         </nav>
-        <Outlet />
+        <div style={{overflow: "scroll"}}>
+          <Outlet />
+        </div>
       </div>
     </div>
     // <div className = "background">

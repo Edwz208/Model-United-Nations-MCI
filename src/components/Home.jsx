@@ -139,13 +139,25 @@ function Home() {
               </a>
             </div>
             <div style={{ display: "block", width: "100%", textAlign: "center", alignSelf: "center", justifySelf: "center"}}>
-              <p>
+              <p style={{ color: "white" }}>
                 Made by &nbsp;
                 <strong><a href="https://github.com/Edwz208" target="_blank" rel="noopener noreferrer">Edwin Zeng</a></strong> 
                 &nbsp; and &nbsp;
                 <strong><a href="https://github.com/SwordPuffin" target="_blank" rel="noopener noreferrer">Nathan Perlman</a></strong>
               </p>
               <strong>© 2025 Martingrove Model UN</strong>
+            </div>
+            <div>
+              <div
+                  style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+                  onClick={() => navigate("/")}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === "Enter" && navigate("/")}
+                >
+                <img src="/un_logo.svg" alt="UN logo" className="un-logo" />
+                <p className="logo">MMUN</p>
+              </div>
             </div>
           </div>
         </footer>

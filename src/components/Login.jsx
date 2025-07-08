@@ -101,10 +101,8 @@ function Login() {
           onChange={(e) => setCountry(e.target.value)}
           style={{
             cursor: "pointer",
-            fontSize: "40px",
-            fontWeight: "bold",
-            marginBottom: "20px",
-            backdropFilter: "blur(10px)",
+            fontSize: "38px",
+            backdropFilter: "blur(10px)"
           }}
         />
         <br />
@@ -118,14 +116,13 @@ function Login() {
           onChange={(e) => setCode(e.target.value)}
           style={{
             cursor: "pointer",
-            fontSize: "40px",
-            fontWeight: "bold",
+            fontSize: "38px",
             marginBottom: "20px",
-            backdropFilter: "blur(10px)",
+            backdropFilter: "blur(10px)"
           }}
         />
         <div style={{width: "100%", justifyContent: "center", display: "flex", alignItems: "center"}}>
-          <h3 style={{ textAlign: "center", color: "white", backgroundColor: "#414559", padding: "10px", borderRadius: "14px"}}>(See tech desk if you forgot your access code)</h3>
+          <h3 style={{ textAlign: "center", color: "white", fontSize: "medium", backgroundColor: "#414559", padding: "10px", borderRadius: "14px"}}>(See tech desk if you forgot your access code)</h3>
         </div>
         <br />
         <div style={{ display: "flex", justifyContent: "center" }}>
