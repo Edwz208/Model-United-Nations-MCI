@@ -1,0 +1,170 @@
+import { useEffect, useState } from "react";
+import "./Admin.css";
+
+const GetCountries = () => {
+  const [data, setData] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [addCountryNew, setAddCountryNew] = useState(false);
+  const [inputValues, setInputValues] = useState([]);
+
+  const goToNewCountry = async () => {
+    console.log(inputValues);
+    try {
+      const response = await fetch("http://localhost:8000/single-country", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          assigned_country: inputValues[0],
+          delegate1: inputValues[1],
+          delegate2: inputValues[2],
+          delegate3: inputValues[3],
+          delegate4: inputValues[4],
+          role: "member",
+          login: inputValues[5], 
+        }),
+      });
+      location.reload();
+    } catch (error) {
+      console.error("Error adding country:", error);
+    }
+  }
+  const addCountry = async (e) => {
+    setSelectedCountry(null);
+    setAddCountryNew(true);
+    
+};
+  const onDeleteClicked = async (e) => {
+    const countryName = e.target.innerHTML;
+
+    try {
+      const response = await fetch(`http://localhost:8000/select-country/${countryName}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.error(`Error deleting country: ${response.status}`);
+        return;
+      }
+
+      console.log("Country deleted successfully");
+      location.reload();
+    } catch (error) {
+      console.error("Delete error:", error);
+    }
+  };
+  const onCountryClicked = async (e) => {
+    const countryName = e.target.innerHTML;
+    setAddCountryNew(null);
+    console.log("Clicked:", countryName);
+
+    try {
+      const response = await fetch(`http://localhost:8000/select-country/${countryName}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.error(`Error fetching details: ${response.status}`);
+        return;
+      }
+
+      const countryDetails = await response.json();
+      setSelectedCountry(countryDetails);
+      console.log("Country details:", countryDetails);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    async function fetchAll() {
+      try {
+        const response = await fetch("http://localhost:8000/get-countries", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          console.log(`HTTP error! status: ${response.status}`);
+          return;
+        }
+
+        const jsonData = await response.json();
+        setData(jsonData);
+        console.log("have set");
+        console.log(jsonData);
+      } catch (error) {
+        console.log("Error fetching countries: ", error);
+      }
+    }
+
+    fetchAll("countries");
+  }, []);
+
+  return (
+    <>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <ul style={{ display: "flex", flexDirection: "column" }}>
+          <h3 className="title">Country Name</h3>
+          <button className="country" style={{ backgroundColor: "#04a5e5" }} onClick={addCountry}>Add Country</button>
+          {[...data] 
+          .filter((country) => country["country"].toLowerCase() !== "admin")
+          .sort((a, b) => a.country.localeCompare(b.country)) 
+          .map((country, i) => (
+            <button className="country" onClick={onCountryClicked} key={i}>
+              {country["country"]}
+            </button>
+          ))}
+        </ul>
+        <div
+          style={{
+            width: "4px",
+            height: "100vh",
+            backgroundColor: "white",
+            alignSelf: "center",
+            marginLeft: "20px",
+            marginRight: "20px",
+          }}
+        ></div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <h3 className="title">Country Info</h3>
+          {selectedCountry ? (
+            <>
+              <label><strong>Country:</strong> {selectedCountry.country}</label>
+              <label><strong>Delegate 1:</strong> {selectedCountry.delegate1}</label>
+              <label><strong>Delegate 2:</strong> {selectedCountry.delegate2}</label>
+              <label><strong>Delegate 3:</strong> {selectedCountry.delegate3}</label>
+              <label><strong>Delegate 4:</strong> {selectedCountry.delegate4}</label>
+              <label><strong>Access Code:</strong> {selectedCountry.login}</label>
+              <button style={{alignSelf: "center", backgroundColor: "red", border: "none", borderRadius: "5px", padding: "10px", color: "white", fontSize: "16px", cursor: "pointer"}}onClick={() => onDeleteClicked({target: {innerHTML: selectedCountry.country}})}>Delete Country</button>
+            </>
+          ) : (
+            <p>Select a country to view details.</p>
+          )}
+          {addCountryNew ? (
+            <div style={{ width: "50%"}}>
+              <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[0] = e.target.value; setInputValues(newValues); }} placeholder="Country Name"/>
+              <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[1] = e.target.value; setInputValues(newValues); }} placeholder="Delegate 1"/>
+              <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[2] = e.target.value; setInputValues(newValues); }} placeholder="Delegate 2"/>
+              <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[3] = e.target.value; setInputValues(newValues); }} placeholder="Delegate 3"/>
+              <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[4] = e.target.value; setInputValues(newValues); }} placeholder="Delegate 4"/>
+              <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[5] = e.target.value; setInputValues(newValues); }}  placeholder="Access Code"/>
+              <button className="textInput" onClick={goToNewCountry}>Submit</button>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default GetCountries;

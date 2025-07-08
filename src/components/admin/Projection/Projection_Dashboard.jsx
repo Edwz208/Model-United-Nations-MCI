@@ -10,7 +10,6 @@ function Projection_Dashboard() {
     const [paging, pagingData] = useState(false);
     const [message, messageData] = useState("");
     const [boxes, setBoxes] = useState(["Canada", "Bangladesh", "Algeria"]);
-
     const windowRef = useRef(null);
     const rootRef = useRef(null);
 

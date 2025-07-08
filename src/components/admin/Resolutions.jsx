@@ -15,8 +15,10 @@ const ResolutionsAdmin = () => {
     });
   };
   const options = [
-    { value: "chocolate", label: "white" },
-    { value: "afghanistan", label: "afghanistan" },
+    { value: "algeria", label: "algeria" },
+    { value: "armenia", label: "armenia" },
+    { value: "democratic peoples republic of korea", label: "democratic peoples republic of korea" },
+    { value: "israel", label: "israel" },
   ];
 
   const customStyles = {
@@ -291,7 +293,6 @@ if (hasErrors) return;
         {errorMsgs[6] ? <p style={{ margin: 0, color: "red"}}>{errorMsgs[6]}</p> : null}
         </div>
         <br />
-        <button className="submit">Upload Resolution</button>
         <button className="submit">Upload Resolution</button>
         <div
           style={{

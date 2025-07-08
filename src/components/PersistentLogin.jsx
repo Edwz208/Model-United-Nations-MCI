@@ -14,9 +14,16 @@ const PersistentLogin = () => {
         if (!auth?.accessToken) {
           await refresh();
         }
-      } catch (err) {
-        console.error("Token refresh failed", err);
-      } finally {
+      }   catch (err) {
+      console.log("Login error:", err);
+
+      if (!err?.response) {
+      } else if (err.response?.status === 401) {
+        console.log(err.response?.data?.detail)
+      } else {
+      }
+      
+  } finally {
         setIsLoading(false);
       }
     };
