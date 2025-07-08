@@ -20,8 +20,8 @@ body, html {
   width: 600px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   display: flex;
+  overflow: scroll;
   flex-direction: column;
 }
 
@@ -50,4 +50,19 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.textInput {
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    background-color: #41455994;
+    border-radius: 8px;
+    color: white;
+    border: none;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: large;
+    cursor: pointer;
 }

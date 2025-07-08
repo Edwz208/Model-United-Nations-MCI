@@ -2,8 +2,6 @@
   font-size: 24px;
   font-weight: bold;
   text-align: start;
-  margin-bottom: 20px;
-  border-radius: 15px;
   background-color: #4c4f6964;
   color: #dce0e8;
   border: 2px solid #dce0e8;
@@ -13,6 +11,7 @@
   padding: 8px 16px;
   backdrop-filter: blur(10px);
   cursor: pointer;
+  border-radius: 12px;
 }
 
 .login-button:hover {

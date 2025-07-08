@@ -16,9 +16,10 @@ import PageWrapper from "./components/PageWrapper.jsx";
 import DashboardHome from "./components/delegates/DashboardHome.jsx";
 import Dashboard from "./components/delegates/Dashboard.jsx";
 import Missing from "./components/Missing.jsx";
-import Amendments from "./components/delegates/Amendments.jsx";
+import Resolutions from "./components/delegates/Amendments.jsx";
 import Overview from "./components/delegates/Overview.jsx";
 import AdminDash from "./components/admin/Admin.jsx";
+import GetCountries from "./components/admin/GetCountries.jsx";
 import RequireAuth from "./components/RequireAuth.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
 import PersistentLogin from './components/PersistentLogin.jsx';
@@ -54,10 +55,11 @@ return (
       <Route element = {<PersistentLogin/>}>
         <Route element={<RequireAuth allowedRoles={[roleList.admin]} />}>
           <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} >
+            <Route index element={<AdminHome />} /> 
             <Route path="home" element={<PageWrapper><AdminHome /></PageWrapper>} />
             <Route path="resolutions" element={<PageWrapper><ResolutionsAdmin /></PageWrapper>} />
             <Route path="projection" element={<PageWrapper><Projection_Dashboard /></PageWrapper>} />
-
+            <Route path="getCountries" element={<PageWrapper><GetCountries /></PageWrapper>} />
           </Route>
         </Route>
       </Route>
@@ -66,7 +68,7 @@ return (
         <Route element={<RequireAuth allowedRoles={[roleList.member]} />}>
           <Route path="/Delegates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>}>
             <Route index element={<DashboardHome />} /> 
-            <Route path="amendments" element={<PageWrapper><Amendments /></PageWrapper>} />
+            <Route path="resolutions" element={<PageWrapper><Resolutions /></PageWrapper>} />
             <Route path="overview" element={<PageWrapper><Overview /></PageWrapper>} />
             <Route path="home" element={<PageWrapper><DashboardHome /></PageWrapper>} />
           </Route>

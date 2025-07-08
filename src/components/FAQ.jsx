@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 function FAQ() {
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -348,7 +347,7 @@ function FAQ() {
         {faqItems.map((item, index) => (
           <div
             key={index}
-            style={{ marginBottom: "10px", borderBottom: "1px solid #444" }}
+            style={{ color: "white", marginBottom: "10px", borderBottom: "1px solid #444" }}
           >
             <button
               onClick={() => toggleAccordion(index)}
@@ -366,13 +365,14 @@ function FAQ() {
                 alignItems: "center",
               }}
             >
-              <h3 style={{ margin: 0 }}>{item.question}</h3>
-              <span style={{ fontSize: "20px" }}>
+              <h3 style={{ color: "white", margin: 0 }}>{item.question}</h3>
+              <span style={{ fontSize: "20px", color: "white"}}>
                 {activeIndex === index ? "−" : "+"}
               </span>
             </button>
             <div
               style={{
+                
                 padding: "0 15px",
                 maxHeight: activeIndex === index ? "1000px" : "0",
                 overflow: "hidden",
