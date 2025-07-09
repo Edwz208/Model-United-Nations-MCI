@@ -37,7 +37,10 @@ const Secretariat = () => {
                 {data.map((item, index) => (
                     <div className="grid-item" key={index}>
                     <h3>{item.name}</h3>
-                    <p>{item.position}</p>
+                    <div style={{display: "flex", alignContent: "start", justifyContent: "start"}}>
+
+                    <p style={{color: "white"}}>{item.position}</p>
+                    </div>
                     {}
                     </div>
                 ))}
