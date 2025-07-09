@@ -15,21 +15,13 @@ body, html {
 }
 
 .button{
-    background-color: #ffffff7f;
+  background-color: #ffffff7f;
   backdrop-filter: blur(12px);
   width: 600px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-}
-
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: #eceff1;
-  font-family: sans-serif;
 }
 
 .background {
@@ -76,7 +68,6 @@ body, html {
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .country {
@@ -85,12 +76,10 @@ body, html {
   border: none;
   color: white;
   padding: 12px 20px;
-  margin: 8px 0;
-  margin-top: 5px;
-  margin-bottom: 20px;
   font-size: medium;
-  width: 200px;
-  text-wrap: wrap;;
+  width: 90%;
+  align-self: center;
+  text-wrap: wrap;
   cursor: pointer;
 }
 
