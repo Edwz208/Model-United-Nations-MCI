@@ -50,10 +50,10 @@ const Navbar = () => {
           </button>
           {showDropdown && (
             <div ref={dialogRef} className="dropdown-dialog">
-              <p><strong>Contact Us:</strong></p>
-              <p><strong>50 Winterton Drive, Toronto ON M9B 3G7</strong></p>
-              <p><strong>martingrovemodelun@gmail.com</strong></p>
-              <p><strong>(416) 394-7110</strong></p>
+              <p style={{ color: "white", textAlign: "left", fontWeight: "bold"}}><strong>&nbsp;Contact Us:</strong></p>
+              <p style={{ color: "white", textAlign: "left" }}><strong>&nbsp;50 Winterton Drive, Toronto ON M9B 3G7</strong></p>
+              <p style={{ color: "white", textAlign: "left" }}><strong>&nbsp;martingrovemodelun@gmail.com</strong></p>
+              <p style={{ color: "white", textAlign: "left" }}><strong>&nbsp;(416) 394-7110</strong></p>
             </div>
           )}
         </div>
