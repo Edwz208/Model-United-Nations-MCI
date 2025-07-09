@@ -5,7 +5,7 @@ import useAuth from './useAuth.js'
 
 function useAxiosPrivate(){
 
-    const { auth, setAuth } = useAuth();
+    const { auth, setAuth, setLogged } = useAuth();
     const refresh = useRefreshToken();
     const accessTokenRef = useRef(auth.accessToken);
 
@@ -35,6 +35,7 @@ function useAxiosPrivate(){
             async error=>{
                 const prevRequest = error?.config;
                 if (error?.response?.status === 401 && !prevRequest?.sent) {
+                    try{
                     prevRequest.sent = true;
                     const refreshDict = await refresh();
                     const newAccessToken = refreshDict.accessToken
@@ -44,7 +45,12 @@ function useAxiosPrivate(){
                     ))
                     return axiosPrivate(prevRequest);
                 }
-                return Promise.reject(error);
+                catch (err){
+                    setLogged(false)
+                    return Promise.reject(err)
+                }
+                }
+                return Promise.reject(error)
             }
         )
 

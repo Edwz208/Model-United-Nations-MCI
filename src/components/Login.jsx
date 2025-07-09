@@ -5,21 +5,28 @@ import axios from "../api/axios.js";
 import useAuth from "../hooks/useAuth.js";
 
 function Login() {
-  const { setAuth } = useAuth();
+  const { setAuth, setLogged,isLogged, auth } = useAuth();
   const [code, setCode] = useState("");
   const [country, setCountry] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/Delegates/Dashboard";
+  console.log("login", isLogged)
   useEffect(() => {
+    console.log("when am i happening")
+    console.log(isLogged)
+    if (isLogged && !auth?.accessToken){
+      console.log("do i trigger")
+       navigate('/', {replace: true})
+    }
   if (errMsg) {
     const timer = setTimeout(() => {
       setErrMsg("");
     }, 3000); 
       return () => clearTimeout(timer); 
     }
-  }, [errMsg]);
+  }, [errMsg, isLogged]);
 
   const to_dashboard = async () => {
     await navigate(from, {replace: true});
@@ -43,6 +50,10 @@ function Login() {
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.role;
       setAuth({ country, roles, accessToken });
+      setLogged(true)
+      localStorage.setItem("Logged", true)
+      console.log("i did it")
+
       if (roles.includes(4015)){
         navigate("/Admin/Dashboard", {replace: true });
       }

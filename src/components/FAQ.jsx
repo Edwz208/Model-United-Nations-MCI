@@ -16,7 +16,7 @@ function FAQ() {
       question: "What is a resolution?",
       answer: (
         <>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             The United Nations (UN) passes resolutions, not laws. Since the UN
             does not have the power to enact concrete laws to govern countries'
             actions with regard to international issues, it passes resolutions
@@ -31,7 +31,7 @@ function FAQ() {
             General Assembly (GA), five in each of the two committees and one in
             the Security Council.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             Each resolution has three parts; the heading, the preambulatory
             clauses and the operative clauses. The heading introduces the topic
             of the resolution. The preambulatory clauses supply historical
@@ -41,7 +41,7 @@ function FAQ() {
             sequentially numbered and may recommend, urge, encourage, and
             request that certain actions be taken.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             Each resolution has a submitter, seconder and negator. The negator
             wants the resolution to fail, whereas the submitter and seconder
             want it to pass. These countries will be appointed by the MMUN
@@ -56,7 +56,7 @@ function FAQ() {
       question: "How does the Agenda work?",
       answer: (
         <>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             When the MMUN officially opens, the Chair will usually say something
             along the lines of, "Are there any motions on the floor?" This gives
             delegates the opportunity to amend the agenda as they see fit.
@@ -69,7 +69,7 @@ function FAQ() {
             would reply, "Please state that point." The delegate would continue
             with, "I motion to..."
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             The delegate might motion to move a resolution to the top of the
             agenda. The Chair would then take a straw vote (a quick raising of
             the placards) to test the popularity of the motion, or call for one
@@ -80,7 +80,7 @@ function FAQ() {
             to the top of the agenda, and debate would automatically open on it.
             If it failed, another motion could be entertained.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             Once a resolution has been moved to the top of the agenda and debate
             has opened on it, the submitter reads the resolution aloud, word for
             word, from the podium. If he chooses, he may make a short speech on
@@ -91,14 +91,14 @@ function FAQ() {
             Chair at this point, conveying its desire to be on the speakers'
             list. This list is posted during the seconder's speech.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             The seconder then approaches the platform, and gives a speech
             supporting the resolution. He may answer an appropriate number of
             points of information, if he so chooses. If the speaker refuses to
             answer a question, he forfeits the right to answer any further
             points of information on that speech.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             After the seconder speaks on the resolution, the negator gives a
             speech to convince delegates to vote against the resolution. Other
             countries that wish to talk on the matter then further debate the
@@ -111,19 +111,19 @@ function FAQ() {
       question: "How do I speak?",
       answer: (
         <>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             As a delegate you have three choices when it comes to speaking. You
             may address the GA in a speech from the podium, you may simply ask
             questions of other speakers or you may make a motion or speak on a
             motion.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             If you wish to make an actual address to the GA, you must first have
             your name placed on the speakers' list. To do so, wait until the
             Chair opens the Speakers' List, and then send a page to the Chair.
             For more on the paging system, see question 10.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             If you simply want to ask a question of the speaker at the podium,
             make your way to the microphones at the front of the auditorium,
             with your placard. When the Chair acknowledges you, state that you
@@ -131,7 +131,7 @@ function FAQ() {
             your question if it is an appropriate time. You may not respond to
             the speaker's reply to your question.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             A delegate can also make a motion, regarding anything from breaking
             for recess to closing debate on a resolution. Sometimes the Chair
             will request speakers for and against a proposed motion. This is
@@ -147,7 +147,7 @@ function FAQ() {
       question: "What is a motion?",
       answer: (
         <>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             A motion is a suggestion to the Chair about what the GA should be
             doing next, or about how the conference should be proceeding.
             Motions can pertain to many things, from which resolution should be
@@ -156,7 +156,7 @@ function FAQ() {
             proceedings of the assembly to a certain limit; extravagant motions
             will not be passed. Any country may make a motion.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             In order to put forth a motion, you must walk up to one of the
             microphones with your country's placard, and wait to be recognized
             by the Chair. When the Chair recognizes you ("I recognize the
@@ -179,7 +179,7 @@ function FAQ() {
       question: "Do I have to speak?",
       answer: (
         <>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             You are never required to speak, unless your delegation is
             submitting, seconding or negating a resolution. However, if the
             topic under debate concerns your nation, you are expected to present
@@ -193,7 +193,7 @@ function FAQ() {
             of their delegation's involvement. The same holds true for small
             nations such as Liechtenstein, Bermuda and Chad.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             However, in some cases, small nations will be submitting, seconding
             or negating a resolution, in which case they must be prepared to
             speak on that resolution. There are also three committees, which
@@ -209,19 +209,19 @@ function FAQ() {
       question: "What are the committees in MMUN? How do they work?",
       answer: (
         <>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             In addition to the General Assembly (GA), in which every country
             participates, there are two committees that will occur at MMUN, the
             Health and Security Councils. Fifteen delegations will be part of
             each one of these committees, which will be chosen based on the
             executive's prerogative.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             The Health Council works in an essentially identical way to the GA,
             taking place in the library on Wednesday Afternoon. Each delegation
             will send one delegate to the Health Council.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             The Security Council operates differently, however. There are 15
             delegations at the Security Council, and each delegation can only
             send one delegate to the Security Council, with the exception of the
@@ -242,7 +242,7 @@ function FAQ() {
         "Are there awards at MMUN? What do I need to do to win an award?",
       answer: (
         <>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             During the afternoon on Wednesday, several awards are presented to
             both individual delegates and to entire delegations. These awards
             recognize and reward the students who actively participated in, and
@@ -251,7 +251,7 @@ function FAQ() {
             world affairs, the quality of her debate and the impression she has
             left by her behaviour over the course of the two days.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             Awards are also given for the best roll call and for the 'banana
             republic' of the conference. The best roll call award is given to
             the country that gives the most humorous, yet relevant, entrance.
@@ -285,7 +285,7 @@ function FAQ() {
       question: "What are expectations with regards to behaviour at MMUN?",
       answer: (
         <>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             There is a big difference between structured and effective debating,
             and obnoxious and chaotic arguing. MMUN is a place for debating, not
             for arguing. Yelling comments or opinions in the assembly is
@@ -293,7 +293,7 @@ function FAQ() {
             be on the speaker's list to speak. Delegates may not interrupt
             another delegate who is speaking, nor may they interrupt the Chair.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             Flags and toy weapons are not allowed in the MMUN. It is the
             responsibility of the security officers to remove objects forbidden
             at the conference. Threatening or assaulting other delegates, pages,
@@ -304,14 +304,14 @@ function FAQ() {
             officers may escort them from the assembly, if requested to do so by
             the Chair.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             In the event of a serious breach of the rules, delegates may be
             permanently removed from the assembly. Delegates will not be
             refunded if they are removed for bad behaviour. The executive may
             also choose to contact principals, teachers or the parents/guardians
             of delegates whose actions are inappropriate.
           </p>
-          <p>
+          <p style={{ color: "white", textAlign: "justify" }}>
             All delegates will be issued a copy of the code of conduct and the
             procedures of the MMUN. The rules contained therein make the MMUN
             possible. Actions or delegates that contravene MMUN regulations are
@@ -353,7 +353,6 @@ function FAQ() {
               onClick={() => toggleAccordion(index)}
               style={{
                 width: "100%",
-                textAlign: "left",
                 padding: "15px",
                 background: "none",
                 border: "none",
@@ -362,7 +361,6 @@ function FAQ() {
                 cursor: "pointer",
                 display: "flex",
                 justifyContent: "space-between",
-                alignItems: "center",
               }}
             >
               <h3 style={{ color: "white", margin: 0 }}>{item.question}</h3>
@@ -381,9 +379,9 @@ function FAQ() {
               }}
             >
               {typeof item.answer === "string" ? (
-                <p>{item.answer}</p>
+                <p style={{ color: "white", textAlign: "justify" }}>{item.answer}</p>
               ) : (
-                item.answer
+                <p style={{ color: "white", textAlign: "justify" }}>{item.answer}</p>
               )}
             </div>
           </div>

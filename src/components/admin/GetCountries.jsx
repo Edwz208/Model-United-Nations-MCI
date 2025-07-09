@@ -22,7 +22,8 @@ const GetCountries = () => {
           delegate3: inputValues[3],
           delegate4: inputValues[4],
           role: "member",
-          login: inputValues[5], 
+          councils: inputValues[5],
+          login: inputValues[6], 
         }),
       });
       location.reload();
@@ -112,8 +113,8 @@ const GetCountries = () => {
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <ul style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "row", gap: "20px"}}>
+        <div style={{ width: "20%", display: "flex", flexDirection: "column", gap: "20px", height: "100vh", margin: "0", justifyContent: "start", alignContent: "start", overflowY: "scroll", backgroundColor: "#f0f0f0" }}>
           <h3 className="title">Country Name</h3>
           <button className="country" style={{ backgroundColor: "#04a5e5" }} onClick={addCountry}>Add Country</button>
           {[...data] 
@@ -124,40 +125,32 @@ const GetCountries = () => {
               {country["country"]}
             </button>
           ))}
-        </ul>
-        <div
-          style={{
-            width: "4px",
-            height: "100vh",
-            backgroundColor: "white",
-            alignSelf: "center",
-            marginLeft: "20px",
-            marginRight: "20px",
-          }}
-        ></div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        </div>
+        <div style={{ width: "80%" }}>
           <h3 className="title">Country Info</h3>
           {selectedCountry ? (
-            <>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <label><strong>Country:</strong> {selectedCountry.country}</label>
               <label><strong>Delegate 1:</strong> {selectedCountry.delegate1}</label>
               <label><strong>Delegate 2:</strong> {selectedCountry.delegate2}</label>
               <label><strong>Delegate 3:</strong> {selectedCountry.delegate3}</label>
               <label><strong>Delegate 4:</strong> {selectedCountry.delegate4}</label>
+              <label><strong>Councils:</strong> {selectedCountry.councils}</label>
               <label><strong>Access Code:</strong> {selectedCountry.login}</label>
               <button style={{alignSelf: "center", backgroundColor: "red", border: "none", borderRadius: "5px", padding: "10px", color: "white", fontSize: "16px", cursor: "pointer"}}onClick={() => onDeleteClicked({target: {innerHTML: selectedCountry.country}})}>Delete Country</button>
-            </>
+            </div>
           ) : (
             <p>Select a country to view details.</p>
           )}
           {addCountryNew ? (
-            <div style={{ width: "50%"}}>
+            <div style={{marginRight: "10px"}}>
               <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[0] = e.target.value; setInputValues(newValues); }} placeholder="Country Name"/>
               <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[1] = e.target.value; setInputValues(newValues); }} placeholder="Delegate 1"/>
               <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[2] = e.target.value; setInputValues(newValues); }} placeholder="Delegate 2"/>
               <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[3] = e.target.value; setInputValues(newValues); }} placeholder="Delegate 3"/>
               <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[4] = e.target.value; setInputValues(newValues); }} placeholder="Delegate 4"/>
-              <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[5] = e.target.value; setInputValues(newValues); }}  placeholder="Access Code"/>
+              <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[5] = e.target.value; setInputValues(newValues); }}  placeholder="Councils, separated by spaces (e.g. security, health, environment, economic)"/>
+              <input className="textInput" type="text" onChange={(e) => {const newValues = [...inputValues]; newValues[6] = e.target.value; setInputValues(newValues); }}  placeholder="Access Code"/>
               <button className="textInput" onClick={goToNewCountry}>Submit</button>
             </div>
           ) : null}
