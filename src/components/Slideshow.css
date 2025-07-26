@@ -6,11 +6,36 @@
 }
 
 .slider img {
-    width: 20%;
+    width: 20vw;
     height: auto;
     object-fit: cover;
     border-radius: 10px;
 }
+
+
+@media (min-width: 768px){
+  .slider img {
+    width: 20vw;
+}
+
+@media (max-width: 768px){
+  .slider img{
+    width: 30rem;
+  }
+  .slider {
+    animation: scrolling 10s linear infinite;
+  }
+}
+}
+@media (max-width: 441px){
+  .slider img{
+    width: 51rem;
+  }
+  .slider {
+    animation: scrolling 10s linear infinite;
+  }
+}
+
 
 .carousel {
     display: flex;
@@ -19,7 +44,7 @@
     height: auto;
     overflow: hidden;
     white-space: nowrap;
-    margin-bottom: 60px;
+    margin-bottom: clamp(40px, 3.5rem, 100px);
     > * {
       flex: 0 0 100%;
     }

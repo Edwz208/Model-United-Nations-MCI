@@ -2,9 +2,15 @@ import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css'
 import useResData from '../../hooks/useResData.js'
 import useAuth from '../../hooks/useAuth.js'
+import { useEffect } from 'react';
 
 function Dashboard() {
   // useResData()
+  const auth = useAuth();
+  useEffect(()=>{
+    console.log("auth from delegates",auth)
+
+  })
     return (
     <div style={{ backgroundImage: "url('/UN_General_Assembly_hall.jpg')"}} className="background">
       <div className="white-box">

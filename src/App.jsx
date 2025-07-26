@@ -27,6 +27,8 @@ import LoginWrapper from './components/LoginWrapper.jsx';
 import Projection_Dashboard from "./components/admin/Projection/Projection_Dashboard.jsx";  
 import AdminHome from "./components/admin/AdminHome.jsx";
 import ResolutionsAdmin from './components/admin/Resolutions.jsx'
+import Footer from './components/Footer.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 
 const roleList = {
   member: 2007,
@@ -35,10 +37,10 @@ const roleList = {
 
 function AnimatedRoutes() {
   const location = useLocation();
-
+  {/* lets us animate exit and enter transitions to happen one after the other via pagewrapper */}
 return (
-  <AnimatePresence mode="wait">
-    <Routes location={location} key={location.pathname}>
+  <AnimatePresence mode="wait">  
+      <Routes location={location} key={location.pathname}>
       {/* Public Routes */}
       <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
       <Route element={<LoginWrapper/>}>
@@ -84,6 +86,7 @@ return (
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div style={{ background: "#282832" }}>
         <style>
           @import
@@ -91,6 +94,7 @@ function App() {
         </style>
         <Nav />
         <AnimatedRoutes />
+        <Footer/>
       </div>
     </BrowserRouter>
   );

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 function COC() {
-
     const tag = styled.p`color: white;`;
     return (
         <div style={{width: '40%', padding: '50px', textAlign: 'justify', color: 'white', margin: 'auto'}}>

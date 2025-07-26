@@ -3,6 +3,7 @@ import './Secretariat.css';
 
 const Secretariat = () => {
     const [data, setData] = useState([]);
+
     async function fetchAll() {
         try {
         const response = await fetch("http://localhost:8000/get-secretariat", {

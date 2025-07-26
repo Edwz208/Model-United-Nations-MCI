@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from './FAQ.module.css';
 function FAQ() {
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -324,19 +325,10 @@ function FAQ() {
   ];
 
   return (
-    <div
-      style={{
-        marginTop: "50px",
-        width: "40%",
-        padding: "50px",
-        color: "white",
-        margin: "auto",
-        backgroundColor: "#222230",
-        borderRadius: "10px",
-      }}
+    <div className={styles.faqWrapper}
     >
-      <h1 style={{ textAlign: "center" }}>Martingrove Model UN - FAQ</h1>
-      <h4 style={{ textAlign: "center" }}>
+      <h1>Frequently Asked Questions</h1>
+      <h4>
         Martingrove Model United Nations can seem very daunting and confusing to
         new participants. That is why we have converted our delegate handbook
         into an FAQ page. This page contains all of the information you will
@@ -351,19 +343,9 @@ function FAQ() {
           >
             <button
               onClick={() => toggleAccordion(index)}
-              style={{
-                width: "100%",
-                padding: "15px",
-                background: "none",
-                border: "none",
-                color: "white",
-                fontSize: "18px",
-                cursor: "pointer",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
+              className={styles.accordionButton}
             >
-              <h3 style={{ color: "white", margin: 0 }}>{item.question}</h3>
+              <h3>{item.question}</h3>
               <span style={{ fontSize: "20px", color: "white"}}>
                 {activeIndex === index ? "−" : "+"}
               </span>
@@ -372,7 +354,7 @@ function FAQ() {
               style={{
                 
                 padding: "0 15px",
-                maxHeight: activeIndex === index ? "1000px" : "0",
+                maxHeight: activeIndex === index ? "10000vh" : "0",
                 overflow: "hidden",
                 transition: "max-height 0.3s ease, padding 0.3s ease",
                 paddingBottom: activeIndex === index ? "15px" : "0",

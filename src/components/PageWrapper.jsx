@@ -9,6 +9,7 @@ const PageWrapper = ({ children }) => (
   >
     {children}
   </motion.div>
+  
 );
 
 export default PageWrapper;

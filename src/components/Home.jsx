@@ -1,38 +1,38 @@
 import Slideshow from "./Slideshow.jsx";
 import FAQ from "./FAQ.jsx";
 import "./Home.css";
+import { useEffect } from "react";
+import  useAuth  from "../hooks/useAuth.js";
+import {useNavigate} from 'react-router-dom';
 function Home() {
+  const navigate = useNavigate();
+  const {auth} = useAuth();
+  useEffect(()=>{
+    console.log("mounted home")
+    console.log("auth",auth?.accessToken)
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  },[]);
+
   return (
-    <div>
+    <div style={{paddingBottom: "2.2rem"}}>
       <div className="image-container">
         <img
           src="https://martingrovemodelun.wordpress.com/wp-content/uploads/2024/11/cropped-pxl_20240220_175528049.jpg"
-          alt="1"
+          alt="Model UN Banner"
           style={{ width: "100%" }}
         />
-        <div
-          className="overlay"
-          style={{
-            fontSize: "50px",
-            fontWeight: "900",
-            marginTop: "20px",
-            marginBottom: "20px",
-            color: "white",
-          }}
-        >
-          <div className="overlay-text">
-            <h1
-              style={{
-                fontSize: "75px",
-                fontWeight: "900",
-                marginTop: "20px",
-                marginBottom: "20px",
-              }}
-            >
-              Martingrove Model UN
-            </h1>
-            <h3 style={{ fontSize: "30px", fontWeight: "700" }}>Since 1986</h3>
-          </div>
+        <div className="overlay-text">
+          <h1
+            style={{
+              fontSize: "75px",
+              fontWeight: "900",
+              marginTop: "20px",
+              marginBottom: "20px",
+            }}
+          >
+            Martingrove Model UN
+          </h1>
+          <h3 style={{ fontSize: "30px", fontWeight: "700" }}>Since 1986</h3>
         </div>
       </div>
       <div className="overlay" style={{ background: "#282832" }}>
@@ -49,8 +49,8 @@ function Home() {
             style={{
               fontSize: "18px",
               fontWeight: "250",
-              marginTop: "20px",
-              marginBottom: "20px",
+              marginTop: "2.2rem",
+              marginBottom: "1.8rem",
               width: "50%",
               color: "white",
             }}
@@ -73,7 +73,6 @@ function Home() {
             color: "white",
             fontSize: "28px",
             fontWeight: "400",
-            marginTop: "80px",
             textAlign: "center",
           }}
         >
@@ -102,7 +101,7 @@ function Home() {
           <button
             style={{ backgroundColor: "#40ae49" }}
             className="shortcut-to-login"
-            onClick={() => (window.location.href = "/Login")}
+            onClick={() => (navigate("/login"))}
           >
             Delegate Portal
           </button>
@@ -118,49 +117,9 @@ function Home() {
             </button>
           </a>
         </div>
-        <div>
           <Slideshow />
-        </div>
-        <div style={{ marginBottom: "40px"}}>
           <FAQ />
-        </div>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></link>
-        <footer>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <div style={{ gap: "1rem", display: "flex", flexDirection: "row", alignSelf: "center", justifySelf: "start"}}>
-              <a href="mailto:martingrovemodelun@gmail.com" target="_blank" rel="noopener noreferrer">
-                <i className="fas fa-envelope" style={{ color: "#04a5e5", fontSize: "1.5rem" }}></i>
-              </a>
-              <a href="https://github.com/Edwz208/Model-United-Nations-MCI" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-github" style={{ color: "#04a5e5", fontSize: "1.5rem" }}></i>
-              </a>
-              <a href="https://www.instagram.com/mcimun/" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-instagram" style={{ color: "#04a5e5", fontSize: "1.5rem" }}></i>
-              </a>
-            </div>
-            <div style={{ display: "block", width: "100%", textAlign: "center", alignSelf: "center", justifySelf: "center"}}>
-              <p style={{ color: "white" }}>
-                Made by &nbsp;
-                <strong><a href="https://github.com/Edwz208" target="_blank" rel="noopener noreferrer">Edwin Zeng</a></strong> 
-                &nbsp; and &nbsp;
-                <strong><a href="https://github.com/SwordPuffin" target="_blank" rel="noopener noreferrer">Nathan Perlman</a></strong>
-              </p>
-              <strong>© 2025 Martingrove Model UN</strong>
-            </div>
-            <div>
-              <div
-                  style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-                  onClick={() => navigate("/")}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === "Enter" && navigate("/")}
-                >
-                <img src="/un_logo.svg" alt="UN logo" className="un-logo" />
-                <p className="logo">MMUN</p>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
     </div>
   );

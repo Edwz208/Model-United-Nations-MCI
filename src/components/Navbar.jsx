@@ -30,26 +30,29 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  const scrollToTop =(goTo)=>{
+    navigate(goTo);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }
   return (
     <div className="top-bar">
       <div
         className="logo-wrapper"
-        onClick={() => navigate("/")}
+        onClick={() => scrollToTop()}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => e.key === "Enter" && navigate("/")}
+        onKeyDown={(e) => e.key === "Enter" && scrollToTop("/") }
       >
         <img src="/un_logo.svg" alt="UN logo" className="un-logo" />
         <p className="logo">MMUN</p>
       </div>
       <nav className="nav-links">
         <div className={`navbar-buttons ${menuOpen ? "open" : ""}`}>
-          <button className="nav-btn" onClick={() => navigate("/")}>
+          <button className="nav-btn" onClick={() => scrollToTop("/")}>
             Home
           </button>
           {!isLogged ? (
-            <button className="nav-btn" onClick={() => navigate("/login")}>
+            <button className="nav-btn" onClick={() => scrollToTop("/login") }>
               Login
             </button>
           ) : (
@@ -57,13 +60,13 @@ const Navbar = () => {
               Logout
             </button>
           )}
-          <button className="nav-btn" onClick={() => navigate("/COC")}>
+          <button className="nav-btn" onClick={() => scrollToTop("/COC")}>
             Code of Conduct
           </button>
-          <button className="nav-btn" onClick={() => navigate("/Registration")}>
+          <button className="nav-btn" onClick={() => scrollToTop("/Registration")}>
             Registration
           </button>
-          <button className="nav-btn" onClick={() => navigate("/Secretariat")}>
+          <button className="nav-btn" onClick={() => scrollToTop("/Secretariat")}>
             Secretariat
           </button>
           <button

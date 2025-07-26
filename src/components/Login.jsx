@@ -12,12 +12,9 @@ function Login() {
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/Delegates/Dashboard";
-  console.log("login", isLogged)
+  console.log("access token", auth?.accessToken)
   useEffect(() => {
-    console.log("when am i happening")
-    console.log(isLogged)
     if (isLogged && !auth?.accessToken){
-      console.log("do i trigger")
        navigate('/', {replace: true})
     }
   if (errMsg) {
@@ -34,7 +31,6 @@ function Login() {
 
   const sendUser = async () => {
     try {
-      console.log("Sending request to:", axios.defaults.baseURL + "/login");
       const response = await axios.post(
         "/login",
         JSON.stringify({ code, country }),
@@ -50,9 +46,9 @@ function Login() {
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.role;
       setAuth({ country, roles, accessToken });
+
       setLogged(true)
       localStorage.setItem("Logged", true)
-      console.log("i did it")
 
       if (roles.includes(4015)){
         navigate("/Admin/Dashboard", {replace: true });
@@ -138,7 +134,7 @@ function Login() {
         <br />
         <div style={{ display: "flex", justifyContent: "center" }}>
           <button
-            style={{ textAlign: "center", cursor: "pointer" }}
+            style={{ textAlign: "center", cursor: "pointer", color:"lightBlue"}}
             className="login-button"
           >
             Login
