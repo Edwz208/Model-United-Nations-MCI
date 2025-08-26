@@ -2,16 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import useLogOut from "../hooks/useLogout.js";
-import useAuth from "../hooks/useAuth.js";
+import useStore from '../store/store.js'
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isLogged } = useAuth();
+  const isLogged = useStore((state)=>state.isLogged)
   const navigate = useNavigate();
   const dialogRef = useRef(null);
   const buttonRef = useRef(null);
-  const handleLogOut = useLogOut();
+  const {logOut: handleLogOut} = useLogOut();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -56,7 +56,7 @@ const Navbar = () => {
               Login
             </button>
           ) : (
-            <button className="nav-btn" onClick={handleLogOut}>
+            <button className="nav-btn" onClick={()=>handleLogOut()}>
               Logout
             </button>
           )}

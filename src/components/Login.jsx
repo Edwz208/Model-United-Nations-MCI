@@ -1,59 +1,112 @@
-import { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import axios from "../api/axios.js";
-import useAuth from "../hooks/useAuth.js";
+import useStore from "../store/store.js"
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
 
 function Login() {
-  const { setAuth, setLogged,isLogged, auth } = useAuth();
+  // setting up zustand
+  const setAccessToken =useStore((state)=>state.setAccessToken)
+  const setRoles = useStore((state)=>state.setRoles)
+  const setCountry = useStore((state)=>state.setCountry)
+  const isLogged = useStore((state)=>state.isLogged)
+  const setLogged = useStore((state)=>state.setLogged)
+  const setID = useStore((state)=>state.setID)
+
+
+  // setting up form states
+  const loggedFromThisPage = useRef(false)
   const [code, setCode] = useState("");
-  const [country, setCountry] = useState("");
+  const [countryVal, setcountryVal] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [showError, setShowError] = useState(false);
-  const navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/Delegates/Dashboard";
-  console.log("access token", auth?.accessToken)
-  useEffect(() => {
-    if (isLogged && !auth?.accessToken){
-       navigate('/', {replace: true})
+
+  const postLogin = async () =>{
+  const response = await axios.post(
+  "/login",
+  JSON.stringify({ code, country: countryVal }),
+  {
+    headers: { "Content-type": "application/json" },
+    withCredentials: true,
+  }
+);
+  return response?.data;
+}
+
+  // setting up tanstack
+  const queryClient = useQueryClient()
+  const mutation = useMutation({ 
+    mutationFn: postLogin, 
+    onSuccess: (data)=>{  // mutations dont auto trigger, queries do 
+    queryClient.setQueryData(['ownAmendments'], data?.ownAmendments)
+    queryClient.setQueryData(['recentAmendments'], data?.recentAmendments)
     }
-  if (errMsg) {
-    const timer = setTimeout(() => {
+  })
+  
+
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname
+
+  const to_from = () => {
+    navigate(from, {replace: true});
+  };
+  const to_dashboard = () =>{
+    console.log("Delegate dashboard")
+    navigate("/Delegates/Dashboard", {replace: true})
+  }
+  const to_admin_dashboard = () =>{
+    navigate("/Admin/Dashboard", {replace: true });
+  }
+
+  useEffect(() => {
+    if (!loggedFromThisPage.current){
+      console.log(isLogged)
+      console.log("from login", localStorage.getItem("Logged"))
+      if (isLogged){
+        console.log("triggering")
+        setLogged(true);
+        navigate('/', {replace: true})
+      }
+    }
+
+  }, [isLogged]);
+
+
+  useEffect(()=>{
+    if (errMsg) {
+      const timer = setTimeout(() => {
       setErrMsg("");
     }, 3000); 
       return () => clearTimeout(timer); 
     }
-  }, [errMsg, isLogged]);
-
-  const to_dashboard = async () => {
-    await navigate(from, {replace: true});
-  };
+  }, [errMsg])
 
   const sendUser = async () => {
-    try {
-      const response = await axios.post(
-        "/login",
-        JSON.stringify({ code, country }),
-        {
-          headers: { "Content-type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      console.log(response?.data);
+    try { // onError instead of trycatch only for regular mutate()
+      const returned = await mutation.mutateAsync() // holds return of mutationFn
       setCode("");
-      setCountry("");
+      setcountryVal("");
       setErrMsg("");
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.role;
-      setAuth({ country, roles, accessToken });
 
+      // sending to zustand the data
+      console.log(returned)
+      setAccessToken(returned?.accessToken)
+      setRoles(returned?.roles)
+      setCountry(returned?.country)
+      loggedFromThisPage.current = true // ✅ The re-render happens after the immediate parent function (sendUser) finishes execution or yields.
+      setID(returned?.id) 
       setLogged(true)
       localStorage.setItem("Logged", true)
-
-      if (roles.includes(4015)){
-        navigate("/Admin/Dashboard", {replace: true });
+      if (!from == '/Delegates/Dashboard'){
+        to_from()
       }
-      else if (roles.includes(2007)){
+      const roles = returned?.roles
+      if (roles.includes('4015')){
+        to_admin_dashboard();
+      }
+      else if (roles.includes('2007')){
         to_dashboard();
       }
     } catch (err) {
@@ -67,7 +120,6 @@ function Login() {
       } else {
         setErrMsg("Login Failed");
       }
-
       setShowError(true);
       setTimeout(() => setShowError(false), 2500);
       setTimeout(() => setErrMsg(""), 3000);
@@ -102,10 +154,10 @@ function Login() {
           className="login-button"
           type="text"
           name="country"
-          value={country}
-          placeholder="Country: e.g. 'canada'"
+          value={countryVal}
+          placeholder="country: e.g. 'canada'"
           aria-label="Enter country here"
-          onChange={(e) => setCountry(e.target.value)}
+          onChange={(e) => setcountryVal(e.target.value)}
           style={{
             cursor: "pointer",
             fontSize: "38px",

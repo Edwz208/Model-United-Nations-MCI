@@ -1,6 +1,4 @@
 import React from 'react'
-import useAxiosPrivate from '../../hooks/useAxiosPrivate.js'
-import useAuth from '../../hooks/useAuth.js'
 import { useState, useEffect } from 'react'
 import './Amendments.css'
 
@@ -56,7 +54,7 @@ const Amendments = () => {
   useEffect(() => {
     const fetchResolutions = async () => {
       try {
-        const response = await axiosPrivate.get('/resolutions');
+        const response = await axiosPrivate.get('/get-resolutions-general');
         setData(response.data);
         const getCountry = await fetch(`http://localhost:8000/select-country/${auth.country}`, {
           method: "GET",

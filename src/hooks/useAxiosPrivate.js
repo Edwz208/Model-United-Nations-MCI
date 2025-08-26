@@ -1,29 +1,25 @@
 import axiosPrivate from '../api/axiosPrivate.js'
 import useRefreshToken from './useRefreshToken.js'
-import { useEffect, useRef } from 'react'
-import useAuth from './useAuth.js'
+import { useEffect} from 'react'
+import useStore from '../store/store.js'
 
 function useAxiosPrivate(){
-
-    const { auth, setAuth, setLogged } = useAuth();
+ // FOR hooks the useEffect is based on the time of mount of the component calling it 
     const refresh = useRefreshToken();
-    const accessTokenRef = useRef(auth.accessToken);
-
-    useEffect(() => {
-        accessTokenRef.current = auth.accessToken;
-    }, [auth.accessToken])
-
+    const accessToken = useStore((state)=>state.accessToken)
+    const controller = new AbortController();
     useEffect(()=>{
         const requestIntercept = axiosPrivate.interceptors.request.use(
             config=>{
+                config.signal = controller.signal
                 if (!config.headers["Authorization"]){
-                    config.headers["Authorization"] = `Bearer ${accessTokenRef.current}`
+                    config.headers["Authorization"] = `Bearer ${accessToken}`
                 }
             return config;
             },
             error =>{
                 console.log("config error")
-                return Promise.reject(error)
+                return Promise.reject(error) // passes on error to its caller
             },
         )
 
@@ -37,12 +33,8 @@ function useAxiosPrivate(){
                 if (error?.response?.status === 401 && !prevRequest?.sent) {
                     try{
                     prevRequest.sent = true;
-                    const refreshDict = await refresh();
-                    const newAccessToken = refreshDict.accessToken
+                    const newAccessToken = await refresh();
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-                    setAuth((prev)=>(
-                        {...prev, "accessToken": newAccessToken}
-                    ))
                     return axiosPrivate(prevRequest);
                 }
                 catch (err){
@@ -55,7 +47,8 @@ function useAxiosPrivate(){
         )
 
         return () => {
-            axiosPrivate.interceptors.request.eject(requestIntercept);
+            controller.abort()
+            axiosPrivate.interceptors.request.eject(requestIntercept); // runs as if mounted on component this custom hook was called in
             axiosPrivate.interceptors.response.eject(responseIntercept);
         }
     }

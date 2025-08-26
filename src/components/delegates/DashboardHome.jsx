@@ -1,12 +1,11 @@
 import './Dashboard.css'
-import useAuth from '../../hooks/useAuth.js'
+import useStore from '../../store/store.js'
 
 function DashboardHome() {
-    const {auth} = useAuth()
-
+  const country = useStore((state)=>state.country)
     return (
         <div className="content">
-          <h1 style={{ alignSelf: "center", justifySelf: "center" }}>Welcome, {(auth.country.charAt(0).toUpperCase() + auth.country.slice(1).toLowerCase())}</h1>
+          <h1 style={{ alignSelf: "center", justifySelf: "center" }}>Welcome, {(country.charAt(0).toUpperCase() + country.slice(1).toLowerCase())}</h1>
           <p>To get started, navigate to the resolutions page to submit an amendment.</p>
           <h3>Useful Links</h3>
           <div

@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import "./Admin.css";
+import { useQuery } from '@tanstack/react-query'
 
 const GetCountries = () => {
-  const [data, setData] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [addCountryNew, setAddCountryNew] = useState(false);
   const [inputValues, setInputValues] = useState([]);
+  const {data, isLoading } = useQuery({
+    queryKey: ['countriesData'],
+    staleTime: 0,
+    queryFn: async ()=>{
+      const res = await axiosPrivate.get('/get-countries')
+      return res?.data
+    }
+  })
 
   const goToNewCountry = async () => {
     console.log(inputValues);
@@ -26,7 +34,6 @@ const GetCountries = () => {
           login: inputValues[6], 
         }),
       });
-      location.reload();
     } catch (error) {
       console.error("Error adding country:", error);
     }
@@ -58,11 +65,10 @@ const GetCountries = () => {
       console.error("Delete error:", error);
     }
   };
-  const onCountryClicked = async (e) => {
-    const countryName = e.target.innerHTML;
+  const onCountryClicked = async (countryName) => {
+
     setAddCountryNew(null);
     console.log("Clicked:", countryName);
-
     try {
       const response = await fetch(`http://localhost:8000/select-country/${countryName}`, {
         method: "GET",
@@ -84,33 +90,6 @@ const GetCountries = () => {
     }
   };
 
-  useEffect(() => {
-    async function fetchAll() {
-      try {
-        const response = await fetch("http://localhost:8000/get-countries", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          console.log(`HTTP error! status: ${response.status}`);
-          return;
-        }
-
-        const jsonData = await response.json();
-        setData(jsonData);
-        console.log("have set");
-        console.log(jsonData);
-      } catch (error) {
-        console.log("Error fetching countries: ", error);
-      }
-    }
-
-    fetchAll("countries");
-  }, []);
-
   return (
     <>
       <div style={{ display: "flex", flexDirection: "row", gap: "20px"}}>
@@ -121,7 +100,7 @@ const GetCountries = () => {
           .filter((country) => country["country"].toLowerCase() !== "admin")
           .sort((a, b) => a.country.localeCompare(b.country)) 
           .map((country, i) => (
-            <button className="country" onClick={onCountryClicked} key={i}>
+            <button className="country" onClick={()=> onCountryClicked(country["country"])} key={country["id"]}>
               {country["country"]}
             </button>
           ))}

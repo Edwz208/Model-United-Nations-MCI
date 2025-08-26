@@ -4,6 +4,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { useEffect} from 'react';
 import { AnimatePresence } from "framer-motion";
 import Nav from "./components/Navbar.jsx";
 import Login from "./components/Login.jsx";
@@ -23,19 +24,36 @@ import GetCountries from "./components/admin/GetCountries.jsx";
 import RequireAuth from "./components/RequireAuth.jsx";
 import Unauthorized from "./components/Unauthorized.jsx";
 import PersistentLogin from './components/PersistentLogin.jsx';
-import LoginWrapper from './components/LoginWrapper.jsx';
 import Projection_Dashboard from "./components/admin/Projection/Projection_Dashboard.jsx";  
 import AdminHome from "./components/admin/AdminHome.jsx";
 import ResolutionsAdmin from './components/admin/Resolutions.jsx'
 import Footer from './components/Footer.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
-
+import useStore from './store/store.js'
 const roleList = {
-  member: 2007,
-  admin: 4015,
+  member: '2007',
+  admin: '4015',
 };
 
 function AnimatedRoutes() {
+  const setLogged = useStore((state)=>state.setLogged)
+  useEffect(()=>{
+    
+    const onStorage = ()=>{
+      console.log(localStorage.getItem("Logged"))
+      if (!localStorage.getItem("Logged")){
+        setLogged(false)
+      }
+      else if (localStorage.getItem("Logged")==='true'){
+        console.log("set Logged to true")
+        setLogged(true) // the actual value is always a string
+      }
+    }
+      window.addEventListener("storage", onStorage)
+      return ()=>{window.removeEventListener("storage", onStorage)}
+  }, []);
+
+
   const location = useLocation();
   {/* lets us animate exit and enter transitions to happen one after the other via pagewrapper */}
 return (
@@ -43,9 +61,7 @@ return (
       <Routes location={location} key={location.pathname}>
       {/* Public Routes */}
       <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-      <Route element={<LoginWrapper/>}>
         <Route path="/Login" element={<PageWrapper><Login /></PageWrapper>} />
-      </Route>
       <Route path="/FAQ" element={<PageWrapper><FAQ /></PageWrapper>} />
       <Route path="/COC" element={<PageWrapper><COC /></PageWrapper>} />
       <Route path="/Registration" element={<PageWrapper><Registration /></PageWrapper>} />
@@ -64,9 +80,7 @@ return (
             <Route path="getCountries" element={<PageWrapper><GetCountries /></PageWrapper>} />
           </Route>
         </Route>
-      </Route>
 
-      <Route element ={<PersistentLogin/>}>
         <Route element={<RequireAuth allowedRoles={[roleList.member]} />}>
           <Route path="/Delegates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>}>
             <Route index element={<DashboardHome />} /> 

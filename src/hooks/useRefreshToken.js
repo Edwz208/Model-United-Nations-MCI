@@ -1,21 +1,37 @@
-import useAuth from './useAuth.js'
+import useStore from '../store/store.js'
 import axios from '../api/axios.js'
-import useRes from './useResolutions.js'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 
+ // good to go 
 const useRefreshToken = () => {
-  const { setAuth } = useAuth();
-  const { setResolutions, setCountries} = useRes();
-  const refresh = async () =>{
-    const response = await axios.get('/refresh')
-    setAuth((prev)=>{
-      return {...prev, accessToken: response?.data?.accessToken, country: response?.data?.country, roles: response?.data?.role}
-    })
-    setResolutions(response?.data?.resolutions)
-    setCountries(response?.data?.countryNames)
+  const setAccessToken = useStore((state)=>state.setAccessToken)
+  const setRoles = useStore((state)=>state.setRoles)
+  const setCountry = useStore((state)=>state.setCountry)
+  const setID = useStore((state)=>state.setID)
+  const setLogged = useStore((state)=>state.setLogged)
+  const queryClient = useQueryClient()
+  const mutation = useMutation({ 
+    mutationFn: async ()=> { // must be an async function 
+      const result = await axios.get('/refresh')
+      return result?.data
+    }, 
+    onSuccess: (data)=>{ 
+    queryClient.setQueryData(['ownAmendments'], data?.ownAmendments)
+    queryClient.setQueryData(['recentAmendments'], data?.recentAmendments)
+    setAccessToken(data?.accessToken)
+    setRoles(data?.roles)
+    setCountry(data?.country)
+    setID(data?.id)
+    setLogged(true)
+    }
+  })
+  const refresh = () =>{  // myst use a function within because built in hooks must be called at the top level of a sync function
+  return mutation.mutateAsync(); // to await must be in async otherwise doesnt matter
   }
 
-  return refresh;
-}
+  return refresh
+
+}     
 
 
 export default useRefreshToken

@@ -1,15 +1,19 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "../hooks/useAuth.js";
+import useStore from '../store/store.js'
 
 const RequireAuth = ({ allowedRoles }) => {
-  const { auth, isLogged } = useAuth();
+  const roles = useStore((state)=>state.roles)
+  const isLogged = useStore((state)=>state.isLogged)
+  const country = useStore((state)=>state.country)
   const location = useLocation();
-    console.log(isLogged, "RequiAuth")
-    console.log(auth?.country)
-  return ((auth?.roles?.find((role) => allowedRoles?.includes(role)) && isLogged) ? (
+  return ((roles?.find((role) => allowedRoles?.includes(role)) && isLogged) ? (
     <Outlet />
   ) : 
-  (auth?.country && isLogged) ? (
+  (roles?.includes('4015')) ? (
+    <Navigate to ="/Admin/Dashboard" state={{from: location}} replace/>
+  )
+  :
+  (country && isLogged) ? (
     <Navigate to="/Unauthorized" state={{ from: location }} replace />
   ) : 
 (

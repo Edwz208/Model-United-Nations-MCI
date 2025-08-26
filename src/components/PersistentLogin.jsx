@@ -1,28 +1,27 @@
 import { useState, useEffect } from "react";
-import useAuth from "../hooks/useAuth";
 import { Outlet } from "react-router-dom";
-import useRefreshToken from "../hooks/useRefreshToken";
+import useStore from '../store/store.js'
+import useRefreshToken from '../hooks/useRefreshToken.js'
 
 const PersistentLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const { auth, setLogged, isLogged } = useAuth();
+  const isLogged = useStore((state)=>state.isLogged)
+  const country = useStore((state)=>state.country)
+  const accessToken = useStore((state)=>state.accessToken)
   const refresh = useRefreshToken();
   useEffect(() => {
-    if (!isLogged && !auth?.country) {
+    if (isLogged && !country && !accessToken) {
       const verifyRefreshToken = async () => {
         try {
-          if (!auth?.accessToken) {
-            await refresh();
-            setLogged(true);
-          }
+          console.log("refrseh token activated")
+          await refresh();
         } catch (err) {
           console.log("Login error:", err);
-          setLogged(false);
           if (!err?.response) {
-          } else if (err.response?.status === 401) {
+           if (err.response?.status === 401) {
             console.log(err.response?.data?.detail);
-          } else {
           }
+        }
         } finally {
           setIsLoading(false);
         }
@@ -34,6 +33,7 @@ const PersistentLogin = () => {
     }
   }, []);
   return isLoading ? <p>Loading...</p> : <Outlet />;
+
 };
 
 export default PersistentLogin;

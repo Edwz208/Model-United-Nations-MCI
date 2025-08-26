@@ -363,7 +363,7 @@ function FAQ() {
               {typeof item.answer === "string" ? (
                 <p style={{ color: "white", textAlign: "justify" }}>{item.answer}</p>
               ) : (
-                <p style={{ color: "white", textAlign: "justify" }}>{item.answer}</p>
+                <p style={{ color: "white", textAlign: "justify" }}>item.answer</p>
               )}
             </div>
           </div>

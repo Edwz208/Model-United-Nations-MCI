@@ -2,14 +2,10 @@ import Slideshow from "./Slideshow.jsx";
 import FAQ from "./FAQ.jsx";
 import "./Home.css";
 import { useEffect } from "react";
-import  useAuth  from "../hooks/useAuth.js";
 import {useNavigate} from 'react-router-dom';
 function Home() {
   const navigate = useNavigate();
-  const {auth} = useAuth();
   useEffect(()=>{
-    console.log("mounted home")
-    console.log("auth",auth?.accessToken)
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   },[]);
 
@@ -101,7 +97,7 @@ function Home() {
           <button
             style={{ backgroundColor: "#40ae49" }}
             className="shortcut-to-login"
-            onClick={() => (navigate("/login"))}
+            onClick={() => (navigate("/Delegates/Dashboard"))}
           >
             Delegate Portal
           </button>

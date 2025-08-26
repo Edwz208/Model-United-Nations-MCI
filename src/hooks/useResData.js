@@ -1,19 +1,13 @@
-import useRes from "./useResolutions.js";
-import { useEffect} from 'react'
 import useAxiosPrivate from './useAxiosPrivate'
-import { useNavigate, useLocation} from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 function useResData(){
     const axiosPrivate = useAxiosPrivate();
-    const {setResolutions } = useRes();
     const navigate = useNavigate();
     const location = useLocation();
-    useEffect(()=>{
-        const controller = new AbortController();
-        const getResolutions = async () =>{
+    const getResolutions = async () =>{
             try{
                 const response = await axiosPrivate.get('/all-resolutions',{
-                    signal: controller.signal
             })
             setResolutions(response?.data?.resolutions)
                     }
@@ -24,11 +18,6 @@ function useResData(){
         }
     }
         getResolutions();
-        return ()=>{
-            controller.abort()
-        }
-    },  
-    []);
 
 }
 

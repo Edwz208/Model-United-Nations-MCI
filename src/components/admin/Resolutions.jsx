@@ -2,24 +2,33 @@ import React from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
 import { useState, useRef } from "react";
 import "./Resolutions.css";
-import useResData from "../../hooks/useResData.js";
 import Select from "react-select";
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useMemo } from 'react'
 
 const ResolutionsAdmin = () => {
-  // const { countriesData, setCountries} = useResData();
-
-  const createOptions = () => {
-    return countriesData.map((country, i) => {
-      value: country;
-      label: country;
-    });
-  };
-  const options = [
-    { value: "algeria", label: "algeria" },
-    { value: "armenia", label: "armenia" },
-    { value: "democratic peoples republic of korea", label: "democratic peoples republic of korea" },
-    { value: "israel", label: "israel" },
-  ];
+  const axiosPrivate = useAxiosPrivate();
+  const {data, isLoading} = useQuery({
+    queryKey: ['countriesData'],
+    staleTime: 2*60*1000,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+    queryFn: async ()=>{
+      const res = await axiosPrivate.get('/get-countries') //useQuery is asynchronous, but render is synchronous
+      //When you write an async function, JavaScript pauses only inside that function at the await.
+//React components themselves cannot be async in the render function. The function that React calls to render a component runs synchronously.
+      console.log(res?.data)
+      return res?.data
+    }
+  }) // queryFn returns an object that contains data as well
+  const options = useMemo(()=>{
+  if (!data) return [];
+    return data.map(country => ({
+    value: country.id,
+    label: country.country,
+    }));
+    }, [data]);
 
   const customStyles = {
     control: (provided) => ({
@@ -45,24 +54,23 @@ const ResolutionsAdmin = () => {
   };
 
   const councilsList = [
-    "General Asssembly",
+    "General Assembly",
     "Security Council",
     "Economic Council",
     "Environmental Council",
   ];
-  const axiosPrivate = useAxiosPrivate();
   const fileInputRef = useRef();
   const [resNum, setNum] = useState(0);
   const [resTitle, setTitle] = useState("");
   const [council, setCouncil] = useState(1);
   const [clauses, setClauses] = useState(0);
-  const [submitter, setSubmitter] = useState("");
-  const [seconder, setSeconder] = useState("");
-  const [negator, setNegator] = useState("");
+  const [submitter, setSubmitter] = useState(0);
+  const [seconder, setSeconder] = useState(0);
+  const [negator, setNegator] = useState(0);
   const [file, setFile] = useState(null);
   const [fileName, setName] = useState(null);
-  const [errorMsgs, setErrors] = useState(["", "", "", "", null,null,null]); // Upload File, Title, Council, Resolution #, # Clauses, submiter seconder negator
-  const newErrors=["", "", "", "", null,null,null]
+  const [errorMsgs, setErrors] = useState([null, null, null, null,null,null, null]); // Upload File, Title, Council, Resolution #, # Clauses, submiter seconder negator
+
   const handleUpload = (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
@@ -76,7 +84,7 @@ const ResolutionsAdmin = () => {
     fileInputRef.current.value = null;
   };
 
-  const charMin = (string, i) => {
+  const charMin = (string, i, newErrors) => {
     if (string.length < 3) {
         newErrors[i] = "Must be a minimum of 3 characters";
       }
@@ -86,10 +94,10 @@ const ResolutionsAdmin = () => {
   };
     
 
-  const integerCheck = (integer, i) => {
+  const integerCheck = (integer, i, newErrors) => {
     if (integer < 0){
       newErrors[i] = "Must be greater than or equal to 0"
-    }
+    } 
     else if (!Number.isInteger(integer)){
       newErrors[i] = "Must be an integer";
     }
@@ -98,7 +106,7 @@ const ResolutionsAdmin = () => {
     }
       }
     
-  const handleSelector = (option, i) => {
+  const handleSelector = (option, i, newErrors) => {
     if (!option){
       newErrors[i] = "Please select an option";
     }
@@ -108,26 +116,25 @@ const ResolutionsAdmin = () => {
   };
 
   const handleSubmit = async (e) => {
+    const newErrors=[null, null, null, null, null,null,null]
     e.preventDefault();
     
     const formData = new FormData();
     if (!file){
-      newErrors[0] = "No file selected"
+      newErrors[0] = "No file selectedj"
     }
     else{
       newErrors[0] = "";
     }
-    charMin(resTitle, 1);
-    integerCheck(resNum, 2);
-    integerCheck(clauses, 3);
-    handleSelector(submitter, 4)
-    handleSelector(seconder, 5)
-    handleSelector(negator, 6)
+    charMin(resTitle, 1, newErrors);
+    integerCheck(resNum, 2, newErrors);
+    integerCheck(clauses, 3, newErrors);
+    handleSelector(submitter, 4, newErrors)
+    handleSelector(seconder, 5, newErrors)
+    handleSelector(negator, 6, newErrors)
     
 const hasErrors = newErrors.some((msg) => msg); 
     setErrors(newErrors)
-    console.log(hasErrors)
-    console.log(newErrors)
     
 if (hasErrors) return;
       console.log(submitter)
@@ -139,7 +146,7 @@ if (hasErrors) return;
     formData.append("seconder", seconder);
     formData.append("negator", negator);
     formData.append("file", file);
-    setErrors(["", "", "", "", null,null,null])
+    setErrors([null, null, null, null,null,null, null])
     console.log(resTitle, typeof resTitle)
     console.log(resNum, typeof resNum)
     console.log(clauses, typeof clauses)
@@ -149,11 +156,7 @@ if (hasErrors) return;
     console.log(negator, typeof negator)
 
         try {
-          const response = await axiosPrivate.post("/upload-resolution", formData, {
-            headers: {
-              "Content-type": undefined,
-            },
-          });
+          const response = await axiosPrivate.post("/upload-resolution", formData);
           console.log(response?.data)
         } catch (err) {
           console.log(err);
@@ -239,7 +242,7 @@ if (hasErrors) return;
             setNum(Number(e.target.value));
           }}
         />
-        <div style={{ height: errorMsgs[1] ? "auto" : "1rem" }}>
+        <div style={{ height: errorMsgs[2] ? "auto" : "1rem" }}>
           {errorMsgs[2] ?<p style={{ margin: 0, color:"red" }}>{errorMsgs[2]}</p> : null}
         </div>
         <label htmlFor="clauses" className="label">
@@ -260,35 +263,39 @@ if (hasErrors) return;
           {errorMsgs[3] ? <p style={{ margin: 0, color: "red"}}>{errorMsgs[3]}</p> : null}
         </div>
         <label htmlFor="submitter" className="label">Submitter</label>
-        <Select
+        {isLoading ? <p>Loading countries...</p>
+        : <Select
           options={options}
           styles={customStyles}
           onChange={(option) => {
             setSubmitter(option.value);
           }}
-        />
+        />}
         <div style={{ height: errorMsgs[1] ? "auto" : "1rem" }}>
         {errorMsgs[4] ? <p style={{ margin: 0, color: "red"}}>{errorMsgs[4]}</p> : null}
         </div>
         <label htmlFor="seconder" className="label">Seconder</label>
+        {
+        isLoading ? <p>Loading countries...</p> :
         <Select
           options={options}
           styles={customStyles}
           onChange={(option) => {
             setSeconder(option.value);
           }}
-        />
+        />}
         <div style={{ height: errorMsgs[5] ? "auto" : "1rem" }}>
         {errorMsgs[5] ? <p style={{ margin: 0, color: "red"}}>{errorMsgs[5]}</p> : null}
         </div>
         <label htmlFor="negator" className="label">Negator</label>
-        <Select
+        {isLoading ? <p>Loading countries...</p>
+        : <Select
           options={options}
           styles={customStyles}
           onChange={(option) => {
             setNegator(option.value);
           }}
-        />
+        />}
         <div style={{ height: errorMsgs[6] ? "auto" : "1rem" }}>
         {errorMsgs[6] ? <p style={{ margin: 0, color: "red"}}>{errorMsgs[6]}</p> : null}
         </div>
