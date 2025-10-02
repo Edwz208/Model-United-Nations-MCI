@@ -1,0 +1,53 @@
+.buttons {
+    background-color: #41455994;
+    border-radius: 8px;
+    color: white;
+    padding: 10px 20px;
+    font-size: large;
+    border: none;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.buttons::placeholder {
+    font-size: large;
+}
+
+.container {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.input {
+    background-color: #41455994;
+    border: none;
+    color: white;
+    font-size: large;
+}
+.box {
+    background-color: #41455994;
+    color: white;
+    padding: 5px;
+    cursor: grab;
+    user-select: none;
+    border-radius: 8px;
+}
+
+.logo {
+    width: 30%;
+    align-self: center;
+}
+
+body {
+    font-family: "Be Vietnam Pro", sans-serif;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+}
+
+p {
+    text-align: center;
+    color: black;
+}

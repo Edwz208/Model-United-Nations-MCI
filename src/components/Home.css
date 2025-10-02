@@ -1,0 +1,34 @@
+.image-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  color: #fff; 
+  padding: 10px 20px; 
+  font-size: 20px; 
+  text-align: center;
+}
+
+.shortcut-to-login {
+    font-size: 24px;
+    font-weight: 600;
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 10px;
+}
+
+.shortcut-to-login:hover {
+    transform: scale(1.02);
+}
+
