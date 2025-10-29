@@ -12,6 +12,7 @@ const Navbar = () => {
   const dialogRef = useRef(null);
   const buttonRef = useRef(null);
   const {logOut: handleLogOut} = useLogOut();
+  console.log(isLogged, "islogged from navbar")
 
   useEffect(() => {
     function handleClickOutside(event) {

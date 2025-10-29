@@ -102,11 +102,11 @@ function Login() {
       if (!from == '/Delegates/Dashboard'){
         to_from()
       }
-      const roles = returned?.roles
-      if (roles.includes('4015')){
+      const role = returned?.role
+      if (role == 'admin'){
         to_admin_dashboard();
       }
-      else if (roles.includes('2007')){
+      else if (role == 'member'){
         to_dashboard();
       }
     } catch (err) {
