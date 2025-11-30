@@ -8,8 +8,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 function Login() {
   // setting up zustand
-  const setAccessToken =useStore((state)=>state.setAccessToken)
-  const setRoles = useStore((state)=>state.setRoles)
+  const setAccessToken = useStore((state)=>state.setAccessToken)
+  const setRole = useStore((state)=>state.setRole)
   const setCountry = useStore((state)=>state.setCountry)
   const isLogged = useStore((state)=>state.isLogged)
   const setLogged = useStore((state)=>state.setLogged)
@@ -62,10 +62,7 @@ function Login() {
 
   useEffect(() => {
     if (!loggedFromThisPage.current){
-      console.log(isLogged)
-      console.log("from login", localStorage.getItem("Logged"))
       if (isLogged){
-        console.log("triggering")
         setLogged(true);
         navigate('/', {replace: true})
       }
@@ -93,9 +90,9 @@ function Login() {
       // sending to zustand the data
       console.log(returned)
       setAccessToken(returned?.accessToken)
-      setRoles(returned?.roles)
+      setRole(returned?.role)
       setCountry(returned?.country)
-      loggedFromThisPage.current = true // ✅ The re-render happens after the immediate parent function (sendUser) finishes execution or yields.
+      loggedFromThisPage.current = true // The re-render happens after the immediate parent function (sendUser) finishes execution or yields.
       setID(returned?.id) 
       setLogged(true)
       localStorage.setItem("Logged", true)

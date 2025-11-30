@@ -9,7 +9,6 @@ const queryClient = new QueryClient()
 
 const isLogged = JSON.parse(localStorage.getItem("Logged")) //must parse or else it will be falsy string 
 useStore.getState().setLogged(isLogged)
-console.log(isLogged, "from main.jsx")
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
     <QueryClientProvider client={queryClient}>

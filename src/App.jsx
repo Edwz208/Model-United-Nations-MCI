@@ -30,22 +30,16 @@ import ResolutionsAdmin from './components/admin/Resolutions.jsx'
 import Footer from './components/Footer.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
 import useStore from './store/store.js'
-const roleList = {
-  member: '2007',
-  admin: '4015',
-};
 
 function AnimatedRoutes() {
   const setLogged = useStore((state)=>state.setLogged)
   useEffect(()=>{
     
     const onStorage = ()=>{
-      console.log(localStorage.getItem("Logged"))
       if (!localStorage.getItem("Logged")){
         setLogged(false)
       }
       else if (localStorage.getItem("Logged")==='true'){
-        console.log("set Logged to true")
         setLogged(true) // the actual value is always a string
       }
     }
@@ -71,7 +65,7 @@ return (
       {/* Private Routes */}
 
       <Route element = {<PersistentLogin/>}>
-        <Route element={<RequireAuth allowedRoles={[roleList.admin]} />}>
+        <Route element={<RequireAuth allowedRole = {'admin'} />}>
           <Route path="/Admin/Dashboard" element={<PageWrapper><AdminDash /></PageWrapper>} >
             <Route index element={<AdminHome />} /> 
             <Route path="home" element={<PageWrapper><AdminHome /></PageWrapper>} />
@@ -81,7 +75,7 @@ return (
           </Route>
         </Route>
 
-        <Route element={<RequireAuth allowedRoles={[roleList.member]} />}>
+        <Route element={<RequireAuth allowedRole = {'member'} />}>
           <Route path="/Delegates/Dashboard" element={<PageWrapper><Dashboard /></PageWrapper>}>
             <Route index element={<DashboardHome />} /> 
             <Route path="resolutions" element={<PageWrapper><Resolutions /></PageWrapper>} />
