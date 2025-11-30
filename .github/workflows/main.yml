@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ restored_commits ]
   pull_request:
-    branches: [ main ]
+    branches: [ restored_commits ]
 
 jobs:
   build:
