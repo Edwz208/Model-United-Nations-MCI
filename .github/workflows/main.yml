@@ -1,0 +1,4 @@
+- name: Build frontend
+  run: |
+    npm install
+    npm run build
