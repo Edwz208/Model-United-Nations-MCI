@@ -1,15 +1,16 @@
-import useStore from '../store/store.js'
+import useStore from '../contexts/store.js'
 import axios from '../api/axios.js'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 
  // good to go 
 const useRefreshToken = () => {
-  const setAccessToken = useStore((state)=>state.setAccessToken)
-  const setRoles = useStore((state)=>state.setRoles)
-  const setCountry = useStore((state)=>state.setCountry)
-  const setID = useStore((state)=>state.setID)
-  const setLogged = useStore((state)=>state.setLogged)
+  const setAccessToken = useStore((state)=> state.setAccessToken)
+  const setRole = useStore((state)=> state.setRole)
+  const setCountry = useStore((state)=> state.setCountry)
+  const setID = useStore((state)=> state.setID)
+  const setLogged = useStore((state)=> state.setLogged)
   const queryClient = useQueryClient()
+
   const mutation = useMutation({ 
     mutationFn: async ()=> { // must be an async function 
       const result = await axios.get('/refresh')
@@ -19,7 +20,7 @@ const useRefreshToken = () => {
     queryClient.setQueryData(['ownAmendments'], data?.ownAmendments)
     queryClient.setQueryData(['recentAmendments'], data?.recentAmendments)
     setAccessToken(data?.accessToken)
-    setRoles(data?.roles)
+    setRole(data?.role)
     setCountry(data?.country)
     setID(data?.id)
     setLogged(true)

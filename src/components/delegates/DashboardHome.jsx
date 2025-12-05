@@ -1,5 +1,4 @@
-import './Dashboard.css'
-import useStore from '../../store/store.js'
+import useStore from '../../contexts/store.js'
 
 function DashboardHome() {
   const country = useStore((state)=>state.country)

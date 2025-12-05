@@ -1,18 +1,22 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import './globals.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import useStore from './store/store.js'
+import useStore from './contexts/store.js'
 
 const queryClient = new QueryClient()
 
-const isLogged = JSON.parse(localStorage.getItem("Logged")) //must parse or else it will be falsy string 
+const isLogged = localStorage.getItem("Logged")
 useStore.getState().setLogged(isLogged)
+
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
     <QueryClientProvider client={queryClient}>
-        <App />
+      <BrowserRouter>
+          <App />
+      </BrowserRouter>
     </QueryClientProvider>,
   {/* </StrictMode>, */}
 )

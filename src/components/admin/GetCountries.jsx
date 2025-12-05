@@ -1,22 +1,20 @@
-import { useEffect, useState } from "react";
-import "./Admin.css";
-import { useQuery } from '@tanstack/react-query'
+import { useState } from "react";
+import useCountriesData from '../../hooks/useCountriesData'
 
 const GetCountries = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [addCountryNew, setAddCountryNew] = useState(false);
   const [inputValues, setInputValues] = useState([]);
-  const {data, isLoading } = useQuery({
-    queryKey: ['countriesData'],
-    staleTime: 0,
-    queryFn: async ()=>{
-      const res = await axiosPrivate.get('/get-countries')
-      return res?.data
-    }
-  })
+  const {data: countriesData, isLoading: isCountriesLoading } = useCountriesData();
 
-  const goToNewCountry = async () => {
-    console.log(inputValues);
+  // const updateCountry = useMutation(
+  //   mutationFn: ()=>{
+  //     axios.post('/single-country')
+  //   },
+  //   onSuccess: ()=>{},
+  //   onError: ()=>{}
+  // )
+  const updateCountry = async () => {
     try {
       const response = await fetch("http://localhost:8000/single-country", {
         method: "POST",
@@ -96,7 +94,7 @@ const GetCountries = () => {
         <div style={{ width: "20%", display: "flex", flexDirection: "column", gap: "20px", height: "100vh", margin: "0", justifyContent: "start", alignContent: "start", overflowY: "scroll", backgroundColor: "#f0f0f0" }}>
           <h3 className="title">Country Name</h3>
           <button className="country" style={{ backgroundColor: "#04a5e5" }} onClick={addCountry}>Add Country</button>
-          {[...data] 
+          {[...countriesData] 
           .filter((country) => country["country"].toLowerCase() !== "admin")
           .sort((a, b) => a.country.localeCompare(b.country)) 
           .map((country, i) => (

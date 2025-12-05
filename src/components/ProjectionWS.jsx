@@ -1,8 +1,8 @@
-import React from "react";
 import { useState, useEffect, useRef } from "react";
 import useAuth from '../hooks/useAuth.js'
+
 const ProjectionWS = () => {
-    const {auth} = useAuth();
+  const {auth} = useAuth();
   const [messages, setMessages] = useState([]);
   let timeoutId
   let ws

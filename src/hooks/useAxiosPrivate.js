@@ -1,12 +1,13 @@
 import axiosPrivate from '../api/axiosPrivate.js'
 import useRefreshToken from './useRefreshToken.js'
 import { useEffect} from 'react'
-import useStore from '../store/store.js'
+import useStore from '../contexts/store.js'
 
 function useAxiosPrivate(){
  // FOR hooks the useEffect is based on the time of mount of the component calling it 
     const refresh = useRefreshToken();
-    const accessToken = useStore((state)=>state.accessToken)
+    const accessToken = useStore((state)=> state.accessToken)
+    const setLogged = useStore((state)=> state.setLogged)
     const controller = new AbortController();
     useEffect(()=>{
         const requestIntercept = axiosPrivate.interceptors.request.use(

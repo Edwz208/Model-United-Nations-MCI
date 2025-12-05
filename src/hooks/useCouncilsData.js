@@ -2,15 +2,20 @@ import useAxiosPrivate from './useAxiosPrivate'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
-function useResData(){
+function useCouncilsData(){
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
     return useQuery({
-        queryKey: ['resolutions'],
+        queryKey: ['countries'],
+        staleTime: 2*60*1000,
+        refetchOnMount: true,
+        refetchOnWindowFocus: true,
+        refetchOnReconnect: true,
+        
         queryFn: async () => {
             try{
-              const response = await axiosPrivate.get('/get-resolutions-general')
+                const response = await axiosPrivate.get('/get-councils-list')
                 return response?.data;
               }
             catch (err){
@@ -21,4 +26,4 @@ function useResData(){
     })
 }
 
-export default useResData;
+export default useCouncilsData;

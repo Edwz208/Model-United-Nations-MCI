@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import Projection, { DisplayMessage, DisplayTitle } from './Projection.jsx';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import "./Projection.css";
+import "./Projection.module.css";
 
 function Projection_Dashboard() {
     const [activeScreen, activeScreenData] = useState("title");

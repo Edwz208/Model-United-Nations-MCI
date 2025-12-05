@@ -1,0 +1,42 @@
+.container {
+  width: 40%;
+  padding: 50px;
+  text-align: justify;
+  margin: auto;
+  color: white;
+}
+
+.tableWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.table {
+  width: 50%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: center;
+}
+
+.table td {
+  text-align: left;
+}
+
+.table th, .table td {
+  padding: 8px 12px;
+}
+
+.table th:first-child,
+.table td:first-child {
+  text-align: left; 
+}
+
+.table th:last-child,
+.table td:last-child {
+  text-align: center;
+}

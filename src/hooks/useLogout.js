@@ -1,4 +1,4 @@
-import useStore from '../store/store.js'
+import useStore from '../contexts/store.js'
 import { useNavigate } from "react-router-dom";
 import axios from '../api/axios.js';
 import { useMutation, useQueryClient } from '@tanstack/react-query'
