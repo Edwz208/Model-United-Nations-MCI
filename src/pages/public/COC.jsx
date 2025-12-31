@@ -1,13 +1,12 @@
-import styles from './COC.module.css';
-
 function COC() {
   return (
-    <div className={styles.container}>
-      <h1>Martingrove Model UN - Rules of Conduct</h1>
+    <div className='w-screen bg-primary-dark min-h-screen pb-5'>
+    <div className="w-[60%] flex flex-col gap-y-4 pt-16 items-center mx-auto text-text-gray text-all-children">
+      <h1 className='text-2xl'>Martingrove Model UN - Rules of Conduct</h1>
 
       <p>This page contains the rules of conduct for Martingrove Model UN. These rules apply to the general assembly and each of the councils. The rules of conduct include topics regarding the proceedings of MMUN and the expected behaviour of delegates.</p>
 
-      <h2>1. Powers of the President</h2>
+      <h2 className="text-xl">1. Powers of the President</h2>
       <p>In addition to exercising the powers conferred on him/her elsewhere in these rules, the President shall declare the opening and closing of each meeting of the General Assembly, direct the discussion during the session, ensure the observance of these rules, accord the right to speak and announce decisions. He or she shall rule on points of order, and have complete control of the proceedings of the General Assembly and the responsibility of the maintenance of order therein.</p>
 
       <h2>2. Appeals</h2>
@@ -44,42 +43,42 @@ function COC() {
       <p>A motion is made through a point of order. Only delegates with speaking rights may make motions. No motion pertaining to a resolution or amendment may be introduced until the proposer has read aloud, and in full, the resolution or amendment.</p>
 
       <h2>13. Order of Precedence of Privileged Motions</h2>
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
+      <div className="w-screen flex flex-col items-center">
+        <table className="w-1/2 border-collapse">
           <thead>
             <tr>
-              <th>Motion</th>
-              <th>Rule Number</th>
+              <th className="text-left px-3 py-2">Motion</th>
+              <th className="text-center px-3 py-2">Rule Number</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Appeals</td>
-              <td>14</td>
+            <tr className="border-t">
+              <td className="text-left px-3 py-2">Appeals</td>
+              <td className="text-center px-3 py-2">14</td>
             </tr>
-            <tr>
-              <td>Recess</td>
-              <td>15</td>
+            <tr className="border-t">
+              <td className="text-left px-3 py-2">Recess</td>
+              <td className="text-center px-3 py-2">15</td>
             </tr>
-            <tr>
-              <td>Adjournments</td>
-              <td>16</td>
+            <tr className="border-t">
+              <td className="text-left px-3 py-2">Adjournments</td>
+              <td className="text-center px-3 py-2">16</td>
             </tr>
-            <tr>
-              <td>Closure of Debate</td>
-              <td>17</td>
+            <tr className="border-t">
+              <td className="text-left px-3 py-2">Closure of Debate</td>
+              <td className="text-center px-3 py-2">17</td>
             </tr>
-            <tr>
-              <td>Shelving</td>
-              <td>18</td>
+            <tr className="border-t">
+              <td className="text-left px-3 py-2">Shelving</td>
+              <td className="text-center px-3 py-2">18</td>
             </tr>
-            <tr>
-              <td>Censure</td>
-              <td>19</td>
+            <tr className="border-t">
+              <td className="text-left px-3 py-2">Censure</td>
+              <td className="text-center px-3 py-2">19</td>
             </tr>
-            <tr>
-              <td>Amendments</td>
-              <td>20, 21, 22</td>
+            <tr className="border-t">
+              <td className="text-left px-3 py-2">Amendments</td>
+              <td className="text-center px-3 py-2">20, 21, 22</td>
             </tr>
           </tbody>
         </table>
@@ -125,26 +124,26 @@ function COC() {
       <p>Any delegate, provided he or she has speaking rights before the Assembly, may make points to the Assembly. Points may not be made during a voting procedure, or once the Assembly has decided on recess or adjournment.</p>
 
       <h2>Order of Precedence of Points</h2>
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
+      <div className="w-screen flex flex-col items-center">
+        <table className="w-1/2 border-collapse">
           <thead>
             <tr>
-              <th>Point</th>
-              <th>Rule Number</th>
+              <th className="text-left px-3 py-2">Point</th>
+              <th className="text-center px-3 py-2">Rule Number</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Point of Order</td>
-              <td>28</td>
+            <tr className="border-t border-gray-200">
+              <td className="text-left px-3 py-2">Point of Order</td>
+              <td className="text-center px-3 py-2">28</td>
             </tr>
-            <tr>
-              <td>Point of Personal Privilege</td>
-              <td>29</td>
+            <tr className="border-t border-gray-200">
+              <td className="text-left px-3 py-2">Point of Personal Privilege</td>
+              <td className="text-center px-3 py-2">29</td>
             </tr>
-            <tr>
-              <td>Point of Information</td>
-              <td>30</td>
+            <tr className="border-t border-gray-200">
+              <td className="text-left px-3 py-2">Point of Information</td>
+              <td className="text-center px-3 py-2">30</td>
             </tr>
           </tbody>
         </table>
@@ -206,6 +205,7 @@ function COC() {
 
       <h2>Foreign Policy</h2>
       <p>Participation in the Martingrove Model United Nations implies a willingness on the part of the delegates to represent their nations. A delegate may rise on a point of order if he or she feels that a delegation has committed a serious breach of his or her country's foreign policy. A delegate rising on such a point shall warrant the attention of the Assembly. If the allegedly offending delegate cannot substantiate successfully his or her actions, the Chair may rule the delegate out of order. The President may call a brief recess to consider the points of view involved before rendering a decision.</p>
+    </div>
     </div>
   );
 }

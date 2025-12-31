@@ -20,16 +20,17 @@ import AmendmentsDelegates from "./components/delegates/AmendmentsDelegatesOld.j
 import Missing from "./pages/public/Missing.jsx";
 import Resolutions from "./components/delegates/AmendmentsDelegatesOld.jsx";
 import Overview from "./components/delegates/Overview.jsx";
-import AdminHome from "./pages/admin/AdminHome.jsx";
-import GetCountries from "./components/admin/GetCountries.jsx";
+import AdminLayout from "./pages/admin/AdminLayout.jsx";
+import GetCountries from "./components/admin/ViewCountries.jsx";
 import AuthRedirect from "./components/util/AuthRedirect.jsx";
 import Unauthorized from "./pages/public/Unauthorized.jsx";
 import PersistentLogin from './components/util/PersistentLogin.jsx';
 import Projection_Dashboard from "./components/admin/Projection/Projection_Dashboard.jsx";  
-import ResolutionsAdmin from './pages/admin/ResolutionsAdmin.jsx';
+import ResolutionsAdmin from './pages/admin/ResolutionsView.jsx';
 import Footer from './components/layout/Footer.jsx';
-import ScrollToTop from './components/layout/ScrollToTop.jsx';
 import useStore from './contexts/store.js'
+import ViewCouncils from './components/admin/ViewCouncils.jsx';
+import AdminCouncilDashboard from './pages/admin/CouncilView.jsx';
 
 function App() {
 
@@ -46,14 +47,14 @@ function App() {
     }
       window.addEventListener("storage", onStorage)
       return ()=>{window.removeEventListener("storage", onStorage)}
-  }, []);
+  }, [setLogged]);
 
   const location = useLocation();
 
-  return (<>
-      <ScrollToTop />
+  return (<div className="min-h-screen">
       <Nav />
-
+      <div className='h-13'></div>
+      <main className='min-h-87'>
       <AnimatePresence mode="wait">    {/*basically event listener that lets us animate exit and enter transitions to happen one after the other via pagewrapper */}
           <Routes location={location} key={location.pathname}>
           {/* Public Routes */}
@@ -71,10 +72,12 @@ function App() {
 
           <Route element = {<PersistentLogin/>}>
             <Route element={<AuthRedirect allowedRole={'admin'} />}>
-              <Route path="/Admin/Dashboard" element={<PageWrapper><AdminHome /></PageWrapper>} >
+              <Route path="/Admin/Dashboard" element={<PageWrapper><AdminLayout /></PageWrapper>} >
+                <Route index element={<PageWrapper><ViewCouncils /></PageWrapper>} />
+                <Route path="councils/:councilId" element={<PageWrapper><AdminCouncilDashboard /></PageWrapper>} />
                 <Route path="resolutions" element={<PageWrapper><ResolutionsAdmin /></PageWrapper>} />
                 <Route path="projection" element={<PageWrapper><Projection_Dashboard /></PageWrapper>} />
-                <Route path="getCountries" element={<PageWrapper><GetCountries /></PageWrapper>} />
+                <Route path="countries" element={<PageWrapper><GetCountries /></PageWrapper>} />
               </Route>
             </Route>
 
@@ -92,8 +95,8 @@ function App() {
       </AnimatePresence>
 
       <Footer/>
-
-  </>);
+      </main>
+  </div>);
 }
 
 export default App;

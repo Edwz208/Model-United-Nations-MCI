@@ -19,9 +19,10 @@ const useRefreshToken = () => {
     onSuccess: (data)=>{ 
     queryClient.setQueryData(['ownAmendments'], data?.ownAmendments)
     queryClient.setQueryData(['recentAmendments'], data?.recentAmendments)
+    console.log(data)
     setAccessToken(data?.accessToken)
     setRole(data?.role)
-    setCountry(data?.country)
+    setCountry(data?.name)
     setID(data?.id)
     setLogged(true)
     }

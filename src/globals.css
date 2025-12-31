@@ -1,17 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Cabin:wght@400;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1f304a;
+  --color-secondary: #04a5e5;
+  --color-accent: #d4a553;
+  --color-background: #f2f6fa;
+  --color-card-surface: #ffffff;
+  --color-text-primary: #0f172a;
+  --color-border: #e2e8f0;
+  --color-primary-light: #15385c;
+  --color-primary-dark: #16263a;
+  --color-primary-hover: #173758;
+  --color-primary-header: #18406b;
+  --color-badge-success: #3f8f6b;
+  --color-badge-pending: #c69b4b;
+  --color-badge-rejected: #b94a48;
+  --color-system-error: #dc2626;
+  --color-text-gray: #b0b1a8;
+}
+
+@layer base {
+  h2 {
+    @apply text-xl font-semibold; 
+  }
+}
+
+@layer utilities{
+}
+
+.text-all-children * {
+  color: inherit;
+}
+
+
+@layer components{}
+
+
 
 html {
-    font-family: "Be Vietnam Pro", sans-serif;
-    margin: 0;
-    box-sizing: border-box;
-    font-size: 1.2vw;
-    background-color: #282832;
-}
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 16px; /* 1 rem = 16 px */
+  height: 100%; /* so fill viewport*/
+  width: 100%;
+} /* browsers only add some MARGIN to body*/
 
-*, *::before, *::after {
-    box-sizing: inherit;
-}
-
-button:hover {
-    cursor: pointer;
+body {
+  width: 100%;
+  min-height: 100%; /* so fill html*/
+  background-color: var(--color-background);  
+  -webkit-font-smoothing: antialiased;
+  color: var(--color-text-primary)
 }

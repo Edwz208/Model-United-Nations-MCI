@@ -18,7 +18,7 @@ const useStore = create((set)=>{
         setRole: (value) => (set({role: value})),
         country: null,
         setCountry: (value)=>(set({country: value})),
-        id: null,
+        country_id: null,
         setID: (value)=>(set({id: value})),
         clearAuth: ()=>{set({accessToken: null, isLogged: false, role: null, id: null, country: null})}
     }

@@ -12,7 +12,13 @@ export const validateCharMin = (str) => {
   }
 
 export const validatePosInteger = (integer) => {
-    return integer >= 0 && Number.isInteger(integer)
+  try {
+    const integer_as_int = parseInt(integer)
+    return integer_as_int >= 0
+  }
+  catch {
+    return false
+  }
       }
     
 export const validateOptionSelected = (option) => {

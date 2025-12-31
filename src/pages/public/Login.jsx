@@ -5,6 +5,7 @@ import LoginForm from "../../components/items/LoginForm.jsx"
 import { to_from, to_dashboard, to_admin_dashboard } from "../../utils/helpers.js"
 import { useLogin } from "../../hooks/useLogin.js"
 
+
 function Login() {
   
   const setAccessToken = useStore((state)=>state.setAccessToken)
@@ -28,12 +29,14 @@ function Login() {
       }
     }
 
-  }, [isLogged])
+  }, [isLogged, setLogged, navigate])
 
   const [code, setCode] = useState('')
   const [countryName, setCountryName] = useState('')
 
+
   const onSuccessCallback = (data) => {
+    console.log(data)
     loggedFromThisPage.current = true
     setLogged(true)
     localStorage.setItem("Logged", "true")

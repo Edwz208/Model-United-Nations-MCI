@@ -1,11 +1,3 @@
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: #eceff1;
-  font-family: sans-serif;
-}
-
 .background {
   background-image: url('/UN_General_Assembly_hall.jpg');
   display: flex;

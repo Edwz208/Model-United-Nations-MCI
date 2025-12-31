@@ -2,7 +2,7 @@ import ListResolutions from "../../components/admin/ListResolutions.jsx";
 import CreateResolution from "../../components/admin/CreateResolution.jsx";
 import { useState } from "react";
 
-const ResolutionsAdmin = () => {
+const ResolutionsView = () => {
     const [createNewResolution, setCreateNewResolution] = useState(false);
 
     return (
@@ -14,4 +14,4 @@ const ResolutionsAdmin = () => {
     )
     }
 
-export default ResolutionsAdmin;
+export default ResolutionsView;

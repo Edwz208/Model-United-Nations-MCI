@@ -1,117 +1,153 @@
-import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import useLogOut from "../../hooks/useLogout.js";
-import useStore from '../../contexts/store.js';
+import useStore from "../../contexts/store.js";
 
 const Navbar = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const isLogged = useStore((state) => state.isLogged);
   const navigate = useNavigate();
-  const dialogRef = useRef(null);
-  const buttonRef = useRef(null);
-  const { logOut: handleLogOut } = useLogOut();
-  console.log(isLogged, "isLogged from navbar");
+  const location = useLocation();
+  const { logOut } = useLogOut();
+  const isLogged = useStore((s) => s.isLogged);
+  const country = useStore((s) => s.country);
+  console.log(isLogged)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
+  const contactRef = useRef(null);
+  const contactBtnRef = useRef(null);
+
+  const goTo = useCallback(
+    (path) => {
+      navigate(path);
+      setIsMenuOpen(false);
+      setIsContactOpen(false);
+
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      });
+    },
+    [navigate]
+  );
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    setIsMenuOpen(false);
+    setIsContactOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!isContactOpen) return;
+
+    const handleClickOutside = (e) => {
       if (
-        dialogRef.current &&
-        !dialogRef.current.contains(event.target) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target)
+        contactRef.current &&
+        !contactRef.current.contains(e.target) &&
+        contactBtnRef.current &&
+        !contactBtnRef.current.contains(e.target)
       ) {
-        setShowDropdown(false);
+        setIsContactOpen(false);
       }
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isContactOpen]);
 
-  const scrollToTop = (goTo = "/") => {
-    navigate(goTo);
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  };
-
-  return (
-    <div className={styles["top-bar"]}>
+  if (location.pathname.startsWith('/Admin') || location.pathname.startsWith('/Delegates')) {
+    return (
+      <header className="fixed py-1 top-0 flex items-center justify-between px-6 z-10 inset-x-0 bg-primary mb-25">
       <div
         className={styles["logo-wrapper"]}
-        onClick={() => scrollToTop()}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => e.key === "Enter" && scrollToTop("/")}
+        onClick={() => goTo("/")}
+        onKeyDown={(e) => e.key === "Enter" && goTo("/")}
       >
         <img src="/un_logo.svg" alt="UN logo" className={styles["un-logo"]} />
-        <p className={styles.logo}>MMUN</p>
+        <span className={styles.logo}>MMUN</span>
+      </div>
+      <img src="/40.png" alt="MMUN40 Logo" className="w-12 h-12" />
+      <h1 className={styles["nav-btn"]}>{country}</h1>
+      </header>
+    )
+  }
+  return (
+    <header className="fixed top-0 flex items-center justify-between px-6 py-1 z-10 inset-x-0 bg-primary mb-25">
+      
+      <div
+        className={styles["logo-wrapper"]}
+        role="button"
+        tabIndex={0}
+        onClick={() => goTo("/")}
+        onKeyDown={(e) => e.key === "Enter" && goTo("/")}
+      >
+        <img src="/un_logo.svg" alt="UN logo" className={styles["un-logo"]} />
+        <span className={styles.logo}>MMUN</span>
       </div>
 
       <nav className={styles["nav-links"]}>
-        <div className={`${styles["navbar-buttons"]} ${menuOpen ? styles.navbar-buttonsOpen : ""}`}>
-          <button className={styles["nav-btn"]} onClick={() => scrollToTop("/")}>
+        <div
+          className={`${styles["navbar-buttons"]} ${
+            isMenuOpen ? styles.open : ""
+          }`}
+        >
+          <button className={styles["nav-btn"]} onClick={() => goTo("/")}>
             Home
           </button>
 
-          {!isLogged ? (
-            <button className={styles["nav-btn"]} onClick={() => scrollToTop("/login")}>
-              Login
-            </button>
-          ) : (
-            <button className={styles["nav-btn"]} onClick={() => handleLogOut()}>
-              Logout
-            </button>
-          )}
-
-          <button className={styles["nav-btn"]} onClick={() => scrollToTop("/COC")}>
+          <button className={styles["nav-btn"]} onClick={() => goTo("/COC")}>
             Code of Conduct
           </button>
-          <button className={styles["nav-btn"]} onClick={() => scrollToTop("/Registration")}>
-            Registration
+          <button className={styles["nav-btn"]} onClick={() => goTo("/FAQ")}>
+            FAQ
           </button>
-          <button className={styles["nav-btn"]} onClick={() => scrollToTop("/Secretariat")}>
+          <button className={styles["nav-btn"]} onClick={() => goTo("/Secretariat")}>
             Secretariat
           </button>
 
           <button
-            ref={buttonRef}
-            className={styles["nav-btn"]}
-            style={{ fontFamily: "Be Vietnam Pro" }}
-            onClick={() => setShowDropdown(!showDropdown)}
+            ref={contactBtnRef}
+            className={`${styles["nav-btn"]} ${
+              isContactOpen ? styles.active : ""
+            }`}
+            onClick={() => setIsContactOpen((v) => !v)}
           >
             Contact
           </button>
 
-          {showDropdown && (
-            <div ref={dialogRef} className={styles["dropdown-dialog"]}>
-              <p style={{ color: "white", textAlign: "left", fontWeight: "bold" }}>
-                &nbsp;Contact Us:
-              </p>
-              <p style={{ color: "white", textAlign: "left" }}>
-                &nbsp;50 Winterton Drive, Toronto ON M9B 3G7
-              </p>
-              <p style={{ color: "white", textAlign: "left" }}>
-                &nbsp;martingrovemodelun@gmail.com
-              </p>
-              <p style={{ color: "white", textAlign: "left" }}>
-                &nbsp;(416) 394-7110
-              </p>
+          {isContactOpen && (
+            <div ref={contactRef} className={styles["dropdown-dialog"]}>
+              <p><strong>Contact Us</strong></p>
+              <p>50 Winterton Drive, Toronto ON M9B 3G7</p>
+              <p>martingrovemodelun@gmail.com</p>
+              <p>(416) 394-7110</p>
             </div>
           )}
         </div>
-
+        {!isLogged ? (
+        <button className={`${styles["nav-btn"]} ${styles["pad-char"]}`} onClick={() => goTo("/login")}>
+          Login
+        </button>
+      ) : (
+        <button
+          className={styles["nav-btn"]}
+          onClick={() => {
+            logOut();
+            goTo("/");
+          }}
+        >
+          Logout
+        </button>
+      )}
         <button
           className={styles.hamburger}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
+          onClick={() => setIsMenuOpen((v) => !v)}
+          aria-expanded={isMenuOpen}
         >
           ☰
         </button>
       </nav>
-    </div>
+    </header>
   );
 };
 

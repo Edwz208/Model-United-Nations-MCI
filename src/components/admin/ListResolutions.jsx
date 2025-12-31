@@ -1,8 +1,8 @@
-import useResData from "../../hooks/useResData";
+import {useGetAllResolutionsGeneral} from "../../hooks/useResolutions";
 import styles from './ListResolutions.module.css';
 
 const ListResolutions = () => {
-  const { data, isLoading, isError } = useResData();
+  const { data, isLoading, isError } = useGetAllResolutionsGeneral();
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Something went wrong.</p>;

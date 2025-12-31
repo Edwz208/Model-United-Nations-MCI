@@ -1,16 +1,15 @@
 import { useState, useRef } from "react";
 import "./CreateResolution.css";
 import Select from "react-select";
-import useCountriesData from "../../hooks/useCountriesData.js";
-import useCouncilsData from "../../hooks/useCouncilsData.js";
+import {useGetAllCountries} from "../../hooks/useCountries.js";
+import {useGetAllCouncils} from "../../hooks/useCouncils.js";
 import { validateCharMin, validatePosInteger, validateOptionSelected, validateFileExists } from "../../utils/validators.js";
-import { useCreateResolution } from "../../hooks/useCreateResolution.js";
-import { Options, customStyles } from "../../utils/helpers.js";
+import { useCreateResolution } from "../../hooks/useResolutions.js";
+import { makeOptions, customStyles } from "../../utils/helpers.js";
 
 const CreateResolution = (setCreateNewResolution) => {
-
-  const { data: countriesData, isLoading: isCountriesLoading, isError: isCountryError } = useCountriesData();
-  const { data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError } = useCouncilsData()
+  const { data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError } = useGetAllCouncils()
+  const { data: countriesData, isLoading: isCountriesLoading, isError: isCountryError } = useGetAllCountries();
 
   const fileInputRef = useRef();
   const [resNum, setNum] = useState(0);
@@ -22,7 +21,7 @@ const CreateResolution = (setCreateNewResolution) => {
   const [negator, setNegator] = useState(0);
   const [file, setFile] = useState(null);
   const [fileName, setName] = useState(null);
-  const options = countriesData ? Options(countriesData) : []
+  const options = makeOptions(countriesData)
   const [errorSubmit, setErrorSubmit] = useState('');
 
     const onSuccessCallback = () => {
@@ -60,19 +59,19 @@ const CreateResolution = (setCreateNewResolution) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateCharMin(resTitle) || validatePosInteger(resNum) || validatePosInteger(clauses) || validateOptionSelected(submitter) || validateOptionSelected(seconder) || validateOptionSelected(negator) || validateFileExists(file)) {
+    if (!validateCharMin(resTitle) || !validatePosInteger(resNum) || !validatePosInteger(clauses) || !validateOptionSelected(submitter) || !validateOptionSelected(seconder) || !validateOptionSelected(negator) || !validateFileExists(file)) {
       setErrorSubmit(true)
+      console.log('hi')
       return
     }
     setErrorSubmit(false)
     const formData = new FormData();
     formData.append("title", resTitle);
-    formData.append("number", resNum);
-    formData.append("clauses", clauses);
-    formData.append("council", council);
-    formData.append("submitter", submitter);
-    formData.append("seconder", seconder);
-    formData.append("negator", negator);
+    formData.append("clauses", parseInt(clauses));
+    formData.append("council_id", parseInt(council));
+    formData.append("submitter", parseInt(submitter));
+    formData.append("seconder", parseInt(seconder));
+    formData.append("negator", parseInt(negator));
     formData.append("file", file);
     mutate(formData)
   }
@@ -115,7 +114,7 @@ const CreateResolution = (setCreateNewResolution) => {
             setTitle(e.target.value);
           }}
         />
-        {validateCharMin(resTitle) && <p className="errorMessage">Must be a minimum of 3 characters</p>}
+        {!validateCharMin(resTitle) && <p className="errorMessage">Must be a minimum of 3 characters</p>}
 
 
         <label className="label" htmlFor="council">
@@ -129,9 +128,9 @@ const CreateResolution = (setCreateNewResolution) => {
           onChange={(e) => setCouncil(Number(e.target.value))}
           className="textInput"
         >
-          {councilsData.map((council, i) => {
+          {councilsData.map((council) => {
             return (
-              <option value={i + 1} key={i}>
+              <option value={council.country_id} key={council.country_id}>
                 {council.name}
               </option>
             );
@@ -151,7 +150,7 @@ const CreateResolution = (setCreateNewResolution) => {
             setNum(Number(e.target.value));
           }}
         />
-        {validatePosInteger(resNum) && <p className="errorMessage">Must be a positive integer</p>}
+        {!validatePosInteger(resNum) && <p className="errorMessage">Must be a positive integer</p>}
         <label htmlFor="clauses" className="label"># of Clauses</label>
         <input
           type="number"
@@ -164,38 +163,41 @@ const CreateResolution = (setCreateNewResolution) => {
             setClauses(Number(e.target.value));
           }}
         />
-        {validatePosInteger(clauses) && <p className="errorMessage">Must be a positive integer</p>}
+        {!validatePosInteger(clauses) && <p className="errorMessage">Must be a positive integer</p>}
         <label htmlFor="submitter" className="label">Submitter</label>
         {isCountriesLoading ? <p>Loading countries...</p>
         : <Select
+          id="submitter"
           options={options}
           styles={customStyles}
           onChange={(option) => {
             setSubmitter(option.value);
           }}
         />}
-        {validateOptionSelected(submitter) && <p className="errorMessage">Please select an option</p>}
+        {!validateOptionSelected(submitter) && <p className="errorMessage">Please select an option</p>}
         <label htmlFor="seconder" className="label">Seconder</label>
         {
         isCountriesLoading ? <p>Loading countries...</p> :
         <Select
+          id="seconder"
           options={options}
           styles={customStyles}
           onChange={(option) => {
             setSeconder(option.value);
           }}
         />}
-        {validateOptionSelected(seconder) && <p className="errorMessage">Please select an option</p>}
+        {!validateOptionSelected(seconder) && <p className="errorMessage">Please select an option</p>}
         <label htmlFor="negator" className="label">Negator</label>
         {isCountriesLoading ? <p>Loading countries...</p>
         : <Select
+          id="negator"
           options={options}
           styles={customStyles}
           onChange={(option) => {
             setNegator(option.value);
           }}
         />}
-        {validateOptionSelected(negator) && <p className="errorMessage">Please select an option</p>}
+        {!validateOptionSelected(negator) && <p className="errorMessage">Please select an option</p>}
         <br />
         <button className="submit">Upload Resolution</button>
         {errorSubmit && <p className="errorMessage">{errorSubmit}</p>}

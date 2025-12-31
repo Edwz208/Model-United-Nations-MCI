@@ -11,6 +11,9 @@
     margin-top: 20px;
     margin-bottom: 20px;
     width: 60%;
+    max-height: 80vh; 
+    overflow-y: scroll; 
+    padding-bottom: 80px;
 }
 
 .select {
@@ -55,6 +58,8 @@
     margin-right: 5px;
     cursor: pointer;
 }
+
+
 
 .errorMessage {
     margin: 0;

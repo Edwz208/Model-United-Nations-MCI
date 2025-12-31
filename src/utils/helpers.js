@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 export const to_from = (navigate, from) => {
   navigate(from, { replace: true });
 };
@@ -12,15 +10,14 @@ export const to_admin_dashboard = (navigate) => {
   navigate("/Admin/Dashboard", { replace: true });
 };
 
-export const Options = (countriesData) => {
-  useMemo(()=>{
+export const makeOptions = (countriesData) => {
   if (!countriesData) return [];
-    return countriesData.map(country => ({
-    value: country.id,
-    label: country.country,
-    }));
-    }, [countriesData]);
-  }
+
+  return countriesData.map(country => ({
+    value: country.country_id,
+    label: country.name,
+  }));
+};
 
 export const customStyles = {
     control: (provided) => ({
@@ -44,7 +41,3 @@ export const customStyles = {
       color: '#ffffff',
     }),
   }
-
-export const filterResolutionsByCouncil = (countriesData, id) => {
-  return resolutions.filter(resolution => resolution.council_id === id)
-}
