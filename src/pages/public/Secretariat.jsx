@@ -22,7 +22,7 @@ const Secretariat = () => {
 // uses mb on the flex container because flex collapses margins when you apply
 // attach items-center to the div so that the block element "Edit" button is vertically centered and wont stretch to meet margin always margin bottom or something
     return (<>
-        <div className="pt-25 px-25 min-h-[77.5vh] mb-10">
+        <div className="pt-25 px-25 mb-10">
             <div className='flex justify-between items-center'> 
             <h1 className="text-3xl font-bold">Secretariat</h1>
             {isLogged && role === 'admin' && !modifyMode && (

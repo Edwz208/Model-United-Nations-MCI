@@ -1,5 +1,5 @@
 import { Fragment } from "react"
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react"
+import { Dialog, DialogPanel, DialogTitle, Description, Transition, TransitionChild } from "@headlessui/react"
 
 export default function Modal({
   open,
@@ -20,7 +20,6 @@ export default function Modal({
   return (
     <Transition show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
-        {/* Backdrop */}
         <TransitionChild
           as={Fragment}
           enter="ease-out duration-200"
@@ -62,9 +61,9 @@ export default function Modal({
                         </DialogTitle>
                       )}
                       {description && (
-                        <p className="mt-1 text-sm opacity-70">
+                        <Description className="mt-1 text-sm opacity-70">
                           {description}
-                        </p>
+                        </Description>
                       )}
                     </div>
                     <button
@@ -77,9 +76,9 @@ export default function Modal({
                   </div>
                 )}
 
-                <div className="p-5">
+                {children && (<div className="p-5">
                   {children}
-                </div>
+                </div>)}
 
                 {footer && (
                   <div className="flex justify-end gap-2 border-t border-border bg-background/60 p-4">

@@ -12,10 +12,9 @@ import Login from "./pages/public/Login.jsx";
 import FAQ from "./pages/public/FAQ.jsx";
 import COC from "./pages/public/COC.jsx";
 import Home from "./pages/public/Home.jsx";
-import Registration from "./pages/public/Registration.jsx";
 import Secretariat from "./pages/public/Secretariat.jsx";
 import PageWrapper from "./components/layout/PageWrapper.jsx";
-import DelegatesHome from "./pages/delegates/DelegatesHome.jsx";
+import DelegatesHome from "./pages/delegates/DelegatesLayout.jsx";
 import AmendmentsDelegates from "./components/delegates/AmendmentsDelegatesOld.jsx";
 import Missing from "./pages/public/Missing.jsx";
 import Resolutions from "./components/delegates/AmendmentsDelegatesOld.jsx";
@@ -31,6 +30,7 @@ import Footer from './components/layout/Footer.jsx';
 import useStore from './contexts/store.js'
 import ViewCouncils from './components/admin/ViewCouncils.jsx';
 import AdminCouncilDashboard from './pages/admin/CouncilView.jsx';
+import Screen from './pages/public/Screen.jsx';
 
 function App() {
 
@@ -50,11 +50,10 @@ function App() {
   }, [setLogged]);
 
   const location = useLocation();
-
-  return (<div className="min-h-screen">
+ // set to flex and flex-col to make footer at bottom regardless of height of main
+  return (<div className="min-h-[120vh] flex flex-col"> 
       <Nav />
-      <div className='h-13'></div>
-      <main className='min-h-87'>
+      <main className='flex flex-col flex-1 pt-13 pb-0.5'> {/* better than calculating nav height, grows to fit screen and footer will display on smaller ones instantly*/}
       <AnimatePresence mode="wait">    {/*basically event listener that lets us animate exit and enter transitions to happen one after the other via pagewrapper */}
           <Routes location={location} key={location.pathname}>
           {/* Public Routes */}
@@ -62,10 +61,10 @@ function App() {
             <Route path="/Login" element={<PageWrapper><Login /></PageWrapper>} />
           <Route path="/FAQ" element={<PageWrapper><FAQ /></PageWrapper>} />
           <Route path="/COC" element={<PageWrapper><COC /></PageWrapper>} />
-          <Route path="/Registration" element={<PageWrapper><Registration /></PageWrapper>} />
           <Route element ={<PersistentLogin/>} >
             <Route path="/Secretariat" element={<PageWrapper><Secretariat /></PageWrapper>} />
           </Route>
+          <Route path="/Screen" element={<PageWrapper><Screen /></PageWrapper>} />
           <Route path="/Unauthorized" element={<PageWrapper><Unauthorized /></PageWrapper>} />
 
           {/* Private Routes */}
@@ -94,8 +93,8 @@ function App() {
         </Routes>
       </AnimatePresence>
 
-      <Footer/>
       </main>
+      <Footer className=''/>
   </div>);
 }
 

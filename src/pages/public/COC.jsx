@@ -1,6 +1,8 @@
 function COC() {
+
+  // flex-1 larger than screen height, is about leftover space
   return (
-    <div className='w-screen bg-primary-dark min-h-screen pb-5'>
+    <div className='bg-primary-dark flex-1 pb-5'> 
     <div className="w-[60%] flex flex-col gap-y-4 pt-16 items-center mx-auto text-text-gray text-all-children">
       <h1 className='text-2xl'>Martingrove Model UN - Rules of Conduct</h1>
 
@@ -43,7 +45,7 @@ function COC() {
       <p>A motion is made through a point of order. Only delegates with speaking rights may make motions. No motion pertaining to a resolution or amendment may be introduced until the proposer has read aloud, and in full, the resolution or amendment.</p>
 
       <h2>13. Order of Precedence of Privileged Motions</h2>
-      <div className="w-screen flex flex-col items-center">
+      <div className="w-full flex flex-col items-center">
         <table className="w-1/2 border-collapse">
           <thead>
             <tr>
@@ -124,7 +126,7 @@ function COC() {
       <p>Any delegate, provided he or she has speaking rights before the Assembly, may make points to the Assembly. Points may not be made during a voting procedure, or once the Assembly has decided on recess or adjournment.</p>
 
       <h2>Order of Precedence of Points</h2>
-      <div className="w-screen flex flex-col items-center">
+      <div className="w-full flex flex-col items-center">
         <table className="w-1/2 border-collapse">
           <thead>
             <tr>

@@ -47,15 +47,15 @@ export function useGetCountriesInCouncil(council_id){
     })
 }
 
-export function useCountry(country_id){
+export function useCountry(countryId){
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
     return useQuery({
-        queryKey: ['country', country_id],
+        queryKey: ['country', countryId],
         queryFn: async () => {
             try{
-              const response = await axiosPrivate.get(`/select-country/${country_id}`)
+              const response = await axiosPrivate.get(`/select-country/${countryId}`)
               console.log(response?.data)
                 return response?.data;
               }
@@ -111,12 +111,12 @@ export function usePatchCountry(onSuccessCallback, onErrorCallback){
 
 }
 
-export function useDeleteCountry(onSuccessCallback, onErrorCallback){
+export function useDeleteCountries(onSuccessCallback, onErrorCallback){
     const axiosPrivate = useAxiosPrivate()
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: async (country_id) => {
-            const response = await axiosPrivate.delete(`/delete-country/${country_id}`) // delete no body unless use in config {}
+        mutationFn: async (countries) => {
+            const response = await axiosPrivate.delete(`/select-country`, {data: { "countries": countries }})
             return response?.data;
         },
       onSuccess: (data)=>{  

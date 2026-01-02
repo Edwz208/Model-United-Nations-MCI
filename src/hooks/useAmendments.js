@@ -23,15 +23,15 @@ export function useGetAllAmendmentsInResolutionGeneral(resolution_id){
     })
 }
 
-export function useAmendmentsForCountry(country_id){
+export function useAmendmentsForCountry(countryId){
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
     return useQuery({
-        queryKey: ['country-amendments', country_id],
+        queryKey: ['country-amendments', countryId],
         queryFn: async () => {
             try{
-              const response = await axiosPrivate.get(`/specific-amendment-country/${country_id}`)
+              const response = await axiosPrivate.get(`/specific-amendment-country/${countryId}`)
               console.log(response?.data)
                 return response?.data;
               }
@@ -65,12 +65,12 @@ export const useCreateAmendment = (onSuccessCallback, onErrorCallback) => {
 )
 }
 
-export function usePatchAmendment(onSuccessCallback, onErrorCallback, country_id){
+export function usePatchAmendment(onSuccessCallback, onErrorCallback, countryId){
     const axiosPrivate = useAxiosPrivate()
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: async (formData) => {
-            const response = await axiosPrivate.patch(`/update-resolution/${formData.amendment_id}/${country_id}`, formData)
+            const response = await axiosPrivate.patch(`/update-resolution/${formData.amendment_id}/${countryId}`, formData)
             return response?.data
         },
       onSuccess: (data)=>{  

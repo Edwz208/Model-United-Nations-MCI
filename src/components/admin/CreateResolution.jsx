@@ -27,7 +27,7 @@ const CreateResolution = (setCreateNewResolution) => {
     const onSuccessCallback = () => {
       setErrorSubmit('')
       setCreateNewResolution(false)
-  }
+    }
 
   const onErrorCallback = (error) => {
     if (!error?.response) {
@@ -76,6 +76,8 @@ const CreateResolution = (setCreateNewResolution) => {
     mutate(formData)
   }
 
+  if (isCouncilsError) return <p>Error loading councils</p>;
+  if (isCountryError) return <p>Error loading countries</p>;
   return (
     <>
       <form className="form" onSubmit={handleSubmit}>
@@ -130,7 +132,7 @@ const CreateResolution = (setCreateNewResolution) => {
         >
           {councilsData.map((council) => {
             return (
-              <option value={council.country_id} key={council.country_id}>
+              <option value={council.countryId} key={council.countryId}>
                 {council.name}
               </option>
             );

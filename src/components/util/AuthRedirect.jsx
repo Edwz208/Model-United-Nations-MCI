@@ -8,7 +8,7 @@ const AuthRedirect = ({ allowedRole }) => {
   const location = useLocation()
 
   return ((role == allowedRole && isLogged) ? (
-    <Outlet />
+    <Outlet /> // outlet wrappers dont affect height distribution
   ) : 
   (role == 'admin') ? (
     <Navigate to ="/Admin/Dashboard" state={{from: location}} replace/> // passes the information about where we came from while replacing the location in the history stack

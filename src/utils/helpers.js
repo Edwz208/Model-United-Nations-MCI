@@ -14,7 +14,7 @@ export const makeOptions = (countriesData) => {
   if (!countriesData) return [];
 
   return countriesData.map(country => ({
-    value: country.country_id,
+    value: country.countryId,
     label: country.name,
   }));
 };
@@ -41,3 +41,13 @@ export const customStyles = {
       color: '#ffffff',
     }),
   }
+
+export const filterCountriesByCouncil = (countries, councils) =>{
+  return countries.filter(country => country.councils?.some(council => councils.include(council)))
+}
+
+export const filterCountriesBySearch = (countries, startingCharacters) =>{
+  if (!startingCharacters) return countries
+  return countries.filter(countries => countries.name.toLowerCase().startsWith(startingCharacters.toLowerCase())) 
+}
+

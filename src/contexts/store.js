@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 
- // good to go 
 const useStore = create((set)=>{
     return{
         accessToken: null,
@@ -16,11 +15,13 @@ const useStore = create((set)=>{
         },
         role: null,
         setRole: (value) => (set({role: value})),
-        country: null,
-        setCountry: (value)=>(set({country: value})),
-        country_id: null,
-        setID: (value)=>(set({id: value})),
-        clearAuth: ()=>{set({accessToken: null, isLogged: false, role: null, id: null, country: null})}
+        name: null,
+        setName: (value)=>(set({name: value})),
+        countryId: null,
+        setCountryId: (value)=>(set({countryId: value})),
+        speakerPoints: null,
+        setSpeakerPoints: (value)=>(set({speakerPoints: value})),
+        clearAuth: ()=>{set({accessToken: null, isLogged: false, role: null, countryId: null, name: null, speakerPoints: null})}
     }
 })
 

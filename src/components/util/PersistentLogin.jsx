@@ -6,7 +6,7 @@ import useRefreshToken from '../../hooks/useRefreshToken.js'
 const PersistentLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const isLogged = useStore((state)=> state.isLogged)
-  const id = useStore((state)=> state.country_id)
+  const id = useStore((state)=> state.countryId)
   const accessToken = useStore((state)=> state.accessToken)
   const refresh = useRefreshToken()
   

@@ -10,10 +10,10 @@ function Login() {
   
   const setAccessToken = useStore((state)=>state.setAccessToken)
   const setRole = useStore((state)=>state.setRole)
-  const setCountry = useStore((state)=>state.setCountry)
+  const setName = useStore((state)=>state.setName)
   const isLogged = useStore((state)=>state.isLogged)
   const setLogged = useStore((state)=>state.setLogged)
-  const setID = useStore((state)=>state.setID)
+  const setId = useStore((state)=>state.setCountryId)
   const loggedFromThisPage = useRef(false)
   const [errorSubmit, setErrorSubmit] = useState('')
   
@@ -42,8 +42,8 @@ function Login() {
     localStorage.setItem("Logged", "true")
     setAccessToken(data?.accessToken)
     setRole(data?.role)
-    setCountry(data?.name)
-    setID(data?.country_id)
+    setName(data?.name)
+    setId(data?.country_id)
     setErrorSubmit('')
     const role = data?.role
     if (from && from !== '/Delegates/Dashboard' && from !== '/Admin/Dashboard'){

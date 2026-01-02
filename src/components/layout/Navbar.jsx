@@ -9,7 +9,7 @@ const Navbar = () => {
   const location = useLocation();
   const { logOut } = useLogOut();
   const isLogged = useStore((s) => s.isLogged);
-  const country = useStore((s) => s.country);
+  const countryName = useStore((s) => s.name);
   console.log(isLogged)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -67,7 +67,7 @@ const Navbar = () => {
         <span className={styles.logo}>MMUN</span>
       </div>
       <img src="/40.png" alt="MMUN40 Logo" className="w-12 h-12" />
-      <h1 className={styles["nav-btn"]}>{country}</h1>
+      <h1 className={styles["nav-btn"]}>{countryName}</h1>
       </header>
     )
   }

@@ -4,7 +4,7 @@ const Footer = () => {
     }
   return (
     
-        <footer className="m-0 w-full bg-primary-dark py-6">
+        <footer className="m-0 bg-primary-dark py-6">
             <div className="m-0 flex w-full justify-between items-center">
             <div className="mx-auto flex align-center text-secondary gap-x-10 text-4xl">
               <a href="mailto:martingrovemodelun@gmail.com" target="_blank" rel="noopener noreferrer">

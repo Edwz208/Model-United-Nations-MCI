@@ -6,8 +6,8 @@ import { useQueryClient, useMutation } from '@tanstack/react-query'
 const useRefreshToken = () => {
   const setAccessToken = useStore((state)=> state.setAccessToken)
   const setRole = useStore((state)=> state.setRole)
-  const setCountry = useStore((state)=> state.setCountry)
-  const setID = useStore((state)=> state.setID)
+  const setName = useStore((state)=> state.setName)
+  const setId = useStore((state)=> state.setCountryId)
   const setLogged = useStore((state)=> state.setLogged)
   const queryClient = useQueryClient()
 
@@ -22,8 +22,8 @@ const useRefreshToken = () => {
     console.log(data)
     setAccessToken(data?.accessToken)
     setRole(data?.role)
-    setCountry(data?.name)
-    setID(data?.id)
+    setName(data?.name)
+    setId(data?.country_id)
     setLogged(true)
     }
   })
