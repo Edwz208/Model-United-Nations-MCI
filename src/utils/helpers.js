@@ -43,11 +43,12 @@ export const customStyles = {
   }
 
 export const filterCountriesByCouncil = (countries, councils) =>{
-  return countries.filter(country => country.councils?.some(council => councils.include(council)))
+  return countries.filter(country => country.councils?.some(council => councils.includes(council)))
 }
 
 export const filterCountriesBySearch = (countries, startingCharacters) =>{
   if (!startingCharacters) return countries
+  // console.log(countries.filter(countries => countries.name.toLowerCase().startsWith(startingCharacters.toLowerCase())))
   return countries.filter(countries => countries.name.toLowerCase().startsWith(startingCharacters.toLowerCase())) 
 }
 
