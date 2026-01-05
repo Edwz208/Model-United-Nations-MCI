@@ -42,13 +42,17 @@ export const customStyles = {
     }),
   }
 
+
+
+export const filterBySearch = (objects, keyName, startingCharacters) =>{
+  if (!startingCharacters) return objects
+  return objects.filter(objects => objects[keyName].toLowerCase().startsWith(startingCharacters.toLowerCase())) 
+}
+
 export const filterCountriesByCouncil = (countries, councils) =>{
   return countries.filter(country => country.councils?.some(council => councils.includes(council)))
 }
 
-export const filterCountriesBySearch = (countries, startingCharacters) =>{
-  if (!startingCharacters) return countries
-  // console.log(countries.filter(countries => countries.name.toLowerCase().startsWith(startingCharacters.toLowerCase())))
-  return countries.filter(countries => countries.name.toLowerCase().startsWith(startingCharacters.toLowerCase())) 
+export const filterResolutionsByCouncil = (resolutions, councils) =>{
+  return resolutions.filter(resolution => councils.includes(resolution.council_id))
 }
-

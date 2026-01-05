@@ -105,12 +105,12 @@ export function usePatchResolution(onSuccessCallback, onErrorCallback){
 
 }
 
-export function useDeleteResolution(onSuccessCallback, onErrorCallback){
+export function useDeleteResolutions(onSuccessCallback, onErrorCallback){
     const axiosPrivate = useAxiosPrivate()
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: async (resolution_id) => {
-            const response = await axiosPrivate.delete(`/delete-resolution/${resolution_id}`) // delete no body unless use in config {}
+        mutationFn: async (resolutions) => {
+            const response = await axiosPrivate.delete(`/delete-resolutions`, {data: { "resolution_ids": resolutions }}) // delete no body unless use in config {}
             return response?.data;
         },
       onSuccess: (data)=>{  

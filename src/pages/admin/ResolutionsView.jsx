@@ -1,4 +1,4 @@
-import ListResolutions from "../../components/admin/ListResolutions.jsx";
+import ListResolutions from "../../components/admin/ViewResolutions.jsx";
 import CreateResolution from "../../components/admin/CreateResolution.jsx";
 import { useState } from "react";
 

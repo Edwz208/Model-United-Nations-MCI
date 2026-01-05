@@ -131,3 +131,25 @@ export function useDeleteCountries(onSuccessCallback, onErrorCallback){
     })
 
 }
+
+export function useAddSpeakerPoints(onSuccessCallback, onErrorCallback){
+    const axiosPrivate = useAxiosPrivate()
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: async ({country, speakerPoints}) => { // receives only one object: variables, must destructure
+          console.log(country, speakerPoints)
+            const response = await axiosPrivate.post(`/update-speaker-points`, { "country": country, "speaker_points": speakerPoints })
+            return response?.data;
+        },
+      onSuccess: (data)=>{  
+        queryClient.invalidateQueries({queryKey: ['countries-all']})
+        queryClient.invalidateQueries({queryKey: ['countries-council',data?.country?.council_id]})
+        queryClient.invalidateQueries({queryKey: ['country',data?.country?.country_id]}) // must return councils of country
+        if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
+      },
+      onError: (error)=>{
+        if (onErrorCallback && typeof onErrorCallback === 'function') onErrorCallback(error)
+      }
+    })
+
+}

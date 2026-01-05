@@ -1,4 +1,4 @@
-import { ListResolutions } from "../../components/admin/ListResolutions.jsx";
+import { ListResolutions } from "../../components/admin/ViewResolutions.jsx";
 
 const ResolutionsDelegates = () => {
     return (
