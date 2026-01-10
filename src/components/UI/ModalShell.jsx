@@ -67,7 +67,7 @@ export default function Modal({
                       )}
                     </div>
                     <button
-                      onClick={() => onClose(false)}
+                      onClick={onClose}
                       className="rounded-xl p-2 hover:bg-background"
                       aria-label="Close"
                     >

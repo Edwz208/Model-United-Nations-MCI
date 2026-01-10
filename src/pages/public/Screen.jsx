@@ -1,13 +1,17 @@
 import useWebSocket from "../../hooks/useWebSocket";
+import { useParams } from "react-router-dom";
 
 function Screen(){
-    const { isOpen } = useWebSocket({onMessage: () => {
+    const { councilId } = useParams()
+
+    const { isOpen } = useWebSocket({councilId, onMessage: () => {
     }});
+
     if (!isOpen){
         return <div>Connecting to screen...</div>
     }
     return (
-        <div className=''>works</div>
+        <div className=''>Connected to council: {councilId}</div>
     )
 }
 

@@ -21,7 +21,7 @@ const useStore = create((set)=>{
         setCountryId: (value)=>(set({countryId: value})),
         speakerPoints: null,
         setSpeakerPoints: (value)=>(set({speakerPoints: value})),
-        clearAuth: ()=>{set({accessToken: null, isLogged: false, role: null, countryId: null, name: null, speakerPoints: null})}
+        clearAuth: ()=>{set({accessToken: null, isLogged: false, role: null, countryId: null, name: null, speakerPoints: null })}
     }
 })
 

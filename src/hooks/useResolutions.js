@@ -1,63 +1,24 @@
 import useAxiosPrivate from './useAxiosPrivate'
-import { useNavigate, useLocation } from 'react-router-dom'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 // used invalidateQueries because multiple things rely on it
 export function useGetAllResolutionsGeneral(){
     const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-    const location = useLocation();
     return useQuery({
         queryKey: ['resolutions-all-general'],
         queryFn: async () => {
-            try{
               const response = await axiosPrivate.get('/get-all-resolutions-general-info')
-              console.log(response?.data)
                 return response?.data;
-              }
-            catch (err){
-                console.log(err)
-                navigate('/Login', {state: {from: location}, replace: true})
-            }
-        }
-    })
-}
-
-export function useGetAllResolutionsInCouncilGeneral(council_id){
-    const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-    const location = useLocation();
-    return useQuery({
-        queryKey: ['resolutions-council-general', council_id],
-        queryFn: async () => {
-            try{
-              const response = await axiosPrivate.get(`/get-all-resolutions-general-info/${council_id}`)
-              console.log(response?.data)
-                return response?.data;
-              }
-            catch (err){
-                console.log(err)
-                navigate('/Login', {state: {from: location}, replace: true})
-            }
         }
     })
 }
 
 export function useResolution(resolution_id){
     const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-    const location = useLocation();
     return useQuery({
         queryKey: ['specific-resolution', resolution_id],
         queryFn: async () => {
-            try{
               const response = await axiosPrivate.get(`/get-resolution/${resolution_id}`)
-              console.log(response?.data)
                 return response?.data;
-              }
-            catch (err){
-                console.log(err)
-                navigate('/Login', {state: {from: location}, replace: true})
-            }
         }
     })
 }
@@ -71,10 +32,9 @@ export const useCreateResolution = (onSuccessCallback, onErrorCallback) => {
   }
   const queryClient = useQueryClient()
   return useMutation({
-    queryFn: postResolution,
+    mutationFn: postResolution,
     onSuccess: (data)=>{  
         queryClient.invalidateQueries({queryKey: ['resolutions-general']})
-        queryClient.invalidateQueries({queryKey: ['resolutions-council-general',data?.resolution?.council_id]})
       if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
     },
     onError: (error)=>{
@@ -94,7 +54,6 @@ export function usePatchResolution(onSuccessCallback, onErrorCallback){
         },
       onSuccess: (data)=>{  
         queryClient.invalidateQueries({queryKey: ['resolutions-general']})
-        queryClient.invalidateQueries({queryKey: ['resolutions-council-general',data?.resolution?.council_id]})
         queryClient.invalidateQueries({queryKey: ['specific-resolution',data?.resolution?.id]})
         if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
       },
@@ -115,7 +74,6 @@ export function useDeleteResolutions(onSuccessCallback, onErrorCallback){
         },
       onSuccess: (data)=>{  
         queryClient.invalidateQueries({queryKey: ['resolutions-general']})
-        queryClient.invalidateQueries({queryKey: ['resolutions-council-general',data?.resolution?.council_id]})
         queryClient.invalidateQueries({queryKey: ['specific-resolution',data?.resolution?.id]})
         if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
       },

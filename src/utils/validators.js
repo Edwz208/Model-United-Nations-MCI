@@ -11,6 +11,10 @@ export const validateCharMin = (str) => {
     return str.length >= 3;
   }
 
+export const validateCharExists = (str) =>{
+  return str.length >= 1
+}
+
 export const validatePosInteger = (integer) => {
   try {
     const integer_as_int = parseInt(integer)

@@ -7,7 +7,7 @@ import FormModal from '../UI/FormModal';
 import {filterBySearch, filterResolutionsByCouncil} from '../../utils/helpers.js'
 import CouncilFilter from '../UI/CouncilFilter';
 
-const ViewResolutions = () => {
+const ViewResolutions = ({councilScopedId}) => {
   const {data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError } = useGetAllCouncils()
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false)
@@ -15,12 +15,11 @@ const ViewResolutions = () => {
   const [selectedResolutions, setSelectedResolutions] = useState([]) // list of ids
   const [selectUnselect, setSelectUnselect] = useState(true)
   const [selectedCouncilIds, setSelectedCouncilIds] = useState([])
-
   useEffect(() =>{
     if (Array.isArray(councilsData) && selectedCouncilIds.length == 0){
       setSelectedCouncilIds(councilsData.map(council => council.council_id))
     }
-  }, [councilsData])
+  }, [councilsData, selectedCouncilIds.length])
 
   const [searchBar, setSearchBar] = useState('')
   const useDeleteResolutionsMutation = useDeleteResolutions()
@@ -62,7 +61,7 @@ const ViewResolutions = () => {
     useDeleteResolutionsMutation.mutate(selectedResolutions)
     setSelectedResolutions([])
   } 
-  // sketchy select logic right now
+  
   const {data: resolutionsData, isLoading: isResolutionsLoading, isError: isResolutionsError } = useGetAllResolutionsGeneral();
   if (isResolutionsLoading) return <div>Loading...</div>
   if (isResolutionsError) return <div>Error loading resolution data.</div>
@@ -72,7 +71,7 @@ const ViewResolutions = () => {
   </FormModal>
     <div className='flex gap-3'>
     <input id = 'search-bar' value={searchBar} placeholder='Search here' type='search' onChange={(e)=>setSearchBar(e.target.value)}className='border border-border flex-1 '/>
-    <CouncilFilter councilsData={councilsData} selectedCouncilIds={selectedCouncilIds} setSelectedCouncilIds={setSelectedCouncilIds}/>
+    {!councilScopedId && <CouncilFilter councilsData={councilsData} selectedCouncilIds={selectedCouncilIds} setSelectedCouncilIds={setSelectedCouncilIds}/>}
     </div>
     <div className='flex mt-1 gap-5'>
     <Button variant={"secondary"} className="mr-5" onClick={() => {selectUnselect ? setSelectedResolutions(filterResolutionsByCouncil(filterBySearch(resolutionsData, "council_id", searchBar),selectedCouncilIds).map(c=>c.country_id)) : setSelectedResolutions([]); setSelectUnselect(prev => !prev)}}>{selectUnselect ? 'Select All' : 'Unselect'}</Button>

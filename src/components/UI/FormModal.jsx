@@ -1,7 +1,7 @@
 import ModelShell from './ModalShell.jsx'
 import { useState } from 'react'
 
-function FormModal({open, setOpen, title, description, size, onSubmit, children}){
+function FormModal({open, setOpen, title, description, size, footerSubmit="Save Changes", onSubmit, onCancel, children}){
     const [isLoading, setIsLoading] = useState(false)
     const handleSaveChanges = async (e) =>{
     e.preventDefault()
@@ -21,12 +21,12 @@ function FormModal({open, setOpen, title, description, size, onSubmit, children}
     
 }
     return (
-    <ModelShell open={open} onClose={setOpen} title={title} description={description} size={size}
+    <ModelShell open={open} onClose={onCancel} title={title} description={description} size={size}
             footer={
         <>
           <button
             type="button"
-            onClick={() => setOpen(false)}
+            onClick={onCancel}
             disabled={isLoading}
             className="rounded-xl border border-border px-4 py-2 hover:bg-background/60"
           >
@@ -40,7 +40,7 @@ function FormModal({open, setOpen, title, description, size, onSubmit, children}
             className=
               "rounded-xl px-4 py-2 text-white bg-blue-600 hover:bg-blue-700"
           >
-            {isLoading ? 'Saving' : 'Save Changes'}
+            {isLoading ? 'Saving' : footerSubmit}
           </button>
         </>}
         >

@@ -1,44 +1,27 @@
 import useAxiosPrivate from './useAxiosPrivate'
-import { useNavigate, useLocation } from 'react-router-dom'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 // must pass coutry_id into patch
 
 export function useGetAllAmendmentsInResolutionGeneral(resolution_id){
     const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-    const location = useLocation();
     return useQuery({
         queryKey: ['amendments-resolution', resolution_id],
         queryFn: async () => {
-            try{
               const response = await axiosPrivate.get(`/all-amendments/${resolution_id}`)
               console.log(response?.data)
                 return response?.data;
-              }
-            catch (err){
-                console.log(err)
-                navigate('/Login', {state: {from: location}, replace: true})
-            }
         }
     })
 }
 
 export function useAmendmentsForCountry(countryId){
     const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-    const location = useLocation();
     return useQuery({
         queryKey: ['country-amendments', countryId],
         queryFn: async () => {
-            try{
               const response = await axiosPrivate.get(`/specific-amendment-country/${countryId}`)
               console.log(response?.data)
                 return response?.data;
-              }
-            catch (err){
-                console.log(err)
-                navigate('/Login', {state: {from: location}, replace: true})
-            }
         }
     })
 }

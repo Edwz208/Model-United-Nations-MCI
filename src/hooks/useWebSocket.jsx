@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function useWebSocket(
-  { reconnectDelayMs = 1000, maxReconnectDelayMs = 15000, shouldReconnect = true, onMessage } = {}
+  { councilId, reconnectDelayMs = 1000, maxReconnectDelayMs = 15000, shouldReconnect = true, onMessage } = {}
 ) { // onmessage dependancy was constantly rerendering
   const wsRef = useRef(null);
   const timerRef = useRef(null);
   const mountedRef = useRef(false);
   const retryDelayRef = useRef(reconnectDelayMs);
   const onMessageRef = useRef(onMessage);
+  console.log(councilId)
   useEffect(() => {
     onMessageRef.current = onMessage;
   }, [onMessage]);
@@ -30,7 +31,7 @@ export default function useWebSocket(
       return;
     }
 
-    const ws = new WebSocket("ws://localhost:8000/screen");
+    const ws = new WebSocket(`ws://localhost:8000/Council/${councilId}/Screen`);
     wsRef.current = ws;
     setReadyState(ws.readyState);
 
