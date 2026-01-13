@@ -14,6 +14,19 @@ export function useGetAllAmendmentsInResolutionGeneral(resolution_id){
     })
 }
 
+export function useGetAllAmendmentsInCouncil(council_id){
+  const axiosPrivate = useAxiosPrivate()
+  return useQuery({
+    queryKey: ['council-amendments', council_id],
+    queryFn: async () =>{
+      const response = await axiosPrivate.get(`/council-amendments/${council_id}`)
+      console.log(response?.data)
+      return response?.data
+    }
+  })
+
+}
+
 export function useAmendmentsForCountry(countryId){
     const axiosPrivate = useAxiosPrivate();
     return useQuery({
@@ -67,16 +80,18 @@ export function usePatchAmendment(onSuccessCallback, onErrorCallback, countryId)
     })
 }
 
-export function useApproveRejectAmendment(onSuccessCallback, onErrorCallback, amendment_id){
+export function useApproveRejectAmendment(onSuccessCallback, onErrorCallback, council_id){
     const axiosPrivate = useAxiosPrivate()
     const queryClient = useQueryClient()
-    return useMutation({
-        mutationFn: async (formData) => {
+    return useMutation({ // destructure here but not in useApproveRejectAmendment params
+        mutationFn: async ({formData, amendment_id}) => {
+          console.log(formData, amendment_id)
             const response = await axiosPrivate.patch(`/approve-reject-amendment/${amendment_id}`, formData)
             return response?.data
         },
       onSuccess: (data)=>{  
         queryClient.invalidateQueries({queryKey: ['amendments-resolution', data?.amendment?.resolution_id]})
+        queryClient.invalidateQueries({queryKey: ['council-amendments', council_id]})
         queryClient.invalidateQueries({queryKey: ['country-amendments', data?.amendment?.submitter]})
         if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
       },

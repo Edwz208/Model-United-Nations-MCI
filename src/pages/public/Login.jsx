@@ -36,7 +36,6 @@ function Login() {
 
 
   const onSuccessCallback = (data) => {
-    console.log(data)
     loggedFromThisPage.current = true
     setLogged(true)
     localStorage.setItem("Logged", "true")

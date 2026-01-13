@@ -56,3 +56,7 @@ export const filterCountriesByCouncil = (countries, councils) =>{
 export const filterResolutionsByCouncil = (resolutions, councils) =>{
   return resolutions.filter(resolution => councils.includes(resolution.council_id))
 }
+
+export const filterUnapprovedAmendmentsOnly = (amendments) =>{
+  return amendments.filter(amendment => amendment.status === 'pending' || amendment.status ==='pending review')
+}

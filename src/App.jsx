@@ -34,6 +34,7 @@ import AdminHomePage from './pages/admin/Home.jsx';
 import AdminCountries from "./pages/admin/Countries.jsx";
 import AdminResolutions from './pages/admin/Resolutions.jsx';
 import AdminProjectionDashboard from "./components/admin/ProjectionDashboard.jsx";
+import ReviewAmendments from './pages/admin/ReviewAmendments.jsx'
 
 import CouncilParamWrapper from "./components/util/CouncilParamWrapper.jsx";
 
@@ -87,6 +88,7 @@ function App() {
                   <Route path="resolutions" element={<PageWrapper><AdminResolutions /></PageWrapper>} />
                   <Route path="projection" element={<PageWrapper><AdminProjectionDashboard /></PageWrapper>} />
                   <Route path="countries" element={<PageWrapper><AdminCountries /></PageWrapper>} />
+                  <Route path="review" element={<PageWrapper><ReviewAmendments /></PageWrapper>} />
                 </Route>
               </Route>
             </Route>

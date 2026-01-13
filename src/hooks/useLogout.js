@@ -20,7 +20,6 @@ const useLogOut = () => {
     const clearAuth = useStore((state)=>state.clearAuth)
 
     const logOut = async () => {
-        console.log("loggin out ")
         mutation.mutate();
         clearAuth();
         localStorage.setItem('Logged', false)

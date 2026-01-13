@@ -8,7 +8,8 @@ export default function useWebSocket(
   const mountedRef = useRef(false);
   const retryDelayRef = useRef(reconnectDelayMs);
   const onMessageRef = useRef(onMessage);
-  console.log(councilId)
+  const firstMessageRef = useRef(true);
+
   useEffect(() => {
     onMessageRef.current = onMessage;
   }, [onMessage]);
@@ -43,10 +44,15 @@ export default function useWebSocket(
       let data = e.data;
       try {
         data = JSON.parse(e.data);
-      } catch {
-        data = "failed"
+        if (firstMessageRef.current){
+        firstMessageRef.current = false
       }
-      onMessageRef.current?.(data) //optional chaining on function
+      console.log(data)
+      onMessageRef.current?.(data)
+
+      } catch {
+        data = null
+      }
     };
 
     ws.onerror = () => {

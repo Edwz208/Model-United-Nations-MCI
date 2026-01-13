@@ -1,4 +1,4 @@
-import useWebSocket from "../../hooks/useWebSocket";
+import useWebSocket from "../../hooks/useWebSocket.js";
 import { useParams } from "react-router-dom";
 
 function Screen(){

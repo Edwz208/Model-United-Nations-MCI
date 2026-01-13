@@ -16,11 +16,9 @@ export function useGetAllCouncils(){
       queryFn: async () => {
           try{
               const response = await axiosPrivate.get('/get-councils-list')
-              console.log(response?.data)
               return response?.data;
             }
           catch (err){
-              console.log(err)
               navigate('/Login', {state: {from: location}, replace: true})
           }
       }

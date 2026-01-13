@@ -3,7 +3,6 @@ import { Outlet, useParams, Navigate } from "react-router-dom";
 function CouncilParamWrapper() {
   const { councilId } = useParams();
   const id = Number(councilId);
-  console.log(id)
   if (!Number.isFinite(id)) return <Navigate to="/Admin/Dashboard" replace />;
 
   return <Outlet context={{ councilId: id }} />;

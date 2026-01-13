@@ -67,7 +67,7 @@ const ViewResolutions = ({councilScopedId}) => {
   if (isResolutionsError) return <div>Error loading resolution data.</div>
   return (<>
   <ConfirmModal open={isDeleteOpen} setOpen={setIsDeleteOpen} title={"Delete resolution?"} description={`Are you sure you want to delete resolution ${openedResolution?.title}? This action cannot be undone.`} onConfirm={onOpenConfirmDelete}></ConfirmModal>
-  <FormModal open={isEditOpen} setOpen={setIsEditOpen} title={`Modify resolution ${openedResolution?.title}`} description={`Make changes to resolution ${openedResolution?.title}.`} onSubmit={onSaveChanges}>
+  <FormModal open={isEditOpen} title={`Modify resolution ${openedResolution?.title}`} description={`Make changes to resolution ${openedResolution?.title}.`} onSubmit={onSaveChanges}>
   </FormModal>
     <div className='flex gap-3'>
     <input id = 'search-bar' value={searchBar} placeholder='Search here' type='search' onChange={(e)=>setSearchBar(e.target.value)}className='border border-border flex-1 '/>

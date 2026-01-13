@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import FormModal from '../UI/FormModal';
-import { useCreateCountry } from '../../hooks/useCountries';
+import { usePatchCountry, useCountry } from '../../hooks/useCountries';
 import { useGetAllCouncils } from '../../hooks/useCouncils';
 import { validatePosInteger, validateCharExists } from "../../utils/validators.js";
+import { useQueryClient } from '@tanstack/react-query';
 
-function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "Add new country", description = "Modify or add country here", footerSubmit = "Submit"}){
+function UpdateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "Add new country", description = "Modify or add country here", footerSubmit = "Submit", openedCountry, setOpenedCountry}){
 
   const {data: councilsData = [], isLoading: isCouncilLoading, isError: isCouncilError, error: councilsError } = useGetAllCouncils()
   const errorRetrievingCouncils = councilsError?.response ? (councilsError.response.data?.detail || councilsError.response.status) : councilsError?.request ? "Server unreachable. Check your connection." : (councilsError?.message || "Unexpected error")
@@ -16,8 +17,29 @@ function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
   const [councilIds, setCouncilIds] = useState([])
   const [speakerPoints, setSpeakerPoints] = useState('0')
   const [login, setLogin] = useState('')
+  const queryClient = useQueryClient()
+  const {data: countriesData, isLoading: isCountriesLoading, isError: isCountriesError, error: countriesError } = useCountry(openedCountry?.country_id)
+  useEffect(()=>{
+    if (!countriesData) return
+    setCountryName(countriesData.country.name ?? '')
+    setDelegate1(countriesData.country.delegate1 ?? '')
+    setDelegate2(countriesData.country.delegate2 ?? '')
+    setDelegate3(countriesData.country.delegate3 ?? '')
+    setDelegate4(countriesData.country.delegate4 ?? '')
+    setSpeakerPoints(String(countriesData.country.speaker_points ?? '0'))
+    setLogin(countriesData.country.login ?? '')
+    console.log(countriesData.country)
 
-  
+  },[countriesData])
+  const errorMessage = countriesError?.response ? (countriesError.response.data?.detail ||countriesError.response.status) : countriesError?.request ? "Server unreachable. Check your connection." : (countriesError?.message || "Unexpected error");
+
+  useEffect(()=>{
+    if (isAddOpen){
+        queryClient.invalidateQueries(['country', openedCountry?.country_id ?? ''])
+    }
+
+  },[isAddOpen])
+
   const onCancel = () =>{
     setCountryName('')
     setDelegate1('')
@@ -44,6 +66,7 @@ function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
 
   const onSuccessCallback = () => {
       setErrorSubmit('')
+      setOpenedCountry?.(null)
       setIsAddOpen(false)
     }
 
@@ -60,31 +83,40 @@ function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
     })
   }
 
-  const mutation = useCreateCountry(onSuccessCallback, onErrorCallback)
 
   const countryNameValid = validateCharExists(countryName)
   const delegate1Valid = validateCharExists(delegate1)
   const loginValid = validateCharExists(login)
   const speakerPointsValid = validatePosInteger(speakerPoints)
 
-  const onAddNew = () =>{
+  const mutation = usePatchCountry(onSuccessCallback, onErrorCallback)
+
+  const onSaveEditChanges = () => {
+    if (!openedCountry?.country_id) return
     if (countryNameValid && delegate1Valid && loginValid && speakerPointsValid){
-    mutation.mutate({"assigned_country": countryName, delegate1, delegate2, delegate3, delegate4, "councils": councilIds, login, "speaker_points": parseInt(speakerPoints)})
-    }
-    // modifying via success in mutate will extend behaviour beyond the onsuccess callback in useMutation, so specializes it
-    // try to use mutate to define behaviour for that one execution of a variant of the mutation
+      mutation.mutate({"formData": {"assigned_country": countryName, delegate1, delegate2, delegate3, delegate4, "councils": councilIds, login, "speaker_points": parseInt(speakerPoints)}, country_id: openedCountry.country_id})
   }
+}
+
 
   if (isCouncilError) {
       const status = councilsError?.response?.status
       if (status === 401){ 
           return <Unauthorized/>
       }
-      return <FormModal open={isAddOpen} title={title}>{errorRetrievingCouncils}</FormModal>}
-  if (isCouncilLoading) return <FormModal open={isAddOpen} title={title}>Loading councils…</FormModal>
+      return <FormModal onCancel={onCancel} open={isAddOpen} title={title}>{errorRetrievingCouncils}</FormModal>}
+  if (isCouncilLoading) return <FormModal onCancel={onCancel} open={isAddOpen} title={title}>Loading councils…</FormModal>
+
+  if (isCountriesError) {
+      const status = countriesError?.response?.status
+      if (status === 401){ 
+          return <Unauthorized/>
+      }
+      return <FormModal onCancel={onCancel} open={isAddOpen} title={title}>{errorMessage}</FormModal>}
+  if (isCountriesLoading) return <FormModal open={isAddOpen} onCancel={onCancel} title={title}>Loading countries…</FormModal>
 
     return (
-    <FormModal open={isAddOpen} size={"xl"} onCancel={onCancel} title={title} description={description} onSubmit={onAddNew} footerSubmit={footerSubmit} isLoading={mutation.isPending}>
+    <FormModal open={isAddOpen} size={"xl"} onCancel={onCancel} title={title} description={description} onSubmit={onSaveEditChanges} footerSubmit={footerSubmit} isLoading={mutation.isPending}>
       <div className='flex flex-col gap-4'>
 
         <div className='flex flex-col gap-1'>
@@ -223,4 +255,4 @@ function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
 
 }
 
-export default CreateCountryForm;
+export default UpdateCountryForm;

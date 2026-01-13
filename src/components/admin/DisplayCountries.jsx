@@ -7,10 +7,12 @@ import { useGetAllCouncils } from '../../hooks/useCouncils'
 import CouncilFilter from '../UI/CouncilFilter.jsx'
 import Button from '../UI/Button.jsx'
 
+import Unauthorized from '../../pages/public/Unauthorized.jsx'
+
 function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpenedCountry, councilScopedId}){
 
     const [selectedCouncilIds, setSelectedCouncilIds] = useState([])
-    const {data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError } = useGetAllCouncils()
+    const {data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError, error: councilsError } = useGetAllCouncils()
     useEffect(() =>{
     if (!Array.isArray(councilsData)) return
     const validCouncilIds = councilsData.map(c => c.council_id)
@@ -22,9 +24,12 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
     })}, [councilsData])
 
 
-    const {data: countriesData, isLoading: isCountriesLoading, isError: isCountriesError } = useGetAllCountries()
+    const {data: countriesData, isLoading: isCountriesLoading, isError: isCountriesError, error: countriesError } = useGetAllCountries()
+    const errorMessage = countriesError?.response ? (countriesError.response.data?.detail ||countriesError.response.status) : countriesError?.request ? "Server unreachable. Check your connection." : (countriesError?.message || "Unexpected error");
+    // better than storing in state because that coul cause extra renders, this is just computed per render
 
     const useAddSpeakerPointsMutation = useAddSpeakerPoints()
+
     const useDeleteCountriesMutation = useDeleteCountries()
     
     const [searchBar, setSearchBar] = useState('')
@@ -66,12 +71,18 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
         useDeleteCountriesMutation.mutate(selectedCountries)
         setSelectedCountries([])
     } 
-    if (isCountriesError) return <div></div>
-    if (isCountriesLoading) return <div></div>
+    if (isCountriesError) {
+        const status = countriesError?.response?.status
+        if (status === 401){ // no need for useeffect, no other side effects
+            return <Unauthorized/>
+        }
+        return <p>Error: {errorMessage}</p>}
+    if (isCountriesLoading) return <div>Loading countries...</div>
+
     return (<>
         <div className='flex gap-3'>
         <input id = 'search-bar' value={searchBar} placeholder='Search here' type='search' onChange={(e)=>setSearchBar(e.target.value)}className='border border-border flex-1 '/>
-        {!councilScopedId && <CouncilFilter councilsData={councilsData} selectedCouncilIds={selectedCouncilIds} setSelectedCouncilIds={setSelectedCouncilIds}/>}
+        {!councilScopedId && <CouncilFilter councilsData={councilsData} selectedCouncilIds={selectedCouncilIds} setSelectedCouncilIds={setSelectedCouncilIds} isError={isCouncilsError} isLoading={isCouncilsLoading}/>}
         </div>
         <div className='flex justify-between mt-3 gap-5'>
         <div>
@@ -80,7 +91,7 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
         </div>
         <Button variant={"primary"} onClick={()=>{handleAdd()}}>Add +</Button>
         </div>
-        {filterCountriesByCouncil(filterBySearch(countriesData, "name", searchBar),selectedCouncilIds).map((country, index) => (
+        {filterCountriesByCouncil(filterBySearch(countriesData, "name", searchBar), councilScopedId != null ? [councilScopedId] : selectedCouncilIds).map((country, index) => (
             <div key={country.country_id} className="flex items-center justify-between gap-5 p-4 mt-4 bg-white rounded shadow">
             <div className="flex items-center gap-3">
             <input type='checkbox' checked={selectedCountries.includes(country.country_id)} onChange={()=> handleSelect(country)}/>
@@ -94,7 +105,7 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
                     name='speaker-points'
                     type='number'
                     placeholder='Enter new value'
-                    value={speakerPointsUpdate[country.country_id]!=null + country.speaker_points ? country.speaker_points + speakerPointsUpdate[country.country_id] : ""}
+                    value={speakerPointsUpdate[country.country_id] != null? country.speaker_points + Number(speakerPointsUpdate[country.country_id]): ""}
                     onChange={(e) =>
                     setSpeakerPointsUpdate(prev => ({
                         ...prev,

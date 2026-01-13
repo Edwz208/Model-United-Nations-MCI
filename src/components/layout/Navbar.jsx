@@ -10,7 +10,6 @@ const Navbar = () => {
   const { logOut } = useLogOut();
   const isLogged = useStore((s) => s.isLogged);
   const countryName = useStore((s) => s.name);
-  console.log(isLogged)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
 

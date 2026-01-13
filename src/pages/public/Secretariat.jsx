@@ -13,8 +13,6 @@ const Secretariat = () => {
     }
     const isLogged = useStore((state) => state.isLogged);
     const role = useStore((state) => state.role);
-    console.log(isLogged)
-    console.log(role)
     if (isLoading && !modifyMode) return <div className='h-screen w-full text-center'> Loading...</div>
     if (isError && !modifyMode) return <div className='bg-red-500 min-h-screen w-full text-center'>Error loading secretariat data.</div>
 

@@ -24,7 +24,6 @@ export function useCountry(countryId){
         queryKey: ['country', countryId],
         queryFn: async () => {
               const response = await axiosPrivate.get(`/select-country/${countryId}`)
-              console.log(response?.data)
                 return response?.data;
         }
     })
@@ -33,7 +32,6 @@ export function useCountry(countryId){
 export const useCreateCountry = (onSuccessCallback, onErrorCallback) => {
   const axiosPrivate = useAxiosPrivate()
   const postResolution = async (formData) => {
-    console.log(formData)
   const response = await axiosPrivate.post(
   "/add-single-country", formData)
   return response?.data
@@ -57,8 +55,8 @@ export function usePatchCountry(onSuccessCallback, onErrorCallback){
     const axiosPrivate = useAxiosPrivate()
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: async (formData) => {
-            const response = await axiosPrivate.patch(`/update-single-country/${formData.country_id}`, formData)
+        mutationFn: async ({formData, country_id}) => {
+            const response = await axiosPrivate.patch(`/update-single-country/${country_id}`, formData)
             return response?.data
         },
       onSuccess: (data)=>{  
@@ -98,7 +96,6 @@ export function useAddSpeakerPoints(onSuccessCallback, onErrorCallback){
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: async ({country, speakerPoints}) => { // receives only one object: variables, must destructure
-          console.log(country, speakerPoints)
             const response = await axiosPrivate.post(`/update-speaker-points`, { "country": country, "speaker_points": speakerPoints })
             return response?.data;
         },
@@ -112,4 +109,27 @@ export function useAddSpeakerPoints(onSuccessCallback, onErrorCallback){
       }
     })
 
+}
+
+
+export const useImportCountries = (onSuccessCallback, onErrorCallback) => {
+  const axiosPrivate = useAxiosPrivate()
+  const postResolution = async (url) => { // no need destructure because only one value, not because func definition
+  const response = await axiosPrivate.post(
+  "/sheet-export", {"url": url})
+  return response?.data
+  }
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: postResolution,
+    onSuccess: ()=>{  
+        queryClient.invalidateQueries({queryKey: ['countries-all']})
+        queryClient.invalidateQueries({queryKey: ['country']})
+      if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
+    },
+    onError: (error)=>{
+      if (onErrorCallback && typeof onErrorCallback === 'function') onErrorCallback(error)
+    }
+  }
+)
 }

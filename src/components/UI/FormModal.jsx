@@ -1,24 +1,11 @@
 import ModelShell from './ModalShell.jsx'
-import { useState } from 'react'
-
-function FormModal({open, setOpen, title, description, size, footerSubmit="Save Changes", onSubmit, onCancel, children}){
-    const [isLoading, setIsLoading] = useState(false)
-    const handleSaveChanges = async (e) =>{
+// maintain usage of mutate not mutateAsync by passing in the isLoading from the mutation instance
+function FormModal({open, title, description, size, footerSubmit="Save Changes", onSubmit, onCancel, children, isLoading}){
+    const handleSaveChanges = (e) =>{
     e.preventDefault()
     if (!onSubmit || isLoading) return;
-    try{
-        setIsLoading(true)
-        await onSubmit()
-        setOpen(false)
-    }
-    catch (error){
-        console.log(error)
-    }
-    finally{
-        setIsLoading(false)
-    }
-
-    
+      onSubmit()
+  
 }
     return (
     <ModelShell open={open} onClose={onCancel} title={title} description={description} size={size}
