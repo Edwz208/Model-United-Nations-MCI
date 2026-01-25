@@ -30,6 +30,7 @@ const ViewCountries = () => {
 
   const onOpenConfirmDelete = () =>{
     if (!openedCountry?.country_id) return
+    console.log(openedCountry, "openedCountry")
     useDeleteCountriesMutation.mutate([openedCountry.country_id])
     setIsDeleteOpen(false)
     setOpenedCountry(null)
@@ -44,8 +45,8 @@ const ViewCountries = () => {
 
   return (
     <>
-    <ConfirmModal open={isDeleteOpen} setOpen={setIsDeleteOpen} title={"Delete country?"} description={`Are you sure you want to delete country ${openedCountry?.name}? This action cannot be undone.`} onConfirm={onOpenConfirmDelete}></ConfirmModal>
-    <UpdateCountryForm isAddOpen={isEditOpen} setIsAddOpen={setIsEditOpen} title={`Modify country ${openedCountry?.name}`} description={`Make changes to country ${openedCountry?.name}.`} councilScopedId ={councilScopedId} footerSubmit={"Save Changes"} openedCountry={openedCountry}></UpdateCountryForm>
+    <ConfirmModal open={isDeleteOpen} setOpen={setIsDeleteOpen} title={"Delete country?"} description={`Are you sure you want to delete ${openedCountry?.name}? This action cannot be undone.`} onConfirm={onOpenConfirmDelete}></ConfirmModal>
+    <UpdateCountryForm isAddOpen={isEditOpen} setIsAddOpen={setIsEditOpen} title={`Modify country?`} description={`Make changes to ${openedCountry?.name}.`} footerSubmit={"Save Changes"} openedCountry={openedCountry}></UpdateCountryForm>
     <CreateCountryForm isAddOpen={isAddOpen} setIsAddOpen={setIsAddOpen} councilScopedId={councilScopedId} title={'Add new country'} description={"Enter new country information"} footerSubmit={'Submit'}/>
     <DisplayCountries setIsAddOpen={setIsAddOpen} setIsEditOpen={setIsEditOpen} setIsDeleteOpen={setIsDeleteOpen} councilScopedId={councilScopedId} setOpenedCountry={setOpenedCountry}/>
     <FormModal isLoading={useImportCountriesMutation.isPending} open={isImportOpen} setOpen={setIsImportOpen} title={"Export from spreadsheet"} description={`Are you sure you want to import from spreadsheet? This action will override existing countries and cannot be undone.`} onSubmit={onConfirmImport} onCancel={()=>setIsImportOpen(false)}>

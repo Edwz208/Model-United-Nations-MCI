@@ -35,7 +35,7 @@ function CouncilFilter({councilsData = [], selectedCouncilIds =[], setSelectedCo
           <ListboxOption
             key={council.council_id}
             value={council.council_id}
-            className="cursor-pointer rounded-md px-2 py-1 text-sm data-[active]:bg-primary/10"
+            className="cursor-pointer rounded-md px-2 py-1 text-sm data-active:bg-primary/10"
           >
             {({ selected }) => (
               <div className="flex items-center gap-2">
@@ -43,7 +43,6 @@ function CouncilFilter({councilsData = [], selectedCouncilIds =[], setSelectedCo
                   type="checkbox"
                   checked={selected}
                   readOnly
-                  onClick={(e) => e.preventDefault()}
                 />
                 <span className={selected ? "font-medium" : ""}>{council.name}</span>
               </div>

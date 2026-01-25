@@ -20,7 +20,7 @@ function ConfirmModal({open, setOpen, title, description, size, onConfirm}){
         
     }
     return (
-        <ModalShell open={open} onClose={setOpen} title={title} description={description} size={size}
+        <ModalShell open={open} onClose={()=>{setOpen(false)}} title={title} description={description} size={size}
         footer={
         <>
           <button

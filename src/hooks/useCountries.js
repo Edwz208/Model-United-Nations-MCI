@@ -18,15 +18,19 @@ export function useGetAllCountries(){
     })
 }
 
-export function useCountry(countryId){
-    const axiosPrivate = useAxiosPrivate();
-    return useQuery({
-        queryKey: ['country', countryId],
-        queryFn: async () => {
-              const response = await axiosPrivate.get(`/select-country/${countryId}`)
-                return response?.data;
-        }
-    })
+export function useCountry(countryId, options = {}) {
+  const axiosPrivate = useAxiosPrivate();
+
+  return useQuery({
+    queryKey: ['country', countryId],
+    queryFn: async () => {
+      if (!countryId) throw new Error("Missing countryId");
+      const response = await axiosPrivate.get(`/select-country/${countryId}`);
+      return response.data;
+    },
+    enabled: !!countryId && (options.enabled ?? true),
+    ...options,
+  }); // must have enabled set up here to forward options into here
 }
 
 export const useCreateCountry = (onSuccessCallback, onErrorCallback) => {

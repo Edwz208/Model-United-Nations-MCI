@@ -29,7 +29,7 @@ function DisplayCountries(){
     return (<>
         <div className='flex gap-3'>
         <input id = 'search-bar' value={searchBar} placeholder='Search here' type='search' onChange={(e)=>setSearchBar(e.target.value)}className='border border-border flex-1 '/>
-        <CouncilFilter councilsData={councilsData} selectedCouncilIds={selectedCouncilIds} setSelectedCouncilIds={setSelectedCouncilIds}/>
+        <CouncilFilter councilsData={councilsData} selectedCouncilIds={selectedCouncilIds} setSelectedCouncilIds={setSelectedCouncilIds} isError={isCouncilsError} isLoading={isCouncilsLoading}/>
         </div>
         {filterCountriesByCouncil(filterBySearch(countriesData, "name", searchBar),selectedCouncilIds).map((country, index) => (
             <div key={country.country_id} className="flex gap-5 p-4 mt-4 bg-white rounded shadow items-center">

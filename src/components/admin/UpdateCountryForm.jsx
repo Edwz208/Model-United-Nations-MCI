@@ -3,9 +3,8 @@ import FormModal from '../UI/FormModal';
 import { usePatchCountry, useCountry } from '../../hooks/useCountries';
 import { useGetAllCouncils } from '../../hooks/useCouncils';
 import { validatePosInteger, validateCharExists } from "../../utils/validators.js";
-import { useQueryClient } from '@tanstack/react-query';
 
-function UpdateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "Add new country", description = "Modify or add country here", footerSubmit = "Submit", openedCountry, setOpenedCountry}){
+function UpdateCountryForm({isAddOpen, setIsAddOpen, title = "Add new country", description = "Modify or add country here", footerSubmit = "Submit", openedCountry, setOpenedCountry}){
 
   const {data: councilsData = [], isLoading: isCouncilLoading, isError: isCouncilError, error: councilsError } = useGetAllCouncils()
   const errorRetrievingCouncils = councilsError?.response ? (councilsError.response.data?.detail || councilsError.response.status) : councilsError?.request ? "Server unreachable. Check your connection." : (councilsError?.message || "Unexpected error")
@@ -17,8 +16,8 @@ function UpdateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
   const [councilIds, setCouncilIds] = useState([])
   const [speakerPoints, setSpeakerPoints] = useState('0')
   const [login, setLogin] = useState('')
-  const queryClient = useQueryClient()
-  const {data: countriesData, isLoading: isCountriesLoading, isError: isCountriesError, error: countriesError } = useCountry(openedCountry?.country_id)
+  const {data: countriesData, isLoading: isCountriesLoading, isError: isCountriesError, error: countriesError } = useCountry(openedCountry?.country_id, {enabled: isAddOpen && openedCountry != null})
+  
   useEffect(()=>{
     if (!countriesData) return
     setCountryName(countriesData.country.name ?? '')
@@ -28,34 +27,23 @@ function UpdateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
     setDelegate4(countriesData.country.delegate4 ?? '')
     setSpeakerPoints(String(countriesData.country.speaker_points ?? '0'))
     setLogin(countriesData.country.login ?? '')
-    console.log(countriesData.country)
+    console.log(countriesData.country.councils, "countryData")
+    setCouncilIds(countriesData.country.councils ? countriesData.country.councils.map(council => council) : [])
 
   },[countriesData])
   const errorMessage = countriesError?.response ? (countriesError.response.data?.detail ||countriesError.response.status) : countriesError?.request ? "Server unreachable. Check your connection." : (countriesError?.message || "Unexpected error");
 
-  useEffect(()=>{
-    if (isAddOpen){
-        queryClient.invalidateQueries(['country', openedCountry?.country_id ?? ''])
-    }
-
-  },[isAddOpen])
-
   const onCancel = () =>{
-    setCountryName('')
-    setDelegate1('')
-    setDelegate2('')
-    setDelegate3('')
-    setDelegate4('')
-    setSpeakerPoints('0')
-    setLogin('')
-    if (councilScopedId !=null) setCouncilIds([councilScopedId])
-    else setCouncilIds([])
+    setCountryName(countriesData.country.name ?? '')
+    setDelegate1(countriesData.country.delegate1 ?? '')
+    setDelegate2(countriesData.country.delegate2 ?? '')
+    setDelegate3(countriesData.country.delegate3 ?? '')
+    setDelegate4(countriesData.country.delegate4 ?? '')
+    setSpeakerPoints(String(countriesData.country.speaker_points ?? '0'))
+    setLogin(countriesData.country.login ?? '')
+    setCouncilIds(countriesData.country.councils ? countriesData.country.councils.map(council => council) : [])
     setIsAddOpen(false)
   }
-
-  useEffect(()=>{
-    if (councilScopedId !=null) setCouncilIds([councilScopedId])
-  }, [councilScopedId])
 
 
   const [errorSubmit, setErrorSubmit] = useState('')

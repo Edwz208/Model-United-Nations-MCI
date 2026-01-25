@@ -8,7 +8,8 @@ import {filterBySearch, filterResolutionsByCouncil} from '../../utils/helpers.js
 import CouncilFilter from '../UI/CouncilFilter';
 
 const ViewResolutions = ({councilScopedId}) => {
-  const {data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError } = useGetAllCouncils()
+  const {data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError, error: councilsError } = useGetAllCouncils()
+  const errorMessage = councilsError?.response ? (countriesError.response.data?.detail ||countriesError.response.status) : countriesError?.request ? "Server unreachable. Check your connection." : (countriesError?.message || "Unexpected error");
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [openedResolution, setOpenedResolution] = useState(null) // actual resolution obj

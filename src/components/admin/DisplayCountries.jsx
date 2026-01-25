@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react'
 import {filterBySearch, filterCountriesByCouncil} from '../../utils/helpers.js'
-
 import { useAddSpeakerPoints, useDeleteCountries, useGetAllCountries } from '../../hooks/useCountries.js'
 import { useGetAllCouncils } from '../../hooks/useCouncils'
-
 import CouncilFilter from '../UI/CouncilFilter.jsx'
+import ConfirmModal from '../UI/ConfirmModal.jsx'
 import Button from '../UI/Button.jsx'
-
 import Unauthorized from '../../pages/public/Unauthorized.jsx'
 
 function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpenedCountry, councilScopedId}){
 
     const [selectedCouncilIds, setSelectedCouncilIds] = useState([])
-    const {data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError, error: councilsError } = useGetAllCouncils()
+    const {data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError } = useGetAllCouncils()
     useEffect(() =>{
     if (!Array.isArray(councilsData)) return
     const validCouncilIds = councilsData.map(c => c.council_id)
@@ -26,10 +24,9 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
 
     const {data: countriesData, isLoading: isCountriesLoading, isError: isCountriesError, error: countriesError } = useGetAllCountries()
     const errorMessage = countriesError?.response ? (countriesError.response.data?.detail ||countriesError.response.status) : countriesError?.request ? "Server unreachable. Check your connection." : (countriesError?.message || "Unexpected error");
-    // better than storing in state because that coul cause extra renders, this is just computed per render
-
+    // better than storing in state because that could cause extra renders, this is just computed per render
+    console.log(countriesData, "countriesData in display countries")
     const useAddSpeakerPointsMutation = useAddSpeakerPoints()
-
     const useDeleteCountriesMutation = useDeleteCountries()
     
     const [searchBar, setSearchBar] = useState('')
@@ -60,7 +57,8 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
     const handleAdd = () =>{
         setIsAddOpen(true)
     }
-
+    
+    const [isSelectDeleteOpen, setIsSelectDeleteOpen] = useState(false)
     const handleDelete = (country) => {
         setIsDeleteOpen(true)
         setOpenedCountry(country)
@@ -68,9 +66,11 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
 
     const onDeleteViaCheckbox = () =>{
         if (selectedCountries.length==0) return
+         
         useDeleteCountriesMutation.mutate(selectedCountries)
         setSelectedCountries([])
     } 
+
     if (isCountriesError) {
         const status = countriesError?.response?.status
         if (status === 401){ // no need for useeffect, no other side effects
@@ -81,13 +81,14 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
 
     return (<>
         <div className='flex gap-3'>
-        <input id = 'search-bar' value={searchBar} placeholder='Search here' type='search' onChange={(e)=>setSearchBar(e.target.value)}className='border border-border flex-1 '/>
+        <ConfirmModal open={isSelectDeleteOpen} setOpen={setIsSelectDeleteOpen} title={"Delete countries?"} description={`Are you sure you want to delete ${countriesData.filter(country => selectedCouncilIds.includes(country.id)).map(country => country.name).join(", ")}? This action cannot be undone.`} onConfirm={onDeleteViaCheckbox}></ConfirmModal>
+        <input id = 'search-bar' value={searchBar} placeholder=' Search here' type='search' onChange={(e)=>setSearchBar(e.target.value)}className='border border-border flex-1 '/>
         {!councilScopedId && <CouncilFilter councilsData={councilsData} selectedCouncilIds={selectedCouncilIds} setSelectedCouncilIds={setSelectedCouncilIds} isError={isCouncilsError} isLoading={isCouncilsLoading}/>}
         </div>
         <div className='flex justify-between mt-3 gap-5'>
         <div>
         <Button variant={"secondary"} className="mr-5" onClick={() => {selectAllOrUnselect ? setSelectedCountries(filterCountriesByCouncil(filterBySearch(countriesData, "name", searchBar),selectedCouncilIds).map(c=>c.country_id)) : setSelectedCountries([]); setSelectAllOrUnselect(prev => !prev)}}>{selectAllOrUnselect ? 'Select All' : 'Unselect'}</Button>
-        {(!selectAllOrUnselect || selectedCountries.length > 0) && (<Button variant={"primary"} onClick={() => onDeleteViaCheckbox()}>Delete</Button>)}
+        {(!selectAllOrUnselect || selectedCountries.length > 0) && (<Button variant={"primary"} onClick={() => setIsSelectDeleteOpen(true)}>Delete</Button>)}
         </div>
         <Button variant={"primary"} onClick={()=>{handleAdd()}}>Add +</Button>
         </div>

@@ -44,6 +44,13 @@ function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
 
   const onSuccessCallback = () => {
       setErrorSubmit('')
+      setCountryName('')
+      setDelegate1('')
+      setDelegate2('')
+      setDelegate3('')
+      setDelegate4('')
+      setSpeakerPoints('0')
+      setLogin('')
       setIsAddOpen(false)
     }
 
