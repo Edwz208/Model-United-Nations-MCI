@@ -22,8 +22,8 @@ export function usePostSecretariat(onSuccessCallback, onErrorCallback){ // funct
             const response = await axiosPrivate.post('/set-exec', formData)
             return response?.data;
         },
-      onSuccess: (data)=>{  
-        queryClient.setQueryData(['secretariat'], data?.exec)
+      onSuccess: ()=>{  
+        queryClient.invalidateQueries(['secretariat'])
         if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
       },
       onError: (error)=>{
@@ -38,11 +38,12 @@ export function usePatchSecretariat(onSuccessCallback, onErrorCallback){
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: async (formData) => {
+          console.log(formData)
             const response = await axiosPrivate.patch(`/update-secretariat/${formData.secretariat_id}`, formData)
             return response?.data;
         },
-      onSuccess: (data)=>{  
-        queryClient.setQueryData(['secretariat'], data?.exec)
+      onSuccess: ()=>{  
+        queryClient.setQueryData(['secretariat'])
         if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
       },
       onError: (error)=>{
@@ -60,8 +61,8 @@ export function useDeleteSecretariat(onSuccessCallback, onErrorCallback){
             const response = await axiosPrivate.delete(`/delete-secretariat/${secretariat_id}`) // delete no body unless use in config {}
             return response?.data;
         },
-      onSuccess: (data)=>{  
-        queryClient.setQueryData(['secretariat'], data?.exec)
+      onSuccess: ()=>{  
+        queryClient.invalidateQueries(['secretariat'])
         if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
       },
       onError: (error)=>{

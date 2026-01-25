@@ -8,19 +8,22 @@ import {filterBySearch, filterResolutionsByCouncil} from '../../utils/helpers.js
 import CouncilFilter from '../UI/CouncilFilter';
 
 const ViewResolutions = ({councilScopedId}) => {
+
   const {data: councilsData, isLoading: isCouncilsLoading, isError: isCouncilsError, error: councilsError } = useGetAllCouncils()
-  const errorMessage = councilsError?.response ? (countriesError.response.data?.detail ||countriesError.response.status) : countriesError?.request ? "Server unreachable. Check your connection." : (countriesError?.message || "Unexpected error");
+  const errorMessage = councilsError?.response ? (councilsError.response.data?.detail || councilsError.response.status) : councilsError?.request ? "Server unreachable. Check your connection." : (councilsError?.message || "Unexpected error");
+
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false)
-  const [openedResolution, setOpenedResolution] = useState(null) // actual resolution obj
-  const [selectedResolutions, setSelectedResolutions] = useState([]) // list of ids
+  const [openedResolution, setOpenedResolution] = useState(null)
+  const [selectedResolutions, setSelectedResolutions] = useState([])
   const [selectUnselect, setSelectUnselect] = useState(true)
   const [selectedCouncilIds, setSelectedCouncilIds] = useState([])
+
   useEffect(() =>{
     if (Array.isArray(councilsData) && selectedCouncilIds.length == 0){
       setSelectedCouncilIds(councilsData.map(council => council.council_id))
     }
-  }, [councilsData, selectedCouncilIds.length])
+  }, [councilsData])
 
   const [searchBar, setSearchBar] = useState('')
   const useDeleteResolutionsMutation = useDeleteResolutions()
@@ -63,9 +66,16 @@ const ViewResolutions = ({councilScopedId}) => {
     setSelectedResolutions([])
   } 
   
-  const {data: resolutionsData, isLoading: isResolutionsLoading, isError: isResolutionsError } = useGetAllResolutionsGeneral();
-  if (isResolutionsLoading) return <div>Loading...</div>
-  if (isResolutionsError) return <div>Error loading resolution data.</div>
+  const {data: resolutionsData, isLoading: isResolutionsLoading, isError: isResolutionsError, error: resolutionsError } = useGetAllResolutionsGeneral();
+    if (isResolutionsError) {
+        const status = resolutionsError?.response?.status
+        if (status === 401){
+            return <Unauthorized/>
+        }
+        return <p>Error: {errorMessage}</p>}
+    if (isResolutionsLoading) return <div>Loading resolutions...</div>
+
+
   return (<>
   <ConfirmModal open={isDeleteOpen} setOpen={setIsDeleteOpen} title={"Delete resolution?"} description={`Are you sure you want to delete resolution ${openedResolution?.title}? This action cannot be undone.`} onConfirm={onOpenConfirmDelete}></ConfirmModal>
   <FormModal open={isEditOpen} title={`Modify resolution ${openedResolution?.title}`} description={`Make changes to resolution ${openedResolution?.title}.`} onSubmit={onSaveChanges}>
@@ -78,7 +88,7 @@ const ViewResolutions = ({councilScopedId}) => {
     <Button variant={"secondary"} className="mr-5" onClick={() => {selectUnselect ? setSelectedResolutions(filterResolutionsByCouncil(filterBySearch(resolutionsData, "council_id", searchBar),selectedCouncilIds).map(c=>c.country_id)) : setSelectedResolutions([]); setSelectUnselect(prev => !prev)}}>{selectUnselect ? 'Select All' : 'Unselect'}</Button>
     {(!selectUnselect || selectedResolutions.length > 0) && (<Button variant={"primary"} onClick={() => onDeleteViaCheckbox()}>Delete</Button>)}
     </div>
-    <div className=''>
+    <div className=''>  
       {filterResolutionsByCouncil(filterBySearch(resolutionsData, "title", searchBar), selectedCouncilIds).map((resolution, index) => (
         <div key={resolution.resolution_id} className="flex gap-5 p-4 mt-4 bg-white rounded shadow items-center">
           <input type='checkbox' checked={selectedResolutions.includes(resolution.resolution_id)} onChange={()=> handleSelect(resolution)}/>

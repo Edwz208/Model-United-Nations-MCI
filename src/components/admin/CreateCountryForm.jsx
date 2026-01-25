@@ -8,15 +8,19 @@ function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
 
   const {data: councilsData = [], isLoading: isCouncilLoading, isError: isCouncilError, error: councilsError } = useGetAllCouncils()
   const errorRetrievingCouncils = councilsError?.response ? (councilsError.response.data?.detail || councilsError.response.status) : councilsError?.request ? "Server unreachable. Check your connection." : (councilsError?.message || "Unexpected error")
+
   const [countryName, setCountryName] = useState('')
   const [delegate1, setDelegate1] = useState('')
   const [delegate2, setDelegate2] = useState('')
   const [delegate3, setDelegate3] = useState('')
   const [delegate4, setDelegate4] = useState('')
-  const [councilIds, setCouncilIds] = useState([])
   const [speakerPoints, setSpeakerPoints] = useState('0')
   const [login, setLogin] = useState('')
-
+  
+  const [councilIds, setCouncilIds] = useState([])
+  useEffect(()=>{
+    if (councilScopedId !=null) setCouncilIds([councilScopedId])
+  }, [councilScopedId])
   
   const onCancel = () =>{
     setCountryName('')
@@ -26,15 +30,11 @@ function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
     setDelegate4('')
     setSpeakerPoints('0')
     setLogin('')
+    setErrorSubmit('')
     if (councilScopedId !=null) setCouncilIds([councilScopedId])
     else setCouncilIds([])
     setIsAddOpen(false)
   }
-
-  useEffect(()=>{
-    if (councilScopedId !=null) setCouncilIds([councilScopedId])
-  }, [councilScopedId])
-
 
   const [errorSubmit, setErrorSubmit] = useState('')
   useEffect(() => {
@@ -52,6 +52,8 @@ function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "A
       setSpeakerPoints('0')
       setLogin('')
       setIsAddOpen(false)
+      if (councilScopedId !=null) setCouncilIds([councilScopedId])
+      else setCouncilIds([])
     }
 
   const onErrorCallback = (error) => {

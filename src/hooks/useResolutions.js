@@ -34,7 +34,7 @@ export const useCreateResolution = (onSuccessCallback, onErrorCallback) => {
   return useMutation({
     mutationFn: postResolution,
     onSuccess: (data)=>{  
-        queryClient.invalidateQueries({queryKey: ['resolutions-general']})
+        queryClient.invalidateQueries({queryKey: ['resolutions-all-general']})
       if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
     },
     onError: (error)=>{
@@ -53,7 +53,7 @@ export function usePatchResolution(onSuccessCallback, onErrorCallback){
             return response?.data
         },
       onSuccess: (data)=>{  
-        queryClient.invalidateQueries({queryKey: ['resolutions-general']})
+        queryClient.invalidateQueries({queryKey: ['resolutions-all-general']})
         queryClient.invalidateQueries({queryKey: ['specific-resolution',data?.resolution?.id]})
         if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
       },
@@ -73,7 +73,7 @@ export function useDeleteResolutions(onSuccessCallback, onErrorCallback){
             return response?.data;
         },
       onSuccess: (data)=>{  
-        queryClient.invalidateQueries({queryKey: ['resolutions-general']})
+        queryClient.invalidateQueries({queryKey: ['resolutions-all-general']})
         queryClient.invalidateQueries({queryKey: ['specific-resolution',data?.resolution?.id]})
         if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
       },

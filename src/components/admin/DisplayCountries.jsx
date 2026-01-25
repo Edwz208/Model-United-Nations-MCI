@@ -20,6 +20,7 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
         }
         return prev.filter(id => validCouncilIds.includes(id))
     })}, [councilsData])
+    console.log(councilScopedId, "councilScopedId in display countries")
 
 
     const {data: countriesData, isLoading: isCountriesLoading, isError: isCountriesError, error: countriesError } = useGetAllCountries()
@@ -81,7 +82,7 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
 
     return (<>
         <div className='flex gap-3'>
-        <ConfirmModal open={isSelectDeleteOpen} setOpen={setIsSelectDeleteOpen} title={"Delete countries?"} description={`Are you sure you want to delete ${countriesData.filter(country => selectedCouncilIds.includes(country.id)).map(country => country.name).join(", ")}? This action cannot be undone.`} onConfirm={onDeleteViaCheckbox}></ConfirmModal>
+        <ConfirmModal open={isSelectDeleteOpen} setOpen={setIsSelectDeleteOpen} title={"Delete countries?"} description={`Are you sure you want to delete ${countriesData.filter(country => selectedCouncilIds.includes(country.country_id)).map(country => country.name).join(", ")}? This action cannot be undone.`} onConfirm={onDeleteViaCheckbox}></ConfirmModal>
         <input id = 'search-bar' value={searchBar} placeholder=' Search here' type='search' onChange={(e)=>setSearchBar(e.target.value)}className='border border-border flex-1 '/>
         {!councilScopedId && <CouncilFilter councilsData={councilsData} selectedCouncilIds={selectedCouncilIds} setSelectedCouncilIds={setSelectedCouncilIds} isError={isCouncilsError} isLoading={isCouncilsLoading}/>}
         </div>

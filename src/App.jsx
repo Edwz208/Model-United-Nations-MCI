@@ -84,7 +84,7 @@ function App() {
                 <Route path="resolutions" element={<PageWrapper><AdminResolutions /></PageWrapper>} />
                 <Route path="projection" element={<PageWrapper><AdminProjectionDashboard /></PageWrapper>} />
                 <Route path="countries" element={<PageWrapper><AdminCountries /></PageWrapper>} />
-                <Route path="Council/:councilId" element={<PageWrapper><CouncilParamWrapper/></PageWrapper>}>
+                <Route path="Council/:councilId/:councilName" element={<PageWrapper><CouncilParamWrapper/></PageWrapper>}>
                   <Route path="resolutions" element={<PageWrapper><AdminResolutions /></PageWrapper>} />
                   <Route path="projection" element={<PageWrapper><AdminProjectionDashboard /></PageWrapper>} />
                   <Route path="countries" element={<PageWrapper><AdminCountries /></PageWrapper>} />
