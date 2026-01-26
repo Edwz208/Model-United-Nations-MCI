@@ -33,7 +33,7 @@ export const useCreateResolution = (onSuccessCallback, onErrorCallback) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: postResolution,
-    onSuccess: (data)=>{  
+    onSuccess: ()=>{  
         queryClient.invalidateQueries({queryKey: ['resolutions-all-general']})
       if (onSuccessCallback && typeof onSuccessCallback === 'function') onSuccessCallback()
     },

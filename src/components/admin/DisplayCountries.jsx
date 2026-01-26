@@ -20,13 +20,12 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
         }
         return prev.filter(id => validCouncilIds.includes(id))
     })}, [councilsData])
-    console.log(councilScopedId, "councilScopedId in display countries")
 
 
     const {data: countriesData, isLoading: isCountriesLoading, isError: isCountriesError, error: countriesError } = useGetAllCountries()
     const errorMessage = countriesError?.response ? (countriesError.response.data?.detail ||countriesError.response.status) : countriesError?.request ? "Server unreachable. Check your connection." : (countriesError?.message || "Unexpected error");
     // better than storing in state because that could cause extra renders, this is just computed per render
-    console.log(countriesData, "countriesData in display countries")
+
     const useAddSpeakerPointsMutation = useAddSpeakerPoints()
     const useDeleteCountriesMutation = useDeleteCountries()
     
@@ -66,10 +65,9 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
     }
 
     const onDeleteViaCheckbox = () =>{
-        if (selectedCountries.length==0) return
-         
-        useDeleteCountriesMutation.mutate(selectedCountries)
-        setSelectedCountries([])
+    if (selectedCountries.length==0) return   
+    useDeleteCountriesMutation.mutate(selectedCountries)
+    setSelectedCountries([])
     } 
 
     if (isCountriesError) {
@@ -82,7 +80,7 @@ function DisplayCountries({setIsAddOpen, setIsEditOpen, setIsDeleteOpen, setOpen
 
     return (<>
         <div className='flex gap-3'>
-        <ConfirmModal open={isSelectDeleteOpen} setOpen={setIsSelectDeleteOpen} title={"Delete countries?"} description={`Are you sure you want to delete ${countriesData.filter(country => selectedCouncilIds.includes(country.country_id)).map(country => country.name).join(", ")}? This action cannot be undone.`} onConfirm={onDeleteViaCheckbox}></ConfirmModal>
+        <ConfirmModal open={isSelectDeleteOpen} setOpen={setIsSelectDeleteOpen} title={"Delete countries?"} description={`Are you sure you want to delete ${countriesData.filter(country => selectedCountries.includes(country.country_id)).map(country => country.name).join(", ")}? This action cannot be undone.`} onConfirm={onDeleteViaCheckbox}></ConfirmModal>
         <input id = 'search-bar' value={searchBar} placeholder=' Search here' type='search' onChange={(e)=>setSearchBar(e.target.value)}className='border border-border flex-1 '/>
         {!councilScopedId && <CouncilFilter councilsData={councilsData} selectedCouncilIds={selectedCouncilIds} setSelectedCouncilIds={setSelectedCouncilIds} isError={isCouncilsError} isLoading={isCouncilsLoading}/>}
         </div>

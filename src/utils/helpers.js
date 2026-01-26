@@ -14,7 +14,7 @@ export const makeOptions = (countriesData) => {
   if (!countriesData) return [];
 
   return countriesData.map(country => ({
-    value: country.countryId,
+    value: country.country_id,
     label: country.name,
   }));
 };

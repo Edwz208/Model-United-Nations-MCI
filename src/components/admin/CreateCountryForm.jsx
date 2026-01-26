@@ -4,7 +4,7 @@ import { useCreateCountry } from '../../hooks/useCountries';
 import { useGetAllCouncils } from '../../hooks/useCouncils';
 import { validatePosInteger, validateCharExists } from "../../utils/validators.js";
 
-function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "Add new country", description = "Modify or add country here", footerSubmit = "Submit"}){
+function CreateCountryForm({isAddOpen, setIsAddOpen, councilScopedId, title = "Add new country", description = "Add country here", footerSubmit = "Submit"}){
 
   const {data: councilsData = [], isLoading: isCouncilLoading, isError: isCouncilError, error: councilsError } = useGetAllCouncils()
   const errorRetrievingCouncils = councilsError?.response ? (councilsError.response.data?.detail || councilsError.response.status) : councilsError?.request ? "Server unreachable. Check your connection." : (councilsError?.message || "Unexpected error")

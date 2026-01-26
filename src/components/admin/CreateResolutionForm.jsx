@@ -12,12 +12,15 @@ import { useCreateResolution } from "../../hooks/useResolutions.js";
 import { makeOptions, customStyles } from "../../utils/helpers.js";
 
 import FormModal from "../UI/FormModal.jsx";
+import Unauthorized from "../../pages/public/Unauthorized.jsx";
 
-const CreateResolutionForm = ({ isAddOpen, setIsAddOpen, councilScopedId }) => {
+const CreateResolutionForm = ({ isAddOpen, setIsAddOpen, councilScopedId, title= "Add resolution", description="Add resolution here", footerSubmit = "Submit"}) => {
   const { data: councilsData = [], isLoading: isCouncilsLoading, isError: isCouncilsError, error: councilsError } = useGetAllCouncils();
   const { data: countriesData = [], isLoading: isCountriesLoading, isError: isCountryError, error: countriesError } = useGetAllCountries();
+
   const errorRetrievingCouncils = councilsError?.response ? (councilsError.response.data?.detail || councilsError.response.status) : councilsError?.request ? "Server unreachable. Check your connection." : (councilsError?.message || "Unexpected error")
   const errorRetrievingCountries = countriesError?.response ? (countriesError.response.data?.detail ||countriesError.response.status) : countriesError?.request ? "Server unreachable. Check your connection." : (countriesError?.message || "Unexpected error");
+
   const fileInputRef = useRef();
   const [resNum, setNum] = useState(0);
   const [resTitle, setTitle] = useState("");
@@ -28,20 +31,52 @@ const CreateResolutionForm = ({ isAddOpen, setIsAddOpen, councilScopedId }) => {
   const [negator, setNegator] = useState(0);
   const [file, setFile] = useState(null);
   const [fileName, setName] = useState(null);
+
+useEffect(() => {
+  if (!councilScopedId && councilsData.length > 0 && council === 0) {
+    setCouncil(councilsData[0].council_id);
+  }
+  else{
+    setCouncil(councilScopedId);
+  }
+}, [councilsData, councilScopedId]);
+
+  const options = makeOptions(countriesData);
+  console.log(options)
   const [errorSubmit, setErrorSubmit] = useState("");
 
   useEffect(() => {
   if (errorSubmit) setErrorSubmit("");
   }, [resNum, resTitle, council, clauses, submitter, seconder, negator, file, fileName]);
 
-  const options = makeOptions(countriesData);
-
-  useEffect(()=>{
-      if (councilScopedId !=null) setCouncil(councilScopedId)
-    }, [councilScopedId])
+  const handleCancel = () =>{
+    setNum(0)
+    setTitle('')
+    setCouncil(0)
+    setClauses(0)
+    setSubmitter(0)
+    setSeconder(0)
+    setNegator(0)
+    setFile(null)
+    setName('')
+    setErrorSubmit('')
+    if (councilScopedId) setCouncil(councilScopedId)
+    else setCouncil(councilsData.length > 0 ? councilsData[0].council_id : 0)
+    setIsAddOpen(false)
+  }
 
   const onSuccessCallback = () => {
       setErrorSubmit('')
+      setTitle('')
+      setNum(0)
+      setClauses(0)
+      setSubmitter(0)
+      setSeconder(0)
+      setNegator(0)
+      setFile(null)
+      setName('')
+      if (councilScopedId) setCouncil(councilScopedId)
+      else setCouncil(councilsData.length > 0 ? councilsData[0].council_id : 0)
       setIsAddOpen(false)
     }
 
@@ -71,64 +106,54 @@ const CreateResolutionForm = ({ isAddOpen, setIsAddOpen, councilScopedId }) => {
   const validSeconder = validateOptionSelected(seconder)
   const validNegator = validateOptionSelected(negator)
   const validFile = validateFileExists(file)
+  const validCouncil = validatePosInteger(council)
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!validResolutionTitle || !validResolutionNumber || !validClause || !validSubmitter || !validSeconder || !validNegator || !validFile) return
+  const handleSubmit = () => {
+    console.log('here')
+    console.log(resTitle, resNum, council, clauses, submitter, seconder, negator, file)
+    console.log(validResolutionTitle, validResolutionNumber, validCouncil, validClause, validSubmitter, validSeconder, validNegator, validFile)
+    if (!validResolutionTitle || !validResolutionNumber || !validCouncil || !validClause || !validSubmitter || !validSeconder || !validNegator || !validFile) return
 
     const formData = new FormData();
     formData.append("title", resTitle);
     formData.append("clauses", clauses);
+    formData.append("number", resNum);
     formData.append("council_id", council);
     formData.append("submitter", submitter);
     formData.append("seconder", seconder);
     formData.append("negator", negator);
     formData.append("file", file);
-
+    
+    console.log("submitting formdata", formData)
     mutation.mutate(formData);
   };
-
-  const handleCancel = () =>{
-    setNum(0)
-    setTitle('')
-    setCouncil(0)
-    setClauses(0)
-    setSubmitter(0)
-    setSeconder(0)
-    setNegator(0)
-    setFile(null)
-    setName('')
-    setErrorSubmit('')
-    if (councilScopedId !=null) setCouncil(councilScopedId)
-    setIsAddOpen(false)
-  }
 
   if (isCountryError) {
         const status = countriesError?.response?.status
         if (status === 401){
             return <Unauthorized/>
         }
-        return <p>Error: {errorRetrievingCountries}</p>}
-    if (isCountriesLoading) return <div>Loading countries...</div>
+      return <FormModal open={isAddOpen} title={title} onCancel={handleCancel}>{errorRetrievingCountries}</FormModal>}
+    if (isCountriesLoading) return <FormModal open={isAddOpen} title={title} onCancel={handleCancel}>Loading countries…</FormModal>
 
   if (isCouncilsError) {
       const status = councilsError?.response?.status
       if (status === 401){ 
           return <Unauthorized/>
       }
-      return <p>Error: {errorRetrievingCouncils}</p>}
-  if (isCouncilsLoading) return <div>Loading councils...</div>
+      return <FormModal open={isAddOpen} title={title} onCancel={handleCancel}>{errorRetrievingCouncils}</FormModal>}
+  if (isCouncilsLoading) return <FormModal open={isAddOpen} title={title} onCancel={handleCancel}>Loading councils…</FormModal>
 
   return (
  <FormModal
   open={isAddOpen}
   size={"xl"}
   onCancel={handleCancel}
-  title={`Add New Resolution`}
-  description={`Add a new resolution`}
+  title={title}
+  description={description}
   onSubmit={handleSubmit}
-  footerSubmit="Submit"
+  footerSubmit={footerSubmit}
+  isLoading={mutation.isPending}
 >
   <h2 className="text-xl font-semibold text-text-primary">Create Resolution</h2>
 
@@ -197,7 +222,7 @@ const CreateResolutionForm = ({ isAddOpen, setIsAddOpen, councilScopedId }) => {
       ) : (
         <select
           value={council}
-          onChange={(e) => setCouncil(Number(e.target.value))}
+          onChange={(e) => { console.log(e.target.value); setCouncil(Number(e.target.value))}}
           disabled={councilScopedId}
           className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-text-primary shadow-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
         >
@@ -270,11 +295,11 @@ const CreateResolutionForm = ({ isAddOpen, setIsAddOpen, councilScopedId }) => {
     </div>
 
     {/* Error */}
-    {errorSubmit && (
-      <p className="rounded-lg border border-system-error/30 bg-system-error/10 px-3 py-2 text-center text-sm text-system-error">
-        {errorSubmit}
-      </p>
-    )}
+  {errorSubmit && (
+    <p className="...">
+      {typeof errorSubmit === "string" ? errorSubmit : JSON.stringify(errorSubmit)}
+    </p>
+  )}
   </div>
 </FormModal>
   )}
